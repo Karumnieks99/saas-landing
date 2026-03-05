@@ -1,67 +1,59 @@
-// src/components/WhyChoose.jsx
-const perks = [
+const services = [
   {
-    title: 'Hands-on management',
-    copy: 'One point of contact for sourcing, deliveries, installs, and punch lists.',
-    gradient: 'from-[#f7f1e9] to-[#e9dccb]',
+    title: 'Marketing pages',
+    copy: 'Landing pages, feature pages, pricing pages, and conversion-focused frontends that do not feel generic.',
   },
   {
-    title: 'Aftercare included',
-    copy: 'Support for reorders, replacements, and maintenance plans to protect your investment.',
-    gradient: 'from-[#f6efe6] to-[#e7d7c6]',
+    title: 'Product UI',
+    copy: 'Dashboards, onboarding flows, internal tools, settings areas, and everyday app surfaces.',
   },
   {
-    title: 'Supplier flexibility',
-    copy: 'Open vendor mix so we can match budget, lead times, and design intent.',
-    gradient: 'from-[#b98961] to-[#8a5e3c]',
-    dark: true,
-  },
-];
-
-const showcase = [
-  {
-    title: 'Detail-first delivery',
-    copy: 'QC checklists and white-glove installs to keep spaces guest-ready from day one.',
-    image: 'https://images.pexels.com/photos/6585663/pexels-photo-6585663.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&dpr=1',
+    title: 'Frontend refactors',
+    copy: 'Cleanup work that improves maintainability, responsiveness, consistency, and shipping confidence.',
   },
   {
-    title: 'Custom requests',
-    copy: 'Bespoke pieces and tailored sourcing when you need something unique.',
-    image: 'https://images.pexels.com/photos/6585731/pexels-photo-6585731.jpeg?auto=compress&cs=tinysrgb&w=1100&h=750&dpr=1',
+    title: 'Design implementation',
+    copy: 'Turning Figma into working UI with attention to spacing, states, accessibility, and real-world behavior.',
+  },
+  {
+    title: 'Shipping support',
+    copy: 'QA, polish, bug fixing, release help, and final passes that raise the quality bar before launch.',
+  },
+  {
+    title: 'Ongoing remote support',
+    copy: 'Steady product contribution for teams that need a reliable developer without hiring full-time immediately.',
   },
 ];
 
 export default function WhyChoose() {
   return (
-    <section id="why" className="space-y-8">
-      <div className="space-y-2">
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#8c7a6c]">Expertise</p>
-        <h2 className="text-3xl font-semibold text-[#2f241c] sm:text-4xl">Why teams book me on Upwork</h2>
+    <section id="services" className="space-y-8">
+      <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
+        <div className="space-y-2">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--muted)]">Services</p>
+          <h2 className="text-3xl font-semibold text-[var(--ink)] sm:text-4xl">The kind of work I am usually brought in to handle.</h2>
+        </div>
+        <p className="max-w-xl text-sm leading-relaxed text-[var(--ink-soft)]">
+          Most often that means frontend-heavy work with product taste, strong implementation discipline, and enough
+          ownership to keep the team moving.
+        </p>
       </div>
 
-      <div className="grid gap-5 md:grid-cols-3">
-        {perks.map((perk) => (
+      <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+        {services.map((service, index) => (
           <div
-            key={perk.title}
-            className={`flex flex-col gap-3 rounded-[22px] p-6 shadow-[0_18px_50px_-35px_rgba(0,0,0,0.35)] ${
-              perk.dark ? 'bg-gradient-to-br from-[#8a5e3c] to-[#4a3424] text-white' : `bg-gradient-to-br ${perk.gradient} text-[#2f241c]`
+            key={service.title}
+            className={`rounded-[28px] border p-6 shadow-[0_22px_50px_-40px_var(--shadow)] ${
+              index === 1 || index === 4
+                ? 'border-[rgba(125,92,57,0.18)] bg-[linear-gradient(180deg,rgba(186,142,90,0.1),rgba(255,253,249,0.96))]'
+                : 'border-[var(--line)] bg-[linear-gradient(180deg,#fffdf9,#f6ede1)]'
             }`}
           >
-            <h3 className="text-xl font-semibold">{perk.title}</h3>
-            <p className={`${perk.dark ? 'text-white/80' : 'text-[#4a3b30]'}`}>{perk.copy}</p>
-          </div>
-        ))}
-      </div>
-
-      <div className="grid gap-6 md:grid-cols-2">
-        {showcase.map((item) => (
-          <div key={item.title} className="relative overflow-hidden rounded-[26px] border border-white/80 bg-white shadow-[0_26px_70px_-45px_rgba(0,0,0,0.35)]">
-            <img src={item.image} alt={item.title} className="h-64 w-full object-cover md:h-72" loading="lazy" />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#1f150f]/65 via-transparent to-transparent" />
-            <div className="absolute inset-x-0 bottom-0 p-6 text-white">
-              <h3 className="text-xl font-semibold">{item.title}</h3>
-              <p className="mt-2 text-sm text-white/80">{item.copy}</p>
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-[var(--line)] bg-[rgba(239,228,214,0.64)] text-sm font-semibold text-[var(--accent)]">
+              0{index + 1}
             </div>
+            <h3 className="mt-5 text-xl font-semibold text-[var(--ink)]">{service.title}</h3>
+            <p className="mt-3 text-sm leading-relaxed text-[var(--ink-soft)]">{service.copy}</p>
           </div>
         ))}
       </div>

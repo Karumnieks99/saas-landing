@@ -1,89 +1,75 @@
-// src/components/Intro.jsx
-const stats = [
-  { value: '120+', label: 'Rooms delivered' },
-  { value: '12 yrs', label: 'Hospitality focus' },
+const problems = [
+  'The team needs frontend work finished without constant follow-up.',
+  'Design exists, but turning it into a polished product experience is lagging.',
+  'There is too much communication overhead around otherwise straightforward work.',
 ];
 
-const trustedBy = ['Sonder', 'GuestReady', 'Locale', 'Boutique independents'];
+const approach = [
+  'I pick up context quickly and turn it into clear, shippable work.',
+  'I focus on interfaces, responsiveness, polish, and implementation quality.',
+  'I communicate directly so the team always knows what is moving and what is blocked.',
+];
 
 export default function Intro() {
   return (
-    <section id="about" className="grid gap-6 md:grid-cols-[1.05fr,1fr]">
-      <div className="rounded-[28px] bg-gradient-to-br from-[#dcbc96] via-[#c8a173] to-[#b98961] p-8 text-white shadow-[0_26px_70px_-40px_rgba(0,0,0,0.45)]">
-        <div className="flex items-center gap-3">
-          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white/15 text-base font-semibold uppercase tracking-tight text-white">
-            FF
-          </div>
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/80">Independent specialist</p>
-            <h3 className="text-2xl font-semibold">FF&E without the chaos</h3>
-          </div>
-        </div>
-        <div className="mt-6 grid grid-cols-2 gap-4">
-          {stats.map((item) => (
-            <div key={item.label} className="rounded-2xl bg-white/10 p-4 backdrop-blur-sm">
-              <p className="text-3xl font-semibold">{item.value}</p>
-              <p className="text-sm text-white/80">{item.label}</p>
-            </div>
-          ))}
-        </div>
-        <p className="mt-6 text-sm leading-relaxed text-white/85">
-          From sourcing to styling, I manage vendor coordination, lead times, and installs so you can keep guests happy and launches on schedule.
+    <section id="solution" className="grid gap-6 lg:grid-cols-[0.88fr,1.12fr]">
+      <div className="rounded-[32px] border border-[var(--line)] bg-[linear-gradient(180deg,#fffdf9,#f4eadc)] p-7 shadow-[0_26px_60px_-42px_var(--shadow)]">
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--muted)]">What I solve</p>
+        <h2 className="mt-3 text-3xl font-semibold text-[var(--ink)] sm:text-4xl">
+          Good teams do not usually need more meetings. They need someone who can turn direction into finished work.
+        </h2>
+        <p className="mt-4 max-w-xl text-base leading-relaxed text-[var(--ink-soft)]">
+          My value is strongest when the product team already knows what it wants but needs a remote developer who can move
+          cleanly from scope to delivery.
         </p>
-        <div className="mt-5 space-y-2">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/75">How I work</p>
-          <div className="flex flex-wrap gap-2">
-            {['Budget guardrails', 'Supplier comparisons', 'Weekly updates', 'Install supervision'].map((item) => (
-              <span key={item} className="rounded-full bg-white/15 px-3 py-2 text-xs font-semibold text-white ring-1 ring-white/20 backdrop-blur-sm">
-                {item}
-              </span>
-            ))}
+
+        <div className="mt-8 rounded-[28px] border border-[var(--line)] bg-[rgba(239,228,214,0.64)] p-5">
+          <div className="flex items-center justify-between">
+            <p className="text-sm font-semibold text-[var(--ink)]">Typical engagement outcome</p>
+            <span className="rounded-full bg-[rgba(255,253,249,0.84)] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--accent)]">
+              Better delivery
+            </span>
+          </div>
+          <div className="mt-5 grid gap-3 sm:grid-cols-2">
+            <div className="rounded-[22px] border border-[var(--line)] bg-[rgba(255,253,249,0.88)] p-4">
+              <p className="text-xs uppercase tracking-[0.18em] text-[var(--muted)]">Before</p>
+              <p className="mt-3 text-3xl font-semibold text-[var(--ink)]">More noise</p>
+              <p className="mt-1 text-sm text-[var(--ink-soft)]">unclear ownership, patchy polish, slow frontend iteration</p>
+            </div>
+            <div className="rounded-[22px] border border-[var(--line)] bg-[rgba(255,253,249,0.88)] p-4">
+              <p className="text-xs uppercase tracking-[0.18em] text-[var(--muted)]">After</p>
+              <p className="mt-3 text-3xl font-semibold text-[var(--ink)]">Cleaner output</p>
+              <p className="mt-1 text-sm text-[var(--ink-soft)]">shipped work, clearer updates, and a better user-facing result</p>
+            </div>
           </div>
         </div>
       </div>
 
-      <div className="flex flex-col justify-between rounded-[28px] border border-white/80 bg-white p-8 shadow-[0_26px_70px_-45px_rgba(0,0,0,0.35)]">
-        <div className="flex items-center gap-3">
-          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#f0e6d9] text-sm font-semibold text-[#2f241c] ring-1 ring-[#e6d6c5]">
-            Who
+      <div className="grid gap-4 md:grid-cols-2">
+        <div className="rounded-[32px] border border-[var(--line)] bg-[linear-gradient(180deg,#fffdf9,#f6ede1)] p-7 shadow-[0_22px_50px_-42px_var(--shadow)]">
+          <div className="inline-flex rounded-full border border-[rgba(125,92,57,0.16)] bg-[rgba(125,92,57,0.08)] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--accent)]">
+            Team pain
           </div>
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#7a685b]">Who we are</p>
-            <h3 className="text-2xl font-semibold text-[#2f241c]">Your Upwork partner</h3>
-          </div>
-        </div>
-        <p className="mt-5 text-base leading-relaxed text-[#4a3b30]">
-          I specialize in boutique stays, short-term rentals, and hospitality interiors--pairing calm communication with meticulous execution for owners, operators, and designers.
-        </p>
-        <div className="mt-5 space-y-2">
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#8c7a6c]">Trusted by operators and hosts</p>
-          <div className="flex flex-wrap gap-2">
-            {trustedBy.map((name) => (
-              <span key={name} className="rounded-full bg-[#f4ede4] px-3 py-2 text-xs font-semibold text-[#2f241c] ring-1 ring-[#e6d6c5]">
-                {name}
-              </span>
+          <div className="mt-5 space-y-4">
+            {problems.map((problem) => (
+              <div key={problem} className="rounded-[24px] border border-[var(--line)] bg-[rgba(239,228,214,0.56)] p-4">
+                <p className="text-sm leading-relaxed text-[var(--ink-soft)]">{problem}</p>
+              </div>
             ))}
           </div>
         </div>
-        <div className="mt-6 flex items-center gap-4">
-          <div className="h-16 w-16 overflow-hidden rounded-full border border-[#f0e6d9]">
-            <img
-              src="https://images.pexels.com/photos/3771838/pexels-photo-3771838.jpeg?auto=compress&cs=tinysrgb&w=240&h=240&dpr=1"
-              alt="Reviewing mood boards at a desk"
-              className="h-full w-full object-cover"
-              loading="lazy"
-            />
+
+        <div className="rounded-[32px] border border-[rgba(125,92,57,0.16)] bg-[linear-gradient(180deg,rgba(186,142,90,0.1),rgba(255,253,249,0.92))] p-7 shadow-[0_22px_50px_-42px_var(--shadow)]">
+          <div className="inline-flex rounded-full border border-[rgba(125,92,57,0.16)] bg-[rgba(255,253,249,0.76)] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--accent)]">
+            My approach
           </div>
-          <div>
-            <p className="text-sm font-semibold text-[#2f241c]">Hands-on and responsive</p>
-            <p className="text-xs text-[#7a685b]">You get clear updates and fast decisions</p>
+          <div className="mt-5 space-y-4">
+            {approach.map((item) => (
+              <div key={item} className="rounded-[24px] border border-[rgba(125,92,57,0.14)] bg-[rgba(255,253,249,0.86)] p-4">
+                <p className="text-sm leading-relaxed text-[var(--ink)]">{item}</p>
+              </div>
+            ))}
           </div>
-        </div>
-        <div className="mt-6 rounded-2xl border border-[#f0e6d9] bg-[#fdf9f3] p-5 shadow-[0_12px_35px_-30px_rgba(0,0,0,0.4)]">
-          <p className="text-sm leading-relaxed text-[#4a3b30]">
-            "We opened two floors ahead of schedule because she handled sourcing, vendors, and installs without us chasing a single update."
-          </p>
-          <p className="mt-3 text-xs font-semibold uppercase tracking-[0.14em] text-[#7a685b]">Operations lead, boutique rental brand</p>
         </div>
       </div>
     </section>

@@ -1,83 +1,99 @@
-// src/components/Process.jsx
-
-const layers = [
+const steps = [
   {
-    image: 'https://images.pexels.com/photos/271619/pexels-photo-271619.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&dpr=1',
-    offset: 0,
-    z: 30,
+    number: '01',
+    title: 'Align on the work',
+    copy: 'We define the scope, outcomes, constraints, and the simplest path to delivery before the build starts.',
   },
   {
-    image: 'https://images.pexels.com/photos/6585619/pexels-photo-6585619.jpeg?auto=compress&cs=tinysrgb&w=1100&h=760&dpr=1',
-    offset: 18,
-    z: 20,
+    number: '02',
+    title: 'Build with clear updates',
+    copy: 'I move the work forward, communicate decisions and blockers, and keep the team informed without over-meeting.',
   },
   {
-    image: 'https://images.pexels.com/photos/6585756/pexels-photo-6585756.jpeg?auto=compress&cs=tinysrgb&w=1000&h=720&dpr=1',
-    offset: 36,
-    z: 10,
+    number: '03',
+    title: 'Polish and hand off cleanly',
+    copy: 'The goal is not just to finish tasks. It is to leave the work stable, readable, and easy for the team to keep building on.',
   },
 ];
 
 export default function Process() {
   return (
-    <section id="process" className="grid items-center gap-12 lg:grid-cols-[1.05fr,1fr]">
+    <section id="process" className="grid items-center gap-10 lg:grid-cols-[0.9fr,1.1fr]">
       <div className="space-y-5">
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#8c7a6c]">Process</p>
-        <h2 className="text-3xl font-semibold leading-tight text-[#2f241c] sm:text-4xl">How I manage FF&E from brief to handover</h2>
-        <p className="max-w-xl text-base leading-relaxed text-[#4a3b30]">
-          Clear checkpoints keep you informed: budgets, sourcing, delivery windows, installs, and post-launch support--all handled with a single point of contact.
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--muted)]">Process</p>
+        <h2 className="text-3xl font-semibold leading-tight text-[var(--ink)] sm:text-4xl">
+          Simple remote collaboration, built around shipping instead of ceremony.
+        </h2>
+        <p className="max-w-xl text-base leading-relaxed text-[var(--ink-soft)]">
+          I work best with teams that want clear ownership, steady progress, and direct communication.
         </p>
-        <div className="mt-6 grid gap-4 rounded-[28px] border border-[#f0e6d9] bg-white p-6 shadow-[0_24px_65px_-45px_rgba(0,0,0,0.35)]">
-          <div className="flex items-start gap-4">
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#f4ede4] text-lg font-semibold text-[#b98961] ring-1 ring-[#e6d6c5]">
-              5
-            </div>
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#8c7a6c]">Aftercare</p>
-              <h3 className="text-xl font-semibold text-[#2f241c]">Support and maintenance</h3>
-              <p className="mt-2 text-sm leading-relaxed text-[#4a3b30]">
-                Warranty tracking, spare sets, and maintenance reminders so rooms stay guest-ready. I remain available for refresh cycles and reorders.
-              </p>
-            </div>
-          </div>
-          <div className="flex flex-wrap gap-3">
-            <span className="rounded-full bg-[#f4ede4] px-4 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-[#7a685b] ring-1 ring-[#e6d6c5]">
-              Logistics and delivery
-            </span>
-            <span className="rounded-full bg-[#f4ede4] px-4 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-[#7a685b] ring-1 ring-[#e6d6c5]">
-              Installation
-            </span>
-            <span className="rounded-full bg-[#f4ede4] px-4 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-[#7a685b] ring-1 ring-[#e6d6c5]">
-              Post-handover
-            </span>
-          </div>
-        </div>
-      </div>
 
-      <div className="relative mx-auto h-[420px] w-full max-w-[520px]">
-        <div className="absolute inset-0 rounded-[30px] bg-gradient-to-br from-white via-[#f9f3ec] to-[#e6d6c5] shadow-[0_26px_70px_-45px_rgba(0,0,0,0.35)]" />
-        <div className="absolute left-6 top-6 right-6 h-[360px] overflow-visible">
-          {layers.map((layer, idx) => (
+        <div className="grid gap-4">
+          {steps.map((step) => (
             <div
-              key={layer.offset}
-              className="absolute inset-0 overflow-hidden rounded-[24px] border border-white shadow-[0_16px_50px_-35px_rgba(0,0,0,0.55)]"
-              style={{
-                transform: `translateY(${layer.offset}px)`,
-                zIndex: layer.z,
-              }}
+              key={step.number}
+              className="rounded-[28px] border border-[var(--line)] bg-[linear-gradient(180deg,#fffdf9,#f6ede1)] p-6 shadow-[0_22px_50px_-40px_var(--shadow)]"
             >
-              <img
-                src={layer.image}
-                alt="Hospitality interior"
-                className={`h-full w-full object-cover ${idx === 0 ? 'animate-kenburns' : ''}`}
-                loading="lazy"
-              />
-              <div className="absolute inset-0 bg-gradient-to-b from-white/5 via-transparent to-[#1f150f]/25" />
+              <div className="flex items-start gap-4">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-[var(--line)] bg-[rgba(239,228,214,0.64)] text-sm font-semibold text-[var(--accent)]">
+                  {step.number}
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold text-[var(--ink)]">{step.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-[var(--ink-soft)]">{step.copy}</p>
+                </div>
+              </div>
             </div>
           ))}
         </div>
-        <div className="absolute bottom-6 right-6 rounded-[18px] bg-white/90 px-4 py-3 text-xs font-semibold uppercase tracking-[0.18em] text-[#7a685b] ring-1 ring-[#e6d6c5] backdrop-blur">
-          Sample spec boards
+      </div>
+
+      <div className="overflow-hidden rounded-[34px] border border-[var(--line)] bg-[linear-gradient(180deg,#fffdf9,#f1e8db)] p-5 shadow-[0_28px_60px_-42px_var(--shadow)]">
+        <div className="rounded-[24px] border border-[var(--line)] bg-[rgba(255,253,249,0.9)] p-5">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <p className="text-xs uppercase tracking-[0.18em] text-[var(--muted)]">What working together looks like</p>
+              <p className="mt-1 text-lg font-semibold text-[var(--ink)]">A reliable rhythm without unnecessary overhead</p>
+            </div>
+            <span className="rounded-full bg-[rgba(186,142,90,0.14)] px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-[var(--accent)]">
+              Remote first
+            </span>
+          </div>
+
+          <div className="mt-5 grid gap-4 lg:grid-cols-3">
+            {[
+              {
+                title: 'Scope',
+                items: ['Clear task breakdown', 'Shared priorities', 'Fast technical decisions'],
+              },
+              {
+                title: 'Execution',
+                items: ['Visible progress', 'Low-noise updates', 'Thoughtful implementation'],
+              },
+              {
+                title: 'Delivery',
+                items: ['QA and polish', 'Clean handoff notes', 'Stable shipped output'],
+              },
+            ].map((column) => (
+              <div key={column.title} className="rounded-[22px] border border-[var(--line)] bg-[rgba(239,228,214,0.56)] p-4">
+                <p className="text-sm font-semibold text-[var(--ink)]">{column.title}</p>
+                <div className="mt-4 space-y-3">
+                  {column.items.map((item) => (
+                    <div key={item} className="rounded-2xl border border-[var(--line)] bg-[rgba(255,253,249,0.86)] px-3 py-3">
+                      <p className="text-sm text-[var(--ink)]">{item}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-5 rounded-[22px] border border-[rgba(125,92,57,0.14)] bg-[linear-gradient(180deg,rgba(186,142,90,0.1),rgba(255,253,249,0.92))] p-4">
+            <p className="text-xs uppercase tracking-[0.16em] text-[var(--muted)]">Default communication style</p>
+            <p className="mt-2 text-sm leading-relaxed text-[var(--ink-soft)]">
+              Async-first updates, short calls when needed, and enough visibility that no one has to wonder what is happening.
+            </p>
+          </div>
         </div>
       </div>
     </section>
