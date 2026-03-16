@@ -1,93 +1,111 @@
-const models = [
+const plans = [
   {
-    name: 'Project work',
-    description: 'Best for a defined page, feature, frontend pass, or short-term deliverable.',
-    cta: 'Start a project',
-    href: '#contact',
-    features: ['Clear scope', 'Fast execution', 'Clean handoff'],
+    name: 'Team',
+    price: '$349',
+    period: '/month',
+    audience: 'Up to 10 active jobs',
+    description: 'For one PM team that needs cleaner intake, aging control, and a billing-ready log without another bloated PM suite.',
+    cta: 'Start with one live workflow',
+    href: '#demo',
+    features: [
+      'Unlimited RFIs, submittals, and CO records',
+      'Email and PDF capture inbox',
+      'Weekly executive digest',
+      '2 PM seats plus unlimited field viewers',
+    ],
   },
   {
-    name: 'Sprint support',
-    description: 'Best for product teams that need focused delivery help across a few active priorities.',
-    cta: 'Book a call',
-    href: '#contact',
+    name: 'Ops',
+    price: '$890',
+    period: '/month',
+    audience: 'Up to 35 active jobs',
+    description: 'For specialty contractors that need portfolio visibility, estimating handoff, and accounting export across multiple PMs.',
+    cta: 'Book the ops walkthrough',
+    href: '#demo',
     highlight: true,
-    features: ['Weekly momentum', 'Async updates', 'Product-facing output'],
+    features: [
+      'Everything in Team',
+      'Procore and Autodesk Build sync',
+      'Billing-ready workflows and exports',
+      'Quarterly workflow reviews',
+    ],
   },
   {
-    name: 'Ongoing partner',
-    description: 'Best for teams that want a reliable remote developer without hiring full-time immediately.',
-    cta: 'Talk to me',
-    href: 'mailto:hello@eg-remote.dev',
-    features: ['Longer-term continuity', 'Flexible contribution', 'Lower management overhead'],
+    name: 'Enterprise',
+    price: 'Custom',
+    period: '',
+    audience: 'Multi-division contractors',
+    description: 'For regional or national subs rolling ScopeBolt across several business units, ERP workflows, and executive review layers.',
+    cta: 'Talk to sales',
+    href: 'mailto:hello@scopebolt.com?subject=ScopeBolt%20Enterprise',
+    features: [
+      'Everything in Ops',
+      'Division-level reporting and custom roles',
+      'ERP workflow support',
+      'SSO and security review support',
+    ],
   },
 ];
 
 export default function Pricing() {
   return (
-    <section id="work-with-me" className="space-y-8">
-      <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
-        <div className="space-y-2">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--muted)]">Ways to work with me</p>
-          <h2 className="text-3xl font-semibold text-[var(--ink)] sm:text-4xl">Flexible engagement depending on what the team needs.</h2>
+    <section id="pricing" className="deferred-section space-y-8">
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+        <div className="space-y-4">
+          <div className="eyebrow select-ui-none">Pricing</div>
+          <h2 className="section-heading max-w-3xl text-[var(--text)]">
+            Pricing that fits project-driven teams, not per-seat software bloat.
+          </h2>
         </div>
-        <p className="max-w-xl text-sm leading-relaxed text-[var(--ink-soft)]">
-          I am usually most useful where there is meaningful product or frontend work to move, not just ticket volume to clear.
+        <p className="section-copy max-w-xl">
+          Every plan includes unlimited records, rollout help, and weekly digest reporting. Annual billing saves 15%.
         </p>
       </div>
 
-      <div className="grid gap-5 lg:grid-cols-3">
-        {models.map((model) => (
-          <div
-            key={model.name}
-            className={`rounded-[30px] border p-7 shadow-[0_22px_50px_-40px_var(--shadow)] ${
-              model.highlight
-                ? 'border-[rgba(125,92,57,0.18)] bg-[linear-gradient(180deg,rgba(186,142,90,0.1),rgba(255,253,249,0.96))]'
-                : 'border-[var(--line)] bg-[linear-gradient(180deg,#fffdf9,#f6ede1)]'
-            }`}
+      <div className="grid gap-4 lg:grid-cols-3">
+        {plans.map((plan) => (
+          <article
+            key={plan.name}
+            className={`section-frame flex h-full flex-col px-5 py-5 ${plan.highlight ? 'border-[var(--line-strong)]' : ''}`}
           >
             <div className="flex items-start justify-between gap-3">
               <div>
-                <h3 className="text-2xl font-semibold text-[var(--ink)]">{model.name}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-[var(--ink-soft)]">{model.description}</p>
+                <h3 className="text-2xl font-semibold text-[var(--text)]">{plan.name}</h3>
+                <p className="mt-2 text-sm font-semibold text-[var(--accent-cyan)]">{plan.audience}</p>
               </div>
-              {model.highlight && (
-                <span className="rounded-full bg-[rgba(186,142,90,0.14)] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--accent)]">
-                  Best fit
-                </span>
-              )}
+              {plan.highlight && <span className="tag-pill bg-[rgba(31,107,255,0.08)] text-[var(--accent)]">Most popular</span>}
             </div>
 
-            <div className="mt-6">
-              <p className="text-4xl font-semibold text-[var(--ink)]">
-                {model.name === 'Project work' ? 'Fixed' : model.name === 'Sprint support' ? 'Flexible' : 'Retained'}
-              </p>
-              <p className="mt-1 text-xs uppercase tracking-[0.16em] text-[var(--muted)]">Engagement style</p>
+            <p className="mt-4 text-sm leading-7 text-[var(--text-soft)]">{plan.description}</p>
+
+            <div className="mt-6 flex items-end gap-2">
+              <span className="text-5xl font-semibold text-[var(--text)]">{plan.price}</span>
+              <span className="pb-1 text-sm text-[var(--text-soft)]">{plan.period}</span>
             </div>
 
-            <div className="mt-6">
-              <a
-                href={model.href}
-                className={`inline-flex w-full items-center justify-center rounded-full px-5 py-3 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)] ${
-                  model.highlight
-                    ? 'bg-[var(--ink)] text-[var(--panel-strong)] hover:bg-[#382c20]'
-                    : 'border border-[var(--line)] bg-[rgba(255,253,249,0.84)] text-[var(--ink)] hover:bg-[var(--panel-soft)]'
-                }`}
-              >
-                {model.cta}
-              </a>
-            </div>
+            <a
+              href={plan.href}
+              className={`mt-6 inline-flex w-full items-center justify-center text-sm font-semibold transition ${
+                plan.highlight ? 'button-primary' : 'button-secondary'
+              }`}
+            >
+              {plan.cta}
+            </a>
 
             <div className="mt-6 space-y-3">
-              {model.features.map((feature) => (
-                <div key={feature} className="flex items-center gap-3 rounded-2xl border border-[var(--line)] bg-[rgba(239,228,214,0.56)] px-3 py-3">
-                  <span className="h-2.5 w-2.5 rounded-full bg-[var(--accent)]" />
-                  <span className="text-sm text-[var(--ink)]">{feature}</span>
+              {plan.features.map((feature) => (
+                <div key={feature} className="rounded-[18px] border border-[var(--line)] bg-[var(--surface-soft)] px-4 py-3">
+                  <span className="text-sm text-[var(--text)]">{feature}</span>
                 </div>
               ))}
             </div>
-          </div>
+          </article>
         ))}
+      </div>
+
+      <div className="rounded-[18px] border border-[var(--line)] bg-[var(--surface-soft)] px-5 py-4 text-sm text-[var(--text-soft)]">
+        <span className="font-semibold text-[var(--text)]">90-day payback plan.</span> If the rollout does not measurably
+        reduce billing lag or project admin time inside 90 days, ScopeBolt extends implementation support at no extra cost.
       </div>
     </section>
   );

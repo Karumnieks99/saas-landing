@@ -1,48 +1,51 @@
 const faqs = [
   {
-    question: 'What kind of teams are the best fit?',
+    question: 'How long does rollout usually take?',
     answer:
-      'Usually startups, SaaS teams, agencies, and product-led businesses that need frontend-heavy work shipped with clear communication and strong finish quality.',
+      'Most teams are live on one workflow within 10 business days. Multi-division rollouts or ERP-heavy setups usually take 3 to 5 weeks depending on the approval paths involved.',
   },
   {
-    question: 'Do you work fully remote?',
+    question: 'Do we need to leave Procore or Autodesk Build?',
     answer:
-      'Yes. I am optimized for remote collaboration, async updates, scoped calls, and clear written communication.',
+      'No. ScopeBolt sits alongside your project system. Teams keep core job data where it already lives and use ScopeBolt to control inbox capture, aging, and billing readiness.',
   },
   {
-    question: 'What do you usually build?',
+    question: 'Can we import our current RFI and CO logs?',
     answer:
-      'Landing pages, product interfaces, dashboards, onboarding flows, internal tools, and frontend refactors that improve product quality and speed of delivery.',
+      'Yes. Most teams start with active jobs plus a CSV import of open logs. Historical records can be brought in later when they matter for claims or audit history.',
   },
   {
-    question: 'Can you work short-term or ongoing?',
+    question: 'What about field adoption?',
     answer:
-      'Yes. I can support a defined project, help across a few focused sprints, or contribute on an ongoing remote basis depending on the team\'s needs.',
+      'Field teams usually use simple upload and note flows rather than a full PM workspace. That keeps adoption realistic while still giving the office cleaner context.',
+  },
+  {
+    question: 'Can accounting work from it too?',
+    answer:
+      'That is the point. ScopeBolt gives accounting a billing-ready handoff list with approved value, backup context, and status history so invoice support is cleaner.',
   },
 ];
 
 export default function FAQ() {
   return (
-    <section id="faq" className="space-y-8">
-      <div className="space-y-2">
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--muted)]">FAQ</p>
-        <h2 className="text-3xl font-semibold text-[var(--ink)] sm:text-4xl">The usual questions before starting a conversation.</h2>
+    <section id="faq" className="deferred-section space-y-8">
+      <div className="space-y-4">
+        <div className="eyebrow select-ui-none">FAQ</div>
+        <h2 className="section-heading max-w-3xl text-[var(--text)]">
+          Buyer questions, answered with the details teams usually need before rollout.
+        </h2>
       </div>
 
       <div className="grid gap-4">
         {faqs.map((faq, index) => (
-          <details
-            key={faq.question}
-            open={index === 0}
-            className="group rounded-[28px] border border-[var(--line)] bg-[linear-gradient(180deg,#fffdf9,#f6ede1)] p-6 shadow-[0_22px_50px_-40px_var(--shadow)]"
-          >
-            <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-lg font-semibold text-[var(--ink)] marker:hidden">
-              {faq.question}
-              <span className="rounded-full border border-[var(--line)] bg-[rgba(255,253,249,0.8)] px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-[var(--muted)] group-open:text-[var(--accent)]">
-                Open
+          <details key={faq.question} open={index === 0} className="group surface-card px-5 py-5">
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-left text-lg font-semibold text-[var(--text)] marker:hidden">
+              <span>{faq.question}</span>
+              <span className="flex h-10 w-10 items-center justify-center rounded-[12px] border border-[var(--line)] bg-[var(--surface-soft)] text-xl leading-none text-[var(--accent-strong)] transition group-open:rotate-45">
+                +
               </span>
             </summary>
-            <p className="mt-4 max-w-3xl text-sm leading-relaxed text-[var(--ink-soft)]">{faq.answer}</p>
+            <p className="mt-4 max-w-3xl text-sm leading-7 text-[var(--text-soft)]">{faq.answer}</p>
           </details>
         ))}
       </div>

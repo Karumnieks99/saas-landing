@@ -1,75 +1,216 @@
-const problems = [
-  'The team needs frontend work finished without constant follow-up.',
-  'Design exists, but turning it into a polished product experience is lagging.',
-  'There is too much communication overhead around otherwise straightforward work.',
+const workspaceStats = [
+  { label: 'Open COs', value: '19', detail: '6 waiting on pricing' },
+  { label: 'Average age', value: '11.4d', detail: 'Down from 16.2d' },
+  { label: 'Ready to bill', value: '$126k', detail: 'Approved this cycle' },
 ];
 
-const approach = [
-  'I pick up context quickly and turn it into clear, shippable work.',
-  'I focus on interfaces, responsiveness, polish, and implementation quality.',
-  'I communicate directly so the team always knows what is moving and what is blocked.',
+const changeRows = [
+  { project: 'Orlando Med Tower', gc: 'Wright Builders', value: '$68,400', health: 'Awaiting architect bulletin' },
+  { project: 'Harbor Point Garage', gc: 'Morris GC', value: '$24,900', health: 'Pricing due Friday' },
+  { project: 'Ivy Square Labs', gc: 'North Crest', value: '$43,100', health: 'Owner approval pending' },
+];
+
+const builderSteps = [
+  { title: 'Forward the architect email or markup package.', note: 'Inbox capture' },
+  { title: 'ScopeBolt matches the job, phase, and drawing context.', note: 'Auto match' },
+  { title: 'A draft record opens with owner, backup, and next action.', note: 'Ready to route' },
+];
+
+const executiveRows = [
+  { label: 'Billing-ready value', score: '$126k', trend: '+4 items this week' },
+  { label: 'Pending exposure', score: '$184k', trend: '6 items need review' },
+  { label: 'Average response lag', score: '2.1d', trend: '-0.8d from last month' },
+];
+
+const pipeline = [
+  ['Pricing review', '36%'],
+  ['Pending GC approval', '48%'],
+  ['Ready for billing', '68%'],
 ];
 
 export default function Intro() {
   return (
-    <section id="solution" className="grid gap-6 lg:grid-cols-[0.88fr,1.12fr]">
-      <div className="rounded-[32px] border border-[var(--line)] bg-[linear-gradient(180deg,#fffdf9,#f4eadc)] p-7 shadow-[0_26px_60px_-42px_var(--shadow)]">
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--muted)]">What I solve</p>
-        <h2 className="mt-3 text-3xl font-semibold text-[var(--ink)] sm:text-4xl">
-          Good teams do not usually need more meetings. They need someone who can turn direction into finished work.
-        </h2>
-        <p className="mt-4 max-w-xl text-base leading-relaxed text-[var(--ink-soft)]">
-          My value is strongest when the product team already knows what it wants but needs a remote developer who can move
-          cleanly from scope to delivery.
-        </p>
-
-        <div className="mt-8 rounded-[28px] border border-[var(--line)] bg-[rgba(239,228,214,0.64)] p-5">
-          <div className="flex items-center justify-between">
-            <p className="text-sm font-semibold text-[var(--ink)]">Typical engagement outcome</p>
-            <span className="rounded-full bg-[rgba(255,253,249,0.84)] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--accent)]">
-              Better delivery
-            </span>
-          </div>
-          <div className="mt-5 grid gap-3 sm:grid-cols-2">
-            <div className="rounded-[22px] border border-[var(--line)] bg-[rgba(255,253,249,0.88)] p-4">
-              <p className="text-xs uppercase tracking-[0.18em] text-[var(--muted)]">Before</p>
-              <p className="mt-3 text-3xl font-semibold text-[var(--ink)]">More noise</p>
-              <p className="mt-1 text-sm text-[var(--ink-soft)]">unclear ownership, patchy polish, slow frontend iteration</p>
-            </div>
-            <div className="rounded-[22px] border border-[var(--line)] bg-[rgba(255,253,249,0.88)] p-4">
-              <p className="text-xs uppercase tracking-[0.18em] text-[var(--muted)]">After</p>
-              <p className="mt-3 text-3xl font-semibold text-[var(--ink)]">Cleaner output</p>
-              <p className="mt-1 text-sm text-[var(--ink-soft)]">shipped work, clearer updates, and a better user-facing result</p>
-            </div>
-          </div>
+    <section id="product" className="deferred-section space-y-8">
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+        <div className="space-y-4">
+          <div className="eyebrow select-ui-none">Product walkthrough</div>
+          <h2 className="section-heading max-w-3xl text-[var(--text)]">
+            A real workspace for the approvals and handoffs that move subcontractor revenue.
+          </h2>
         </div>
+        <p className="section-copy max-w-xl">
+          ScopeBolt keeps the high-friction work in one place: change-order capture, owner assignment, aging follow-up, and
+          billing readiness.
+        </p>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2">
-        <div className="rounded-[32px] border border-[var(--line)] bg-[linear-gradient(180deg,#fffdf9,#f6ede1)] p-7 shadow-[0_22px_50px_-42px_var(--shadow)]">
-          <div className="inline-flex rounded-full border border-[rgba(125,92,57,0.16)] bg-[rgba(125,92,57,0.08)] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--accent)]">
-            Team pain
+      <div className="grid gap-6 xl:grid-cols-[1.08fr,0.92fr]">
+        <div className="section-frame">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <p className="text-xs uppercase tracking-[0.18em] text-[var(--panel-text-soft)]">Change order workspace</p>
+              <p className="mt-1 text-xl font-semibold text-[var(--panel-text)]">Division revenue protection board</p>
+            </div>
+            <span className="tag-pill bg-[rgba(31,107,255,0.08)] text-[var(--accent)]">Synced 3 min ago</span>
           </div>
-          <div className="mt-5 space-y-4">
-            {problems.map((problem) => (
-              <div key={problem} className="rounded-[24px] border border-[var(--line)] bg-[rgba(239,228,214,0.56)] p-4">
-                <p className="text-sm leading-relaxed text-[var(--ink-soft)]">{problem}</p>
+
+          <div className="mt-6 grid gap-3 sm:grid-cols-3">
+            {workspaceStats.map((stat) => (
+              <div key={stat.label} className="metric-card">
+                <p className="text-xs uppercase tracking-[0.16em] text-[var(--panel-text-soft)]">{stat.label}</p>
+                <p className="mt-3 text-3xl font-semibold text-[var(--panel-text)]">{stat.value}</p>
+                <p className="mt-2 text-sm text-[var(--panel-text-soft)]">{stat.detail}</p>
               </div>
             ))}
+          </div>
+
+          <div className="mt-6 grid gap-4 xl:grid-cols-[1.08fr,0.92fr]">
+            <div className="surface-card overflow-hidden p-0">
+              <div className="flex items-center justify-between gap-3 border-b border-[var(--line)] px-5 py-4">
+                <div>
+                  <p className="text-sm font-semibold text-[var(--panel-text)]">CO pipeline by stage</p>
+                  <p className="mt-1 text-xs uppercase tracking-[0.16em] text-[var(--panel-text-soft)]">Last 30 days</p>
+                </div>
+                <span className="tag-pill bg-[rgba(47,133,90,0.12)] text-[var(--accent-emerald)]">+19% to approved</span>
+              </div>
+
+              <div className="p-5">
+                <div className="rounded-[18px] border border-[var(--panel-line)] bg-white p-4">
+                  <svg aria-hidden="true" focusable="false" viewBox="0 0 320 180" className="h-[180px] w-full">
+                    {[24, 56, 88, 120, 152].map((line) => (
+                      <line
+                        key={line}
+                        x1="0"
+                        x2="320"
+                        y1={line}
+                        y2={line}
+                        stroke="rgba(20,32,49,0.08)"
+                        strokeDasharray="4 6"
+                      />
+                    ))}
+                    {[36, 68, 100, 132, 164, 196, 228].map((x, index) => (
+                      <rect
+                        key={x}
+                        x={x}
+                        y={126 - index * 8}
+                        width="22"
+                        height={46 + index * 8}
+                        rx="8"
+                        fill={index > 4 ? 'rgba(117,160,138,0.88)' : 'rgba(208,123,55,0.84)'}
+                      />
+                    ))}
+                    <path
+                      d="M32,124 C58,108 92,102 126,86 C154,72 179,82 212,58 C242,36 270,48 288,26"
+                      fill="none"
+                      stroke="#1f6bff"
+                      strokeWidth="4"
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                </div>
+
+                <div className="mt-4 space-y-3">
+                  {changeRows.map((row) => (
+                    <div
+                      key={row.project}
+                      className="grid gap-3 rounded-[18px] border border-[var(--panel-line)] bg-white px-4 py-3 sm:grid-cols-[1.4fr,0.8fr,1fr]"
+                    >
+                      <div>
+                        <p className="text-sm font-semibold text-[var(--panel-text)]">{row.project}</p>
+                        <p className="text-xs uppercase tracking-[0.15em] text-[var(--panel-text-soft)]">{row.gc}</p>
+                      </div>
+                      <div className="text-sm text-[var(--panel-text-soft)]">{row.value}</div>
+                      <div className="text-sm font-semibold text-[var(--accent-amber)]">{row.health}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="surface-card">
+              <div className="flex items-center justify-between gap-3">
+                <div>
+                  <p className="text-sm font-semibold text-[var(--panel-text)]">Value by status</p>
+                  <p className="mt-1 text-xs uppercase tracking-[0.16em] text-[var(--panel-text-soft)]">Updated hourly</p>
+                </div>
+                <span className="tag-pill bg-[rgba(31,107,255,0.08)] text-[var(--accent)]">4 actions due today</span>
+              </div>
+
+              <div className="mt-5 space-y-4">
+                {pipeline.map(([label, value]) => (
+                  <div key={label}>
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-[var(--panel-text)]">{label}</span>
+                      <span className="text-[var(--panel-text-soft)]">{value}</span>
+                    </div>
+                    <div className="mt-2 h-2.5 rounded-full bg-[rgba(20,32,49,0.08)]">
+                      <div className="h-2.5 rounded-full bg-[var(--accent)]" style={{ width: value }} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-5 rounded-[18px] border border-[var(--panel-line)] bg-white p-4">
+                <p className="text-sm font-semibold text-[var(--panel-text)]">Recommended next action</p>
+                <p className="mt-2 text-sm leading-6 text-[var(--panel-text-soft)]">
+                  Route Harbor Point Garage CO-11 to estimating today. Missing pricing backup is the only blocker keeping
+                  $24,900 out of this billing cycle.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div className="rounded-[32px] border border-[rgba(125,92,57,0.16)] bg-[linear-gradient(180deg,rgba(186,142,90,0.1),rgba(255,253,249,0.92))] p-7 shadow-[0_22px_50px_-42px_var(--shadow)]">
-          <div className="inline-flex rounded-full border border-[rgba(125,92,57,0.16)] bg-[rgba(255,253,249,0.76)] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--accent)]">
-            My approach
-          </div>
-          <div className="mt-5 space-y-4">
-            {approach.map((item) => (
-              <div key={item} className="rounded-[24px] border border-[rgba(125,92,57,0.14)] bg-[rgba(255,253,249,0.86)] p-4">
-                <p className="text-sm leading-relaxed text-[var(--ink)]">{item}</p>
+        <div className="grid gap-4">
+          <article className="surface-card">
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <p className="text-xs uppercase tracking-[0.18em] text-[var(--muted)]">Automation layer</p>
+                <h3 className="mt-2 text-2xl font-semibold text-[var(--text)]">Send one email. Get the right draft started.</h3>
               </div>
-            ))}
-          </div>
+              <span className="tag-pill">Minimal PM setup</span>
+            </div>
+
+            <div className="mt-5 space-y-3">
+              {builderSteps.map((step, index) => (
+                <div
+                  key={step.title}
+                  className="flex items-center gap-4 rounded-[18px] border border-[var(--panel-line)] bg-white px-4 py-3"
+                >
+                  <div className="flex h-10 w-10 items-center justify-center rounded-[12px] bg-[rgba(31,107,255,0.08)] text-sm font-semibold text-[var(--accent)]">
+                    0{index + 1}
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-sm font-semibold text-[var(--panel-text)]">{step.title}</p>
+                    <p className="mt-1 text-xs uppercase tracking-[0.14em] text-[var(--panel-text-soft)]">{step.note}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <p className="mt-5 text-sm leading-6 text-[var(--panel-text-soft)]">
+              PMs stop rebuilding the same context from inboxes, PDF folders, and spreadsheet logs every time a new issue appears.
+            </p>
+          </article>
+
+          <article className="surface-card">
+            <p className="text-xs uppercase tracking-[0.18em] text-[var(--muted)]">Executive digest</p>
+            <h3 className="mt-2 text-2xl font-semibold text-[var(--text)]">Leadership sees the week without waiting on PM rollups.</h3>
+
+            <div className="mt-5 grid gap-3 sm:grid-cols-3 xl:grid-cols-1">
+              {executiveRows.map((row) => (
+                <div key={row.label} className="metric-card">
+                  <p className="text-sm font-semibold text-[var(--text)]">{row.label}</p>
+                  <p className="mt-3 text-4xl font-semibold text-[var(--text)]">{row.score}</p>
+                  <p className="mt-2 text-sm text-[var(--text-soft)]">{row.trend}</p>
+                </div>
+              ))}
+            </div>
+
+            <p className="mt-5 text-sm leading-6 text-[var(--text-soft)]">
+              Weekly digests show what can bill now, which jobs are aging, and where leadership needs to unblock approvals.
+            </p>
+          </article>
         </div>
       </div>
     </section>

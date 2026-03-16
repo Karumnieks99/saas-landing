@@ -1,0 +1,43 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" rx="40" fill="#EEF2F5" />
+  <rect x="48" y="48" width="1104" height="534" rx="32" fill="#F8FAFB" stroke="#D8E1EA" />
+  <rect x="84" y="84" width="164" height="164" rx="30" fill="#1F6BFF" />
+  <path d="M122 136C122 114.461 139.461 97 161 97H208C229.539 97 247 114.461 247 136C247 148.528 241.028 158.93 231.657 166.267C241.145 174.213 247 185.878 247 199C247 222.748 227.748 242 204 242H122V136ZM161.5 133V165H203C214.046 165 223 156.046 223 145C223 138.373 217.627 133 211 133H161.5ZM161.5 188V218H198C212.359 218 224 211.732 224 201C224 191.059 215.941 188 201 188H161.5Z" fill="white" />
+  <text x="284" y="164" fill="#102033" font-family="'IBM Plex Sans', Arial, sans-serif" font-size="64" font-weight="700">
+    ScopeBolt
+  </text>
+  <text x="284" y="224" fill="#4F6174" font-family="'IBM Plex Sans', Arial, sans-serif" font-size="30" font-weight="400">
+    Margin control for commercial subcontractors
+  </text>
+  <rect x="84" y="300" width="680" height="222" rx="28" fill="white" stroke="#DCE4EB" />
+  <text x="120" y="352" fill="#5B6B7F" font-family="'IBM Plex Sans', Arial, sans-serif" font-size="20" font-weight="600" letter-spacing="2">
+    LIVE PORTFOLIO
+  </text>
+  <text x="120" y="394" fill="#102033" font-family="'IBM Plex Sans', Arial, sans-serif" font-size="34" font-weight="700">
+    Catch scope risk before billing slips another month
+  </text>
+  <rect x="120" y="428" width="168" height="58" rx="18" fill="#F5F8FB" stroke="#DCE4EB" />
+  <rect x="306" y="428" width="168" height="58" rx="18" fill="#F5F8FB" stroke="#DCE4EB" />
+  <rect x="492" y="428" width="168" height="58" rx="18" fill="#F5F8FB" stroke="#DCE4EB" />
+  <text x="144" y="452" fill="#5B6B7F" font-family="'IBM Plex Sans', Arial, sans-serif" font-size="16" font-weight="600">RFIs due today</text>
+  <text x="144" y="477" fill="#102033" font-family="'IBM Plex Sans', Arial, sans-serif" font-size="26" font-weight="700">14</text>
+  <text x="330" y="452" fill="#5B6B7F" font-family="'IBM Plex Sans', Arial, sans-serif" font-size="16" font-weight="600">Pending CO value</text>
+  <text x="330" y="477" fill="#102033" font-family="'IBM Plex Sans', Arial, sans-serif" font-size="26" font-weight="700">$184k</text>
+  <text x="516" y="452" fill="#5B6B7F" font-family="'IBM Plex Sans', Arial, sans-serif" font-size="16" font-weight="600">Ready to bill</text>
+  <text x="516" y="477" fill="#102033" font-family="'IBM Plex Sans', Arial, sans-serif" font-size="26" font-weight="700">$126k</text>
+  <rect x="800" y="300" width="316" height="222" rx="28" fill="white" stroke="#DCE4EB" />
+  <text x="836" y="352" fill="#5B6B7F" font-family="'IBM Plex Sans', Arial, sans-serif" font-size="20" font-weight="600" letter-spacing="2">
+    WEEKLY FOCUS
+  </text>
+  <text x="836" y="395" fill="#102033" font-family="'IBM Plex Sans', Arial, sans-serif" font-size="28" font-weight="700">
+    2 jobs need same-day action
+  </text>
+  <rect x="836" y="430" width="244" height="40" rx="14" fill="#F5F8FB" />
+  <rect x="836" y="484" width="210" height="14" rx="7" fill="#1F6BFF" fill-opacity="0.18" />
+  <rect x="836" y="484" width="164" height="14" rx="7" fill="#1F6BFF" />
+  <text x="860" y="455" fill="#102033" font-family="'IBM Plex Sans', Arial, sans-serif" font-size="18" font-weight="600">
+    Harbor Point Garage pricing review
+  </text>
+  <text x="836" y="548" fill="#4F6174" font-family="'IBM Plex Sans', Arial, sans-serif" font-size="22" font-weight="400">
+    Cleaner inbox capture. Faster billing recovery.
+  </text>

@@ -1,7 +1,13 @@
 {
-  "name": "flowtrack-landing",
+  "name": "scopebolt-landing",
   "private": true,
   "version": "0.1.0",
+  "description": "ScopeBolt landing page built with Vite, React, and Tailwind CSS.",
+  "homepage": "https://karumnieks99.github.io/saas-landing/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Karumnieks99/saas-landing.git"
+  },
   "type": "module",
   "scripts": {
     "dev": "vite",

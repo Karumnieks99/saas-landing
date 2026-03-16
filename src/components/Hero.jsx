@@ -1,153 +1,192 @@
 const highlights = [
-  ['Remote-first', 'async friendly and overlap-ready'],
-  ['Frontend + product', 'React, UX, and shipping focus'],
-  ['Clear execution', 'clean handoffs and low drama'],
+  ['31%', 'faster RFI turnaround'],
+  ['$247k', 'average CO leakage recovered'],
+  ['7.2 hrs', 'saved weekly per PM'],
 ];
+
+const dashboardMetrics = [
+  { label: 'RFIs due today', value: '14', detail: '3 past the 48-hour target', accent: 'var(--accent-amber)' },
+  { label: 'Pending CO value', value: '$184k', detail: '6 items waiting on action', accent: 'var(--accent)' },
+  { label: 'Ready to bill', value: '$126k', detail: 'Approved with backup attached', accent: 'var(--accent-emerald)' },
+];
+
+const projectRows = [
+  { name: 'Terminal B fit-out', owner: 'A. Rivera', status: 'Needs reply', progress: 'RFI #148 due 4:30 PM' },
+  { name: 'Harbor Point Garage', owner: 'N. Patel', status: 'Pricing review', progress: 'CO-11 needs estimating backup' },
+  { name: 'Westgate Labs', owner: 'M. Cole', status: 'Approved', progress: 'Submittal package 28 cleared' },
+];
+
+const actionQueue = [
+  ['Architect bulletin received', 'Draft CO created and routed in under 2 minutes.'],
+  ['Billing cutoff tomorrow', '4 approved items are queued for accounting export.'],
+  ['Executive digest ready', 'Portfolio risk is grouped by owner and due date.'],
+];
+
+const statusStyles = {
+  'Needs reply': 'bg-[rgba(201,130,45,0.12)] text-[var(--accent-amber)]',
+  'Pricing review': 'bg-[rgba(31,107,255,0.08)] text-[var(--accent)]',
+  Approved: 'bg-[rgba(47,133,90,0.12)] text-[var(--accent-emerald)]',
+};
 
 export default function Hero() {
   return (
-    <section id="hero" className="mt-4">
-      <div className="relative overflow-hidden rounded-[40px] border border-[var(--line)] bg-[linear-gradient(180deg,rgba(255,253,249,0.98),rgba(241,232,219,0.9))] px-6 py-10 shadow-[0_36px_96px_-60px_var(--shadow)] sm:px-10 sm:py-14 lg:px-14">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_16%_14%,rgba(186,142,90,0.18),transparent_24%),radial-gradient(circle_at_84%_18%,rgba(125,92,57,0.12),transparent_22%),radial-gradient(circle_at_74%_82%,rgba(255,255,255,0.5),transparent_24%)]" />
-        <div className="absolute -left-20 top-1/3 h-52 w-[36rem] rotate-[-10deg] bg-[linear-gradient(90deg,transparent,rgba(186,142,90,0.16),transparent)] blur-2xl" />
-        <div className="absolute right-[-9rem] top-8 h-64 w-64 rounded-full bg-[rgba(255,255,255,0.4)] blur-3xl" />
+    <section id="hero">
+      <div className="grid gap-10 lg:grid-cols-[0.84fr,1.16fr] lg:items-center">
+        <div className="space-y-6">
+          <div className="eyebrow select-ui-none">Built for commercial subcontractors</div>
 
-        <div className="relative grid items-center gap-12 lg:grid-cols-[0.94fr,1.06fr]">
-          <div className="flex flex-col gap-7">
-            <div className="inline-flex w-fit items-center gap-2 rounded-full border border-[var(--line)] bg-[rgba(255,253,249,0.82)] px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.24em] text-[var(--muted)]">
-              Independent remote developer
-            </div>
-
-            <div className="space-y-5">
-              <h1 className="max-w-2xl text-4xl font-semibold leading-[0.98] text-[var(--ink)] sm:text-5xl lg:text-7xl">
-                Remote developer for startups and product teams that need clean execution.
-              </h1>
-              <p className="max-w-xl text-lg leading-relaxed text-[var(--ink-soft)] sm:text-xl">
-                I help teams design, build, and ship product work without adding communication drag. Best fit for remote
-                teams that want someone who can think, build, and deliver.
-              </p>
-            </div>
-
-            <div className="flex flex-col gap-3 sm:flex-row">
-              <a
-                href="#work-with-me"
-                className="rounded-full bg-[var(--ink)] px-6 py-3 text-center text-sm font-semibold text-[var(--panel-strong)] shadow-[0_22px_36px_-24px_var(--shadow)] transition hover:bg-[#382c20] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)]"
-              >
-                Work with me
-              </a>
-              <a
-                href="#services"
-                className="rounded-full border border-[var(--line)] bg-[rgba(255,253,249,0.82)] px-6 py-3 text-center text-sm font-semibold text-[var(--ink)] transition hover:bg-[var(--panel-soft)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)]"
-              >
-                See what I do
-              </a>
-            </div>
-
-            <div className="flex flex-wrap gap-3 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">
-              <span className="rounded-full border border-[var(--line)] bg-[rgba(255,253,249,0.82)] px-4 py-2">Remote collaboration</span>
-              <span className="rounded-full border border-[var(--line)] bg-[rgba(255,253,249,0.82)] px-4 py-2">Product-minded development</span>
-              <span className="rounded-full border border-[var(--line)] bg-[rgba(255,253,249,0.82)] px-4 py-2">Available for contract work</span>
-            </div>
+          <div className="space-y-4">
+            <h1 className="max-w-2xl text-balance text-4xl font-semibold leading-[0.97] text-[var(--text)] sm:text-5xl lg:text-[4.1rem]">
+              Stop losing margin to buried RFIs and late change orders.
+            </h1>
+            <p className="section-copy max-w-xl text-lg sm:text-[1.15rem]">
+              ScopeBolt gives PMs, project executives, and accounting one operating layer for inbox capture, aging follow-up,
+              and billing-ready handoff.
+            </p>
           </div>
 
-          <div className="relative">
-            <div className="absolute inset-x-10 top-6 h-28 rounded-full bg-[rgba(186,142,90,0.18)] blur-3xl" />
-            <div className="relative rounded-[34px] border border-[var(--line)] bg-[linear-gradient(180deg,#fffdf9,#f4eadc)] p-5 shadow-[0_34px_70px_-46px_var(--shadow)]">
-              <div className="flex items-center justify-between rounded-[22px] border border-[var(--line)] bg-[rgba(255,253,249,0.9)] px-4 py-3">
-                <div>
-                  <p className="text-xs uppercase tracking-[0.2em] text-[var(--muted)]">How I work</p>
-                  <p className="mt-1 text-lg font-semibold text-[var(--ink)]">Remote delivery, without the overhead</p>
-                </div>
-                <span className="rounded-full bg-[rgba(186,142,90,0.14)] px-3 py-1 text-xs font-semibold text-[var(--accent)]">
-                  Available
-                </span>
-              </div>
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <a href="#demo" className="button-primary px-6">
+              Book a 20-min walkthrough
+            </a>
+            <a href="#pricing" className="button-secondary px-6">
+              See pricing
+            </a>
+          </div>
 
-              <div className="mt-5 grid gap-4 sm:grid-cols-3">
-                {highlights.map(([value, label]) => (
-                  <div key={value} className="rounded-[22px] border border-[var(--line)] bg-[rgba(255,253,249,0.88)] p-4">
-                    <p className="text-2xl font-semibold text-[var(--ink)]">{value}</p>
-                    <p className="mt-2 text-sm leading-relaxed text-[var(--ink-soft)]">{label}</p>
+          <div className="grid gap-3 sm:grid-cols-3">
+            {highlights.map(([value, label]) => (
+              <div key={value} className="metric-card">
+                <p className="text-2xl font-semibold text-[var(--text)]">{value}</p>
+                <p className="mt-2 text-sm leading-6 text-[var(--text-soft)]">{label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr),280px]">
+          <div className="section-frame p-0">
+            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--line)] px-5 py-4 sm:px-6">
+              <div>
+                <p className="text-xs uppercase tracking-[0.18em] text-[var(--panel-text-soft)]">Live portfolio</p>
+                <p className="mt-1 text-lg font-semibold text-[var(--panel-text)]">Southeast division dashboard</p>
+              </div>
+              <span className="tag-pill bg-[rgba(47,133,90,0.12)] text-[var(--accent-emerald)]">42 active jobs synced</span>
+            </div>
+
+            <div className="p-5 sm:p-6">
+              <div className="grid gap-3 sm:grid-cols-3">
+                {dashboardMetrics.map((metric) => (
+                  <div key={metric.label} className="metric-card">
+                    <div className="flex items-center justify-between gap-3">
+                      <p className="text-xs uppercase tracking-[0.16em] text-[var(--panel-text-soft)]">{metric.label}</p>
+                      <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: metric.accent }} />
+                    </div>
+                    <p className="mt-3 text-3xl font-semibold text-[var(--panel-text)]">{metric.value}</p>
+                    <p className="mt-2 text-sm text-[var(--panel-text-soft)]">{metric.detail}</p>
                   </div>
                 ))}
               </div>
 
-              <div className="mt-5 grid gap-4 xl:grid-cols-[1.08fr,0.92fr]">
-                <div className="rounded-[24px] border border-[var(--line)] bg-[rgba(255,253,249,0.88)] p-4">
-                  <div className="flex items-center justify-between">
+              <div className="mt-4 grid gap-4 lg:grid-cols-[1.08fr,0.92fr]">
+                <div className="surface-card p-4 sm:p-5">
+                  <div className="flex items-center justify-between gap-3">
                     <div>
-                      <p className="text-xs uppercase tracking-[0.18em] text-[var(--muted)]">Typical project support</p>
-                      <p className="mt-1 text-lg font-semibold text-[var(--ink)]">From idea to shipped interface</p>
+                      <p className="text-xs uppercase tracking-[0.18em] text-[var(--panel-text-soft)]">This week</p>
+                      <p className="mt-1 text-lg font-semibold text-[var(--panel-text)]">Aging pressure by job</p>
                     </div>
-                    <span className="rounded-full bg-[var(--panel-soft)] px-3 py-1 text-xs font-semibold text-[var(--ink-soft)]">Async friendly</span>
+                    <span className="tag-pill bg-[rgba(201,130,45,0.12)] text-[var(--accent-amber)]">Updated 6 min ago</span>
                   </div>
 
-                  <div className="mt-4 space-y-3">
-                    {[
-                      ['Landing pages', 'Marketing pages that feel sharp and intentional'],
-                      ['Product UI', 'Features, dashboards, flows, and internal tooling'],
-                      ['Frontend cleanup', 'Refactors, responsiveness, and performance fixes'],
-                      ['Shipping support', 'Handoffs, QA, polish, and release help'],
-                    ].map(([item, detail]) => (
-                      <div key={item} className="flex items-center justify-between rounded-2xl border border-[var(--line)] bg-[rgba(239,228,214,0.6)] px-3 py-3">
-                        <div>
-                          <p className="text-sm font-medium text-[var(--ink)]">{item}</p>
-                          <p className="text-xs uppercase tracking-[0.15em] text-[var(--muted)]">{detail}</p>
-                        </div>
-                        <span className="h-2.5 w-2.5 rounded-full bg-[var(--accent)]" />
-                      </div>
-                    ))}
+                  <div className="mt-4 rounded-[18px] border border-[var(--panel-line)] bg-white p-4">
+                    <svg
+                      aria-hidden="true"
+                      focusable="false"
+                      viewBox="0 0 320 170"
+                      className="h-[170px] w-full"
+                    >
+                      {[24, 56, 88, 120, 152].map((line) => (
+                        <line
+                          key={line}
+                          x1="0"
+                          x2="320"
+                          y1={line}
+                          y2={line}
+                          stroke="rgba(20,32,49,0.08)"
+                          strokeDasharray="4 6"
+                        />
+                      ))}
+                      <path
+                        d="M0,140 C30,128 60,124 90,106 C118,88 142,94 170,74 C196,56 224,62 252,48 C276,36 296,34 320,22"
+                        fill="none"
+                        stroke="#1f6bff"
+                        strokeWidth="4"
+                        strokeLinecap="round"
+                      />
+                      <path
+                        d="M0,140 C30,128 60,124 90,106 C118,88 142,94 170,74 C196,56 224,62 252,48 C276,36 296,34 320,22 L320,170 L0,170 Z"
+                        fill="rgba(31,107,255,0.08)"
+                      />
+                    </svg>
+                    <div className="mt-3 flex items-center justify-between text-xs uppercase tracking-[0.16em] text-[var(--panel-text-soft)]">
+                      <span>Mon</span>
+                      <span>Tue</span>
+                      <span>Wed</span>
+                      <span>Thu</span>
+                      <span>Fri</span>
+                      <span>Sat</span>
+                      <span>Sun</span>
+                    </div>
                   </div>
                 </div>
 
-                <div className="space-y-4">
-                  <div className="rounded-[24px] border border-[var(--line)] bg-[rgba(255,253,249,0.88)] p-4">
-                    <p className="text-xs uppercase tracking-[0.18em] text-[var(--muted)]">What teams value</p>
-                    <div className="mt-4 space-y-3">
-                      {[
-                        ['Fast, clear communication'],
-                        ['Strong UI judgment'],
-                        ['Ownership without hand-holding'],
-                      ].map(([item]) => (
-                        <div key={item} className="rounded-2xl border border-[var(--line)] bg-[rgba(239,228,214,0.56)] px-3 py-3">
-                          <p className="text-sm font-semibold text-[var(--ink)]">{item}</p>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="rounded-[24px] border border-[rgba(125,92,57,0.16)] bg-[linear-gradient(180deg,rgba(186,142,90,0.12),rgba(255,253,249,0.92))] p-4">
-                    <div className="flex items-center justify-between">
-                      <p className="text-xs uppercase tracking-[0.18em] text-[var(--muted)]">Working style</p>
-                      <span className="rounded-full bg-[rgba(255,253,249,0.86)] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--accent)]">
-                        Calm + direct
+                <div className="space-y-3">
+                  {projectRows.map((row) => (
+                    <div key={row.name} className="surface-card flex items-center justify-between gap-3 p-4">
+                      <div className="min-w-0">
+                        <p className="truncate text-sm font-semibold text-[var(--panel-text)]">{row.name}</p>
+                        <p className="mt-1 text-xs uppercase tracking-[0.15em] text-[var(--panel-text-soft)]">
+                          PM {row.owner} / {row.progress}
+                        </p>
+                      </div>
+                      <span className={`shrink-0 rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] ${statusStyles[row.status]}`}>
+                        {row.status}
                       </span>
                     </div>
-                    <p className="mt-3 text-sm leading-relaxed text-[var(--ink-soft)]">
-                      I work best with teams that value clarity, trust async communication, and want output they can actually
-                      ship.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-5 rounded-[24px] border border-[var(--line)] bg-[rgba(255,253,249,0.88)] p-4">
-                <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-                  <input
-                    type="email"
-                    placeholder="Enter your work email"
-                    className="min-w-0 flex-1 rounded-full border border-[var(--line)] bg-[rgba(239,228,214,0.56)] px-4 py-3 text-sm text-[var(--ink)] outline-none placeholder:text-[var(--muted)] focus:border-[var(--accent)]"
-                  />
-                  <button
-                    type="button"
-                    className="rounded-full bg-[var(--ink)] px-5 py-3 text-sm font-semibold text-[var(--panel-strong)] transition hover:bg-[#382c20]"
-                  >
-                    Start a conversation
-                  </button>
+                  ))}
                 </div>
               </div>
             </div>
           </div>
+
+          <aside className="surface-card flex flex-col gap-4 lg:mt-8">
+            <div className="space-y-2">
+              <p className="text-xs uppercase tracking-[0.18em] text-[var(--panel-text-soft)]">Weekly focus</p>
+              <h3 className="text-2xl font-semibold text-[var(--panel-text)]">Same-day follow-up for the items that move revenue.</h3>
+              <p className="text-sm leading-6 text-[var(--panel-text-soft)]">
+                ScopeBolt groups today&apos;s blockers by owner, due date, and billing impact so PMs know what to escalate first.
+              </p>
+            </div>
+
+            <div className="space-y-3">
+              {actionQueue.map(([item, detail]) => (
+                <div key={item} className="rounded-[18px] border border-[var(--panel-line)] bg-white px-4 py-4">
+                  <div className="flex items-center justify-between gap-3">
+                    <p className="text-sm font-semibold text-[var(--panel-text)]">{item}</p>
+                    <span className="tag-pill bg-[rgba(31,107,255,0.08)] text-[var(--accent)]">Auto</span>
+                  </div>
+                  <p className="mt-2 text-sm leading-6 text-[var(--panel-text-soft)]">{detail}</p>
+                </div>
+              ))}
+            </div>
+
+            <div className="rounded-[18px] border border-[var(--panel-line)] bg-[var(--surface-soft)] px-4 py-4">
+              <p className="text-sm font-semibold text-[var(--panel-text)]">2 jobs need same-day attention</p>
+              <p className="mt-2 text-sm leading-6 text-[var(--panel-text-soft)]">
+                Harbor Point Garage and Terminal B are the only active records that can still affect this billing cycle today.
+              </p>
+            </div>
+          </aside>
         </div>
       </div>
     </section>

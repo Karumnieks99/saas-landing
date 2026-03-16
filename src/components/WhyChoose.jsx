@@ -1,60 +1,142 @@
-const services = [
+const features = [
   {
-    title: 'Marketing pages',
-    copy: 'Landing pages, feature pages, pricing pages, and conversion-focused frontends that do not feel generic.',
+    key: 'capture',
+    label: 'Inbox capture',
+    title: 'Forward email. Open the right record.',
+    copy: 'ScopeBolt matches the job, document type, and thread context without another manual log.',
+    note: 'Less inbox cleanup',
   },
   {
-    title: 'Product UI',
-    copy: 'Dashboards, onboarding flows, internal tools, settings areas, and everyday app surfaces.',
+    key: 'aging',
+    label: 'Aging control',
+    title: 'See what is sitting too long.',
+    copy: 'PMs get one queue for overdue RFIs, stalled submittals, and slow approvals before the billing window closes.',
+    note: 'Protect billing cadence',
   },
   {
-    title: 'Frontend refactors',
-    copy: 'Cleanup work that improves maintainability, responsiveness, consistency, and shipping confidence.',
+    key: 'change',
+    label: 'Change orders',
+    title: 'Start COs when risk appears, not weeks later.',
+    copy: 'Capture backup early, attach pricing context, and keep status visible from first signal to approved value.',
+    note: 'Recover revenue faster',
   },
   {
-    title: 'Design implementation',
-    copy: 'Turning Figma into working UI with attention to spacing, states, accessibility, and real-world behavior.',
+    key: 'field',
+    label: 'Field input',
+    title: 'Give supers a simple way to flag scope change.',
+    copy: 'Photos, notes, and markups can flow in without asking the field to learn another heavyweight platform.',
+    note: 'Cleaner handoffs',
   },
   {
-    title: 'Shipping support',
-    copy: 'QA, polish, bug fixing, release help, and final passes that raise the quality bar before launch.',
+    key: 'exec',
+    label: 'Executive view',
+    title: 'Run weekly reviews from one source.',
+    copy: 'Project leaders see value at risk, items without owners, and what can still move this billing cycle.',
+    note: 'Faster escalation',
   },
   {
-    title: 'Ongoing remote support',
-    copy: 'Steady product contribution for teams that need a reliable developer without hiring full-time immediately.',
+    key: 'audit',
+    label: 'Audit trail',
+    title: 'Keep every reply and revision attached.',
+    copy: 'When timing or backup gets challenged, the full record is already organized for the PM and accounting team.',
+    note: 'GC-ready backup',
   },
 ];
 
+function FeatureIcon({ kind }) {
+  const iconProps = {
+    'aria-hidden': 'true',
+    className: 'h-5 w-5',
+    fill: 'none',
+    focusable: 'false',
+    viewBox: '0 0 24 24',
+  };
+
+  if (kind === 'capture') {
+    return (
+      <svg {...iconProps}>
+        <path d="M5 7h14v10H5z" stroke="currentColor" strokeWidth="1.8" />
+        <path d="m6 8 6 5 6-5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    );
+  }
+
+  if (kind === 'aging') {
+    return (
+      <svg {...iconProps}>
+        <circle cx="12" cy="12" r="7" stroke="currentColor" strokeWidth="1.8" />
+        <path d="M12 8v4l3 2" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    );
+  }
+
+  if (kind === 'change') {
+    return (
+      <svg {...iconProps}>
+        <path d="M6 8h12" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+        <path d="M6 16h7" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+        <path d="m14 13 4 3-4 3" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    );
+  }
+
+  if (kind === 'field') {
+    return (
+      <svg {...iconProps}>
+        <path d="M7 18V9l5-4 5 4v9" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+        <path d="M10 18v-4h4v4" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+      </svg>
+    );
+  }
+
+  if (kind === 'exec') {
+    return (
+      <svg {...iconProps}>
+        <path d="M5 18V9" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+        <path d="M12 18V6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+        <path d="M19 18v-4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+        <path d="M4 18h16" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+      </svg>
+    );
+  }
+
+  return (
+    <svg {...iconProps}>
+      <path d="M7 7h10v10H7z" stroke="currentColor" strokeWidth="1.8" />
+      <path d="M10 10h4M10 14h4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+    </svg>
+  );
+}
+
 export default function WhyChoose() {
   return (
-    <section id="services" className="space-y-8">
-      <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
-        <div className="space-y-2">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--muted)]">Services</p>
-          <h2 className="text-3xl font-semibold text-[var(--ink)] sm:text-4xl">The kind of work I am usually brought in to handle.</h2>
+    <section id="workflow" className="deferred-section space-y-8">
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+        <div className="space-y-4">
+          <div className="eyebrow select-ui-none">Core workflow</div>
+          <h2 className="section-heading max-w-3xl text-[var(--text)]">
+            Built around the exact handoffs where subcontractors lose context and margin.
+          </h2>
         </div>
-        <p className="max-w-xl text-sm leading-relaxed text-[var(--ink-soft)]">
-          Most often that means frontend-heavy work with product taste, strong implementation discipline, and enough
-          ownership to keep the team moving.
+        <p className="section-copy max-w-xl">
+          The product is narrow on purpose: capture the project signal, route it cleanly, and keep billing exposure visible.
         </p>
       </div>
 
-      <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-        {services.map((service, index) => (
-          <div
-            key={service.title}
-            className={`rounded-[28px] border p-6 shadow-[0_22px_50px_-40px_var(--shadow)] ${
-              index === 1 || index === 4
-                ? 'border-[rgba(125,92,57,0.18)] bg-[linear-gradient(180deg,rgba(186,142,90,0.1),rgba(255,253,249,0.96))]'
-                : 'border-[var(--line)] bg-[linear-gradient(180deg,#fffdf9,#f6ede1)]'
-            }`}
-          >
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-[var(--line)] bg-[rgba(239,228,214,0.64)] text-sm font-semibold text-[var(--accent)]">
-              0{index + 1}
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        {features.map((feature) => (
+          <article key={feature.title} className="surface-card flex h-full flex-col gap-4">
+            <div className="flex items-center justify-between gap-4">
+              <div className="flex h-12 w-12 items-center justify-center rounded-[14px] border border-[var(--line)] bg-[var(--surface-soft)] text-[var(--accent-strong)]">
+                <FeatureIcon kind={feature.key} />
+              </div>
+              <span className="tag-pill">{feature.label}</span>
             </div>
-            <h3 className="mt-5 text-xl font-semibold text-[var(--ink)]">{service.title}</h3>
-            <p className="mt-3 text-sm leading-relaxed text-[var(--ink-soft)]">{service.copy}</p>
-          </div>
+
+            <h3 className="text-[1.35rem] font-semibold leading-8 text-[var(--text)]">{feature.title}</h3>
+            <p className="text-sm leading-7 text-[var(--text-soft)]">{feature.copy}</p>
+            <p className="mt-auto text-sm font-semibold text-[var(--accent-cyan)]">{feature.note}</p>
+          </article>
         ))}
       </div>
     </section>

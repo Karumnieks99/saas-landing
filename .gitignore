@@ -1,8 +1,8 @@
 # Dependencies
-node_modules
+node_modules/
 
 # Production build
-dist
+dist/
 
 # Logs
 npm-debug.log*
@@ -17,5 +17,4 @@ Thumbs.db
 # Environment / local overrides
 .env
 .env.*
-node_modules
-dist
+*.local

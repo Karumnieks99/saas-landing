@@ -1,72 +1,87 @@
-const fit = ['Startups', 'SaaS teams', 'Agencies', 'Founders', 'Product leads', 'Remote-first teams'];
+const logos = [
+  'Ironcrest Interiors',
+  'Hartwell Mechanical',
+  'Pillar Glass',
+  'Signal Fire',
+  'Northshore Drywall',
+  'Arcwell Electric',
+];
 
-const points = [
+const metrics = [
+  ['24 days', 'average drop in CO billing lag'],
+  ['19%', 'more approved value captured'],
+  ['83%', 'fewer status-check emails'],
+];
+
+const testimonials = [
   {
-    title: 'Built for remote teams',
-    copy: 'I work well inside async environments where updates need to be clear, decisions documented, and momentum maintained without constant calls.',
+    quote: 'We stopped learning about approved COs after the billing cutoff had already passed.',
+    name: 'Jared Holmes',
+    role: 'Director of Operations',
+    company: 'Northgate Mechanical',
+    result: '$312k surfaced in the first quarter',
   },
   {
-    title: 'Product and implementation',
-    copy: 'The value is not just writing code. It is making the right tradeoffs, keeping the UI sharp, and finishing the work properly.',
+    quote: 'Inbox capture paid for itself. Bulletins and markups finally land on the right job without side-thread cleanup.',
+    name: 'Olivia Tran',
+    role: 'VP, Project Delivery',
+    company: 'Vector Interiors',
+    result: '31% faster RFI response time',
+  },
+  {
+    quote: 'Our executive review shifted from status hunting to deciding which owners need escalation this week.',
+    name: 'Marcus Lee',
+    role: 'CFO',
+    company: 'Beacon Electric',
+    result: '2 fewer billing slips per month',
   },
 ];
 
 export default function SocialProof() {
   return (
-    <section id="about" className="space-y-8">
-      <div className="rounded-[32px] border border-[var(--line)] bg-[linear-gradient(180deg,rgba(255,253,249,0.96),rgba(241,232,219,0.82))] p-7 shadow-[0_26px_60px_-42px_var(--shadow)]">
-        <p className="text-center text-xs font-semibold uppercase tracking-[0.24em] text-[var(--muted)]">
-          Best fit for teams like
-        </p>
-        <div className="mt-6 grid gap-3 sm:grid-cols-3 lg:grid-cols-6">
-          {fit.map((item) => (
-            <div
-              key={item}
-              className="rounded-2xl border border-[var(--line)] bg-[rgba(255,253,249,0.84)] px-4 py-4 text-center text-sm font-semibold text-[var(--ink-soft)]"
-            >
-              {item}
+    <section id="proof" className="space-y-8">
+      <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+        <div className="max-w-2xl space-y-4">
+          <div className="eyebrow select-ui-none">Proof and trust</div>
+          <h2 className="section-heading max-w-3xl text-[var(--text)]">
+            Teams buy ScopeBolt when inbox chaos starts delaying billing.
+          </h2>
+          <p className="section-copy">
+            The value shows up when PMs stop rebuilding context from Outlook threads, PDF folders, and separate CO logs.
+          </p>
+        </div>
+
+        <div className="grid gap-3 sm:grid-cols-3">
+          {metrics.map(([value, label]) => (
+            <div key={value} className="metric-card min-w-[180px]">
+              <p className="text-3xl font-semibold text-[var(--text)]">{value}</p>
+              <p className="mt-2 text-sm leading-6 text-[var(--text-soft)]">{label}</p>
             </div>
           ))}
         </div>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-[0.88fr,1.12fr]">
-        <div className="rounded-[30px] border border-[var(--line)] bg-[var(--panel)] p-7 shadow-[0_26px_60px_-42px_var(--shadow)]">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--muted)]">Positioning</p>
-          <h2 className="mt-3 text-3xl font-semibold text-[var(--ink)] sm:text-4xl">I am most useful when a team needs someone who can quietly take responsibility and ship.</h2>
-          <p className="mt-4 max-w-xl text-base leading-relaxed text-[var(--ink-soft)]">
-            That usually means moving quickly, communicating clearly, and making thoughtful decisions without creating more
-            process than the team needs.
-          </p>
-
-          <div className="mt-6 grid gap-3 sm:grid-cols-3">
-            {[
-              ['Remote', 'comfortable with async work and overlap windows'],
-              ['Frontend', 'React, UI systems, landing pages, product surfaces'],
-              ['Reliable', 'clean delivery, strong finish, low noise'],
-            ].map(([value, label]) => (
-              <div key={value} className="rounded-[22px] border border-[var(--line)] bg-[rgba(255,253,249,0.88)] p-4">
-                <p className="text-2xl font-semibold text-[var(--ink)]">{value}</p>
-                <p className="mt-2 text-sm text-[var(--ink-soft)]">{label}</p>
-              </div>
-            ))}
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+        {logos.map((logo) => (
+          <div key={logo} className="logo-pill select-ui-none">
+            {logo}
           </div>
-        </div>
+        ))}
+      </div>
 
-        <div className="grid gap-4 md:grid-cols-2">
-          {points.map((point) => (
-            <div
-              key={point.title}
-              className="rounded-[30px] border border-[var(--line)] bg-[linear-gradient(180deg,#fffdf9,#f4eadc)] p-7 shadow-[0_26px_60px_-44px_var(--shadow)]"
-            >
-              <div className="inline-flex rounded-full border border-[var(--line)] bg-[rgba(255,253,249,0.76)] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">
-                Why it works
-              </div>
-              <p className="mt-5 text-lg leading-relaxed text-[var(--ink)]">{point.title}</p>
-              <p className="mt-4 text-sm leading-relaxed text-[var(--ink-soft)]">{point.copy}</p>
+      <div className="grid gap-4 lg:grid-cols-3">
+        {testimonials.map((testimonial) => (
+          <article key={testimonial.name} className="surface-card flex h-full flex-col gap-5">
+            <span className="tag-pill bg-[rgba(31,107,255,0.08)] text-[var(--accent-strong)]">{testimonial.result}</span>
+            <p className="text-base leading-7 text-[var(--text)]">&ldquo;{testimonial.quote}&rdquo;</p>
+            <div className="mt-auto">
+              <p className="text-sm font-semibold text-[var(--text)]">{testimonial.name}</p>
+              <p className="mt-1 text-sm text-[var(--text-soft)]">
+                {testimonial.role}, {testimonial.company}
+              </p>
             </div>
-          ))}
-        </div>
+          </article>
+        ))}
       </div>
     </section>
   );
