@@ -510,24 +510,28 @@
   .button-ghost {
     display: block;
     width: 100%;
-    border-radius: 0;
-    background: transparent;
-    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.88);
+    border: 1px solid rgba(16, 32, 51, 0.14);
     color: var(--text);
-    font-weight: 500;
+    font-weight: 600;
     font-size: 0.875rem;
     text-align: center;
     padding: 0.75rem 1.5rem;
-    box-shadow: none;
+    box-shadow:
+      0 10px 24px -20px var(--shadow),
+      0 1px 0 rgba(255, 255, 255, 0.82) inset;
     cursor: pointer;
-    transition: border-color 0.15s ease, background 0.15s ease;
+    transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
   }
 
   .button-ghost:hover {
     border-color: var(--text-soft);
     background: var(--surface-strong);
     transform: none;
-    box-shadow: none;
+    box-shadow:
+      0 12px 28px -20px var(--shadow),
+      0 1px 0 rgba(255, 255, 255, 0.92) inset;
   }
 
   /* Primary button */
