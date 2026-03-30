@@ -469,13 +469,65 @@
     flex-direction: column;
     align-items: center;
     gap: 0.75rem;
+    width: 100%;
+    max-width: 20rem;
+    margin-left: auto;
+    margin-right: auto;
   }
 
-  @media (min-width: 640px) {
-    .hero-cta-row {
-      flex-direction: row;
-      justify-content: center;
-    }
+  .hero-cta-button {
+    display: inline-flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--line);
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    color: var(--text);
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.25rem;
+    padding: 0.625rem 1.5rem;
+    text-align: center;
+    transform: none;
+    transition: border-color 0.18s ease, background-color 0.18s ease;
+  }
+
+  .hero-cta-button:hover {
+    border-color: var(--text-soft);
+    background: var(--surface-strong);
+    box-shadow: none;
+    transform: none;
+  }
+
+  .hero-cta-button:focus-visible {
+    outline: none;
+    border-color: var(--text-soft);
+    background: var(--surface-strong);
+  }
+
+  .button-ghost {
+    display: block;
+    width: 100%;
+    border-radius: 0;
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--text);
+    font-weight: 500;
+    font-size: 0.875rem;
+    text-align: center;
+    padding: 0.75rem 1.5rem;
+    box-shadow: none;
+    cursor: pointer;
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+
+  .button-ghost:hover {
+    border-color: var(--text-soft);
+    background: var(--surface-strong);
+    transform: none;
+    box-shadow: none;
   }
 
   /* Primary button */

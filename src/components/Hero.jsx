@@ -78,14 +78,11 @@ export default function Hero() {
             before the cycle closes.
           </p>
 
-          <div className="hero-cta-row mt-10">
-            <a href="#demo" className="button-primary px-6">
+          <div className="mt-10 w-full max-w-xs mx-auto flex flex-col gap-3">
+            <a href="#demo" className="button-ghost w-full">
               Book walkthrough
-              <span className="button-icon" aria-hidden="true">
-                &rarr;
-              </span>
             </a>
-            <a href="#pricing" className="button-secondary px-6">
+            <a href="#pricing" className="button-ghost w-full">
               Review pricing
             </a>
           </div>
