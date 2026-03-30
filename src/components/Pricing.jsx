@@ -73,7 +73,7 @@ export default function Pricing() {
                 <h3 className="text-2xl font-semibold text-[var(--text)]">{plan.name}</h3>
                 <p className="mt-2 text-sm font-semibold text-[var(--accent-cyan)]">{plan.audience}</p>
               </div>
-              {plan.highlight && <span className="tag-pill bg-[rgba(31,107,255,0.08)] text-[var(--accent)]">Most popular</span>}
+              {plan.highlight && <span className="tag-pill">Most popular</span>}
             </div>
 
             <p className="mt-4 text-sm leading-7 text-[var(--text-soft)]">{plan.description}</p>

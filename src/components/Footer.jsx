@@ -24,11 +24,14 @@ export default function Footer() {
 
   return (
     <footer id="contact" className="deferred-section mt-8 border-t border-[var(--line)] bg-[var(--bg)]">
-      <div className="mx-auto grid max-w-[1200px] gap-10 px-4 py-14 sm:px-6 lg:grid-cols-[1.15fr,0.75fr,0.8fr,1fr] lg:px-8">
+      <div className="mx-auto grid max-w-[1440px] gap-10 px-4 py-14 sm:px-6 lg:grid-cols-[1.15fr,0.75fr,0.8fr,1fr] lg:px-8">
         <div className="space-y-5">
           <a href="#hero" className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-[10px] bg-[var(--accent)] text-sm font-bold uppercase tracking-[0.12em] text-white">
-              SB
+            <div className="grid h-10 w-10 grid-cols-2 gap-1 rounded-[14px] border border-[var(--line)] bg-[rgba(255,255,255,0.42)] p-1.5">
+              <span className="rounded-[4px] bg-[var(--accent)]" />
+              <span className="rounded-[4px] bg-[var(--text)]" />
+              <span className="rounded-[4px] bg-[var(--text)]" />
+              <span className="rounded-[4px] bg-[var(--accent)]" />
             </div>
             <div>
               <p className="text-lg font-semibold text-[var(--text)]">ScopeBolt</p>
@@ -65,7 +68,7 @@ export default function Footer() {
         </div>
 
         <nav aria-label="Product links">
-          <p className="text-sm font-semibold uppercase tracking-[0.16em] text-[var(--muted)]">Product</p>
+          <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--muted)]">Product</p>
           <div className="mt-4 flex flex-col gap-3 text-sm text-[var(--text-soft)]">
             {productLinks.map((link) => (
               <a key={link.label} href={link.href} className="transition hover:text-[var(--text)]">
@@ -77,7 +80,7 @@ export default function Footer() {
 
         <div className="space-y-8">
           <nav aria-label="Company links">
-            <p className="text-sm font-semibold uppercase tracking-[0.16em] text-[var(--muted)]">Company</p>
+            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--muted)]">Company</p>
             <div className="mt-4 flex flex-col gap-3 text-sm text-[var(--text-soft)]">
               {companyLinks.map((link) => (
                 <a key={link.label} href={link.href} className="transition hover:text-[var(--text)]">
@@ -88,7 +91,7 @@ export default function Footer() {
           </nav>
 
           <nav aria-label="Legal links">
-            <p className="text-sm font-semibold uppercase tracking-[0.16em] text-[var(--muted)]">Legal</p>
+            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--muted)]">Legal</p>
             <div className="mt-4 flex flex-col gap-3 text-sm text-[var(--text-soft)]">
               {legalLinks.map((link) => (
                 <a key={link.label} href={link.href} className="transition hover:text-[var(--text)]">
@@ -100,7 +103,7 @@ export default function Footer() {
         </div>
 
         <div className="section-frame px-5 py-5">
-          <p className="text-xs uppercase tracking-[0.18em] text-[var(--panel-text-soft)]">Talk to the team</p>
+          <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--panel-text-soft)]">Talk to the team</p>
           <h3 className="mt-2 text-2xl font-semibold text-[var(--panel-text)]">
             Want to see how ScopeBolt would fit your current jobs?
           </h3>
@@ -111,6 +114,9 @@ export default function Footer() {
           <div className="mt-5 flex flex-col gap-3">
             <a href="mailto:hello@scopebolt.com?subject=ScopeBolt%20Walkthrough" className="button-primary w-full">
               Book walkthrough
+              <span className="button-icon" aria-hidden="true">
+                &rarr;
+              </span>
             </a>
             <a href="mailto:hello@scopebolt.com?subject=ScopeBolt%20Rollout%20Question" className="button-secondary w-full">
               Ask about rollout
@@ -121,7 +127,7 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="mx-auto flex max-w-[1320px] flex-col gap-4 border-t border-[var(--line)] px-4 py-5 text-sm text-[var(--muted)] sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
+      <div className="mx-auto flex max-w-[1440px] flex-col gap-4 border-t border-[var(--line)] px-4 py-5 text-sm text-[var(--muted)] sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
         <p>&copy; {currentYear} ScopeBolt. All rights reserved.</p>
         <div className="flex flex-wrap gap-4">
           <a className="transition hover:text-[var(--text)]" href="#hero">

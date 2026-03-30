@@ -7,9 +7,9 @@ const callItems = [
 export default function CTASection() {
   return (
     <section id="demo" className="deferred-section">
-      <div className="section-frame">
-        <div className="grid gap-8 lg:grid-cols-[1fr,0.82fr] lg:items-center">
-          <div>
+      <div className="section-frame p-0">
+        <div className="grid gap-px bg-[var(--line)] lg:grid-cols-[1fr,0.82fr] lg:items-center">
+          <div className="bg-[var(--surface-strong)] p-5 sm:p-6 lg:p-8">
             <div className="eyebrow select-ui-none">Final CTA</div>
             <h2 className="mt-4 section-heading max-w-3xl text-[var(--text)]">
               Bring one active project. We&apos;ll show you where margin is slipping.
@@ -22,6 +22,9 @@ export default function CTASection() {
             <div className="mt-6 flex flex-col gap-3 sm:flex-row">
               <a href="mailto:hello@scopebolt.com?subject=ScopeBolt%20Walkthrough" className="button-primary px-6">
                 Book walkthrough
+                <span className="button-icon" aria-hidden="true">
+                  &rarr;
+                </span>
               </a>
               <a href="#pricing" className="button-secondary px-6">
                 Review pricing
@@ -35,31 +38,33 @@ export default function CTASection() {
             </div>
           </div>
 
-          <div className="surface-card">
-            <p className="text-xs uppercase tracking-[0.18em] text-[var(--panel-text-soft)]">What happens in the call</p>
-            <h3 className="mt-2 text-2xl font-semibold text-[var(--panel-text)]">
-              You leave with a rollout plan tied to your current jobs.
-            </h3>
+          <div className="bg-[var(--surface-strong)] p-5 sm:p-6 lg:p-8">
+            <div className="demo-screen p-5">
+              <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--panel-text-soft)]">What happens in the call</p>
+              <h3 className="mt-2 text-2xl font-semibold text-[var(--panel-text)]">
+                You leave with a rollout plan tied to your current jobs.
+              </h3>
 
-            <div className="mt-5 space-y-3">
-              {callItems.map((item, index) => (
-                <div key={item} className="flex items-start gap-4 rounded-[18px] border border-[var(--panel-line)] bg-white px-4 py-4">
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[12px] bg-[rgba(31,107,255,0.08)] text-sm font-semibold text-[var(--accent)]">
-                    0{index + 1}
+              <div className="mt-5 space-y-3">
+                {callItems.map((item, index) => (
+                  <div key={item} className="flex items-start gap-4 rounded-[18px] border border-[var(--panel-line)] bg-white px-4 py-4">
+                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[var(--accent-surface)] text-sm font-semibold text-[var(--accent)]">
+                      0{index + 1}
+                    </div>
+                    <p className="text-sm leading-6 text-[var(--panel-text)]">{item}</p>
                   </div>
-                  <p className="text-sm leading-6 text-[var(--panel-text)]">{item}</p>
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-5 grid gap-3 sm:grid-cols-2">
-              <div className="metric-card">
-                <p className="text-xs uppercase tracking-[0.16em] text-[var(--panel-text-soft)]">Average rollout</p>
-                <p className="mt-2 text-3xl font-semibold text-[var(--panel-text)]">10 days</p>
+                ))}
               </div>
-              <div className="metric-card">
-                <p className="text-xs uppercase tracking-[0.16em] text-[var(--panel-text-soft)]">Median first-month impact</p>
-                <p className="mt-2 text-3xl font-semibold text-[var(--panel-text)]">$18.4k</p>
+
+              <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                <div className="metric-card">
+                  <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--panel-text-soft)]">Average rollout</p>
+                  <p className="mt-2 text-3xl font-semibold text-[var(--panel-text)]">10 days</p>
+                </div>
+                <div className="metric-card">
+                  <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--panel-text-soft)]">Median first-month impact</p>
+                  <p className="mt-2 text-3xl font-semibold text-[var(--panel-text)]">$18.4k</p>
+                </div>
               </div>
             </div>
           </div>

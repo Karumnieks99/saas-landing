@@ -46,6 +46,8 @@
     --accent-emerald: #2a7a58;
     --accent-amber: #b77a2d;
     --accent-rose: #b45367;
+    --accent-surface: rgba(31, 107, 255, 0.08);
+    --tone-surface: rgba(16, 32, 51, 0.06);
     --panel: #ffffff;
     --panel-soft: #f5f8fb;
     --panel-muted: rgba(245, 248, 251, 0.98);
@@ -130,6 +132,10 @@
 }
 
 @layer components {
+  .page-shell {
+    position: relative;
+  }
+
   .skip-link {
     position: absolute;
     left: 1rem;
@@ -166,35 +172,149 @@
     box-shadow: 0 16px 40px -36px var(--shadow);
   }
 
-  .eyebrow {
-    @apply inline-flex w-fit items-center gap-2 rounded-full border px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em];
-    border-color: rgba(31, 107, 255, 0.14);
-    background: rgba(31, 107, 255, 0.08);
-    color: var(--accent-strong);
-  }
-
-  .tag-pill {
-    @apply inline-flex w-fit items-center rounded-full border px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em];
-    border-color: var(--line);
-    background: rgba(255, 255, 255, 0.72);
-    color: var(--text-soft);
-  }
-
   .metric-card {
     @apply rounded-[18px] border p-4 sm:p-5;
     border-color: var(--line);
     background: var(--surface-soft);
   }
 
+  .eyebrow {
+     font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+  opacity: 0.65;
+  }
+
+  /* ─── Hero headline ───────────────────────────────────────────── */
+/* Tighten only the accent span for a tighter optical pair */
+.hero-headline-accent {
+  display: block;
+  color: var(--accent);
+  /* Slightly tighter tracking for contrast with the neutral line */
+  letter-spacing: -0.01em;
+}
+
+/* ─── CTA cluster ─────────────────────────────────────────────── */
+.hero-cta-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .hero-cta-row {
+    flex-direction: row;
+    justify-content: center;
+  }
+}
+
+  .hero-badge {
+    @apply inline-flex w-fit items-center gap-2 rounded-full border px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em];
+    border-color: rgba(46, 181, 46, 0.18);
+    background: rgba(46, 181, 46, 0.07);
+    color: var(--accent-emerald);
+    box-shadow: 0 0 0 3 rgba(46, 181, 46, 0.06);
+  }
+
+  .hero-badge::before {
+    content: '';
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 999px;
+    background: var(--accent-emerald);
+    box-shadow: 0 0 6px  2px rgba(46, 181, 46, 0.55);
+    animation: pulse-dot 2.4s ease-in-out infinite;
+  }
+
+    @keyframes pulse-dot {
+  0%, 100% { opacity: 1; box-shadow: 0 0 6px 2px rgba(46, 181, 46, 0.55); }
+  50%       { opacity: 0.6; box-shadow: 0 0 10px 4px rgba(46, 181, 46, 0.25); }
+}
+
+/* Tag pills — tighten and refine */
+  .tag-pill {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  background: var(--surface-strong);
+  border: 1px solid var(--line);
+  color: var(--text-soft);
+  white-space: nowrap;
+}
+
+/* ─── Separator line before signal cards ─────────────────────── */
+.hero-signal-strip {
+  border-top: 1px solid var(--line);
+  background: var(--line); /* fills the gap between cards */
+  display: grid;
+  gap: 1px;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .hero-signal-strip {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ─── Signal cards ────────────────────────────────────────────── */
+.hero-signal-card {
+  background: var(--surface-strong);
+  padding: 1.5rem 1.25rem;
+  transition: background 0.16s ease;
+}
+
+@media (min-width: 640px) {
+  .hero-signal-card { padding: 1.75rem 1.5rem; }
+}
+
+.hero-signal-card:hover {
+  background: var(--surface); /* lift on hover */
+}
+
+.hero-signal-card h3 {
+  margin-top: 1.25rem;
+  font-size: 1rem;
+  font-weight: 650; /* if your stack supports variable fonts; else 700 */
+  line-height: 1.3;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+
+.hero-signal-card p {
+  margin-top: 0.6rem;
+  font-size: 0.83rem;
+  line-height: 1.75;
+  color: var(--text-soft);
+  max-width: 30ch;
+} 
+
+  .mono-meta {
+    @apply text-[11px] font-semibold uppercase tracking-[0.18em];
+    color: var(--muted);
+  }
+
+/* Primary button — make it visually heavier */
   .button-primary {
-    @apply inline-flex items-center justify-center rounded-full px-5 py-2.5 text-sm font-semibold transition duration-200;
-    background: var(--accent);
-    color: #f8fbff;
-    box-shadow: 0 14px 28px -18px rgba(31, 107, 255, 0.65);
+    position: relative;
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.18),
+    0 0 0 1px rgba(46, 181, 46, 0.35),
+    0 4px 16px -4px rgba(46, 181, 46, 0.4);
+  transition: box-shadow 0.18s ease, transform 0.14s ease;
   }
 
   .button-primary:hover {
-    background: #1659d1;
+     transform: translateY(-1px);
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.22),
+    0 0 0 1px rgba(46, 181, 46, 0.45),
+    0 8px 24px -4px rgba(46, 181, 46, 0.5);
   }
 
   .button-secondary {
@@ -206,6 +326,18 @@
 
   .button-secondary:hover {
     background: var(--surface-soft);
+  }
+
+  .button-icon {
+    @apply inline-flex items-center justify-center rounded-[10px] px-2 py-1 text-xs font-semibold;
+    min-width: 1.9rem;
+    background: rgba(255, 255, 255, 0.18);
+    color: currentColor;
+    transition: transform 180ms ease;
+  }
+
+  .button-primary:hover .button-icon {
+    transform: translateX(2px);
   }
 
   .section-heading {
@@ -224,6 +356,37 @@
     color: var(--text-soft);
   }
 
+  .hero-shell {
+     position: relative;
+  overflow: hidden;
+  }
+
+  .hero-shell::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 70% 45% at 50% 10%,
+    rgba(46, 181, 46, 0.055) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+  .trust-strip {
+    @apply flex flex-col gap-4 rounded-[20px] border px-5 py-5 lg:flex-row lg:items-center lg:justify-between lg:px-6;
+    border-color: var(--line);
+    background: rgba(255, 255, 255, 0.76);
+    box-shadow: 0 16px 40px -36px var(--shadow);
+  }
+
+  .demo-screen {
+    @apply rounded-[18px] border;
+    border-color: var(--panel-line);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(245, 248, 251, 0.95));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  }
+
   .glass-card,
   .glass-subcard,
   .kpi-tile {
@@ -231,6 +394,182 @@
     border-color: var(--line);
     background: rgba(255, 255, 255, 0.82);
     box-shadow: 0 16px 40px -36px var(--shadow);
+  }
+
+  /* Hero badge */
+  .hero-badge {
+    @apply inline-flex w-fit items-center gap-2 rounded-full border px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em];
+    border-color: rgba(46, 181, 46, 0.18);
+    background: rgba(46, 181, 46, 0.07);
+    color: var(--accent-emerald);
+    box-shadow: 0 0 0 3px rgba(46, 181, 46, 0.06);
+  }
+
+  .hero-badge::before {
+    content: '';
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 999px;
+    background: var(--accent-emerald);
+    box-shadow: 0 0 6px 2px rgba(46, 181, 46, 0.55);
+    animation: pulse-dot 2.4s ease-in-out infinite;
+  }
+
+  @keyframes pulse-dot {
+    0%,
+    100% {
+      opacity: 1;
+      box-shadow: 0 0 6px 2px rgba(46, 181, 46, 0.55);
+    }
+
+    50% {
+      opacity: 0.6;
+      box-shadow: 0 0 10px 4px rgba(46, 181, 46, 0.25);
+    }
+  }
+
+  /* Hero shell / atmosphere */
+  .hero-shell {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-shell::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      ellipse 70% 45% at 50% 10%,
+      rgba(46, 181, 46, 0.055) 0%,
+      transparent 70%
+    );
+    pointer-events: none;
+  }
+
+  /* Eyebrow */
+  .eyebrow {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-soft);
+    opacity: 0.65;
+  }
+
+  /* Hero headline */
+  .hero-headline-accent {
+    display: block;
+    color: var(--accent);
+    letter-spacing: -0.01em;
+  }
+
+  /* CTA cluster */
+  .hero-cta-row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  @media (min-width: 640px) {
+    .hero-cta-row {
+      flex-direction: row;
+      justify-content: center;
+    }
+  }
+
+  /* Primary button */
+  .button-primary {
+    position: relative;
+    box-shadow:
+      0 1px 3px rgba(0, 0, 0, 0.18),
+      0 0 0 1px rgba(46, 181, 46, 0.35),
+      0 4px 16px -4px rgba(46, 181, 46, 0.4);
+    transition: box-shadow 0.18s ease, transform 0.14s ease;
+  }
+
+  .button-primary:hover {
+    transform: translateY(-1px);
+    box-shadow:
+      0 2px 6px rgba(0, 0, 0, 0.22),
+      0 0 0 1px rgba(46, 181, 46, 0.45),
+      0 8px 24px -4px rgba(46, 181, 46, 0.5);
+  }
+
+  /* Divider between CTA row and tag pills */
+  .hero-tags-divider {
+    width: 1px;
+    height: 1.25rem;
+    background: var(--line);
+    display: none;
+  }
+
+  @media (min-width: 640px) {
+    .hero-tags-divider {
+      display: block;
+    }
+  }
+
+  /* Tag pills */
+  .tag-pill {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    padding: 0.3rem 0.75rem;
+    border-radius: 999px;
+    background: var(--surface-strong);
+    border: 1px solid var(--line);
+    color: var(--text-soft);
+    white-space: nowrap;
+  }
+
+  /* Separator line before signal cards */
+  .hero-signal-strip {
+    border-top: 1px solid var(--line);
+    background: var(--line);
+    display: grid;
+    gap: 1px;
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 768px) {
+    .hero-signal-strip {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  /* Signal cards */
+  .hero-signal-card {
+    background: var(--surface-strong);
+    padding: 1.5rem 1.25rem;
+    transition: background 0.16s ease;
+  }
+
+  @media (min-width: 640px) {
+    .hero-signal-card {
+      padding: 1.75rem 1.5rem;
+    }
+  }
+
+  .hero-signal-card:hover {
+    background: var(--surface);
+  }
+
+  .hero-signal-card h3 {
+    margin-top: 1.25rem;
+    font-size: 1rem;
+    font-weight: 650;
+    line-height: 1.3;
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
+
+  .hero-signal-card p {
+    margin-top: 0.6rem;
+    font-size: 0.83rem;
+    line-height: 1.75;
+    color: var(--text-soft);
+    max-width: 30ch;
   }
 }
 

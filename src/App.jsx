@@ -12,16 +12,19 @@ import Footer from './components/Footer';
 
 export default function App() {
   return (
-    <div className="min-h-screen overflow-x-clip bg-[var(--bg)] text-[var(--text)]">
+    <div className="page-shell min-h-screen overflow-x-clip bg-[var(--bg)] text-[var(--text)]">
       <a href="#main-content" className="skip-link">
         Skip to content
       </a>
       <Navbar />
-      <main id="main-content" className="mx-auto flex max-w-[1200px] flex-col gap-16 px-4 pb-20 pt-6 sm:px-6 lg:gap-24 lg:px-8 lg:pt-8">
+      <main
+        id="main-content"
+        className="mx-auto flex w-full max-w-[1440px] flex-col gap-6 px-3 pb-24 pt-4 sm:px-4 lg:px-6 lg:pt-6"
+      >
         <Hero />
         <SocialProof />
-        <WhyChoose />
         <Intro />
+        <WhyChoose />
         <Process />
         <Integrations />
         <Pricing />

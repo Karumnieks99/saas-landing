@@ -43,6 +43,12 @@ const features = [
   },
 ];
 
+const summaryNotes = [
+  'ScopeBolt is narrow on purpose: it focuses on the approval and billing chain where margin gets lost.',
+  'The product is designed to learn from real examples and then standardize the next handoff cleanly.',
+  'Every record keeps owner, history, attachments, and billing readiness in the same place.',
+];
+
 function FeatureIcon({ kind }) {
   const iconProps = {
     'aria-hidden': 'true',
@@ -110,10 +116,10 @@ function FeatureIcon({ kind }) {
 
 export default function WhyChoose() {
   return (
-    <section id="workflow" className="deferred-section space-y-8">
+    <section id="workflow" className="deferred-section space-y-6">
       <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
         <div className="space-y-4">
-          <div className="eyebrow select-ui-none">Core workflow</div>
+          <div className="eyebrow select-ui-none">Workflow understanding</div>
           <h2 className="section-heading max-w-3xl text-[var(--text)]">
             Built around the exact handoffs where subcontractors lose context and margin.
           </h2>
@@ -123,21 +129,46 @@ export default function WhyChoose() {
         </p>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-        {features.map((feature) => (
-          <article key={feature.title} className="surface-card flex h-full flex-col gap-4">
-            <div className="flex items-center justify-between gap-4">
-              <div className="flex h-12 w-12 items-center justify-center rounded-[14px] border border-[var(--line)] bg-[var(--surface-soft)] text-[var(--accent-strong)]">
-                <FeatureIcon kind={feature.key} />
-              </div>
-              <span className="tag-pill">{feature.label}</span>
-            </div>
+      <div className="section-frame p-0">
+        <div className="grid gap-px bg-[var(--line)] xl:grid-cols-[0.78fr,1.22fr]">
+          <div className="bg-[var(--surface-strong)] p-5 sm:p-6 lg:p-8">
+            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--muted)]">Why this workflow works</p>
+            <h3 className="mt-4 max-w-xl text-[2rem] font-semibold leading-[1] text-[var(--text)] sm:text-[2.5rem]">
+              ScopeBolt fits the way PMs, estimators, and accounting already coordinate.
+            </h3>
+            <p className="mt-4 max-w-xl text-sm leading-7 text-[var(--text-soft)]">
+              The product does not try to become a massive PM suite. It standardizes the messy middle: intake, assignment,
+              aging, follow-up, and billing-ready support.
+            </p>
 
-            <h3 className="text-[1.35rem] font-semibold leading-8 text-[var(--text)]">{feature.title}</h3>
-            <p className="text-sm leading-7 text-[var(--text-soft)]">{feature.copy}</p>
-            <p className="mt-auto text-sm font-semibold text-[var(--accent-cyan)]">{feature.note}</p>
-          </article>
-        ))}
+            <div className="mt-8 space-y-3">
+              {summaryNotes.map((note) => (
+                <div key={note} className="rounded-[18px] border border-[var(--panel-line)] bg-[rgba(255,255,255,0.56)] px-4 py-4">
+                  <p className="text-sm leading-7 text-[var(--panel-text)]">{note}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="bg-[var(--surface-strong)]">
+            <div className="grid gap-px bg-[var(--line)] md:grid-cols-2 xl:grid-cols-3">
+              {features.map((feature) => (
+                <article key={feature.title} className="flex h-full flex-col gap-4 bg-[var(--surface-strong)] px-5 py-5">
+                  <div className="flex items-center justify-between gap-4">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-[14px] border border-[var(--line)] bg-[var(--surface-soft)] text-[var(--accent-strong)]">
+                      <FeatureIcon kind={feature.key} />
+                    </div>
+                    <span className="tag-pill">{feature.label}</span>
+                  </div>
+
+                  <h3 className="text-[1.2rem] font-semibold leading-7 text-[var(--text)]">{feature.title}</h3>
+                  <p className="text-sm leading-7 text-[var(--text-soft)]">{feature.copy}</p>
+                  <p className="mt-auto font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--accent)]">{feature.note}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );

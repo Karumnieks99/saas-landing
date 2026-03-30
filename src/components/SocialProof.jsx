@@ -39,40 +39,45 @@ const testimonials = [
 
 export default function SocialProof() {
   return (
-    <section id="proof" className="space-y-8">
-      <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
-        <div className="max-w-2xl space-y-4">
+    <section id="proof" className="deferred-section space-y-6">
+      <div className="trust-strip">
+        <span className="mono-meta shrink-0">Trusted by teams working through:</span>
+        <div className="flex flex-wrap items-center gap-x-6 gap-y-3 lg:justify-end">
+          {logos.map((logo) => (
+            <span key={logo} className="logo-pill select-ui-none">
+              {logo}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      <div className="grid gap-6 lg:grid-cols-[0.78fr,1.22fr] lg:items-end">
+        <div className="space-y-4">
           <div className="eyebrow select-ui-none">Proof and trust</div>
           <h2 className="section-heading max-w-3xl text-[var(--text)]">
-            Teams buy ScopeBolt when inbox chaos starts delaying billing.
+            The payoff shows up when inbox cleanup stops driving the week.
           </h2>
           <p className="section-copy">
-            The value shows up when PMs stop rebuilding context from Outlook threads, PDF folders, and separate CO logs.
+            The teams that buy ScopeBolt are usually already running solid jobs. What breaks first is the handoff between PM,
+            estimating, approvals, and billing support.
           </p>
         </div>
 
-        <div className="grid gap-3 sm:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-3">
           {metrics.map(([value, label]) => (
             <div key={value} className="metric-card min-w-[180px]">
-              <p className="text-3xl font-semibold text-[var(--text)]">{value}</p>
-              <p className="mt-2 text-sm leading-6 text-[var(--text-soft)]">{label}</p>
+              <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--muted)]">Impact</p>
+              <p className="mt-4 text-4xl font-semibold text-[var(--text)]">{value}</p>
+              <p className="mt-3 text-sm leading-7 text-[var(--text-soft)]">{label}</p>
             </div>
           ))}
         </div>
       </div>
 
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
-        {logos.map((logo) => (
-          <div key={logo} className="logo-pill select-ui-none">
-            {logo}
-          </div>
-        ))}
-      </div>
-
       <div className="grid gap-4 lg:grid-cols-3">
         {testimonials.map((testimonial) => (
           <article key={testimonial.name} className="surface-card flex h-full flex-col gap-5">
-            <span className="tag-pill bg-[rgba(31,107,255,0.08)] text-[var(--accent-strong)]">{testimonial.result}</span>
+            <span className="tag-pill">{testimonial.result}</span>
             <p className="text-base leading-7 text-[var(--text)]">&ldquo;{testimonial.quote}&rdquo;</p>
             <div className="mt-auto">
               <p className="text-sm font-semibold text-[var(--text)]">{testimonial.name}</p>

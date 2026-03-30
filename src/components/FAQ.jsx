@@ -28,7 +28,7 @@ const faqs = [
 
 export default function FAQ() {
   return (
-    <section id="faq" className="deferred-section space-y-8">
+    <section id="faq" className="deferred-section space-y-6">
       <div className="space-y-4">
         <div className="eyebrow select-ui-none">FAQ</div>
         <h2 className="section-heading max-w-3xl text-[var(--text)]">
@@ -36,18 +36,20 @@ export default function FAQ() {
         </h2>
       </div>
 
-      <div className="grid gap-4">
-        {faqs.map((faq, index) => (
-          <details key={faq.question} open={index === 0} className="group surface-card px-5 py-5">
-            <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-left text-lg font-semibold text-[var(--text)] marker:hidden">
-              <span>{faq.question}</span>
-              <span className="flex h-10 w-10 items-center justify-center rounded-[12px] border border-[var(--line)] bg-[var(--surface-soft)] text-xl leading-none text-[var(--accent-strong)] transition group-open:rotate-45">
-                +
-              </span>
-            </summary>
-            <p className="mt-4 max-w-3xl text-sm leading-7 text-[var(--text-soft)]">{faq.answer}</p>
-          </details>
-        ))}
+      <div className="section-frame p-0">
+        <div className="grid gap-px bg-[var(--line)]">
+          {faqs.map((faq, index) => (
+            <details key={faq.question} open={index === 0} className="group bg-[var(--surface-strong)] px-5 py-5">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-left text-lg font-semibold text-[var(--text)] marker:hidden">
+                <span>{faq.question}</span>
+                <span className="flex h-10 w-10 items-center justify-center rounded-full border border-[var(--line)] bg-[var(--surface-soft)] text-lg leading-none text-[var(--accent-strong)] transition group-open:rotate-45">
+                  +
+                </span>
+              </summary>
+              <p className="mt-4 max-w-3xl text-sm leading-7 text-[var(--text-soft)]">{faq.answer}</p>
+            </details>
+          ))}
+        </div>
       </div>
     </section>
   );
