@@ -1,0 +1,156 @@
+/* ScopeBolt design tokens
+   ==================================================================
+   Copied from the ScopeBolt Design System (.claude/skills/scopebolt-design).
+   Components reference the SEMANTIC ALIASES, never raw values.
+   Fonts: Geist (UI/body) + Instrument Serif (italic display accents)
+   + Geist Mono (metric flourishes), loaded from Google Fonts. */
+
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&family=Geist+Mono:wght@400;500&display=swap');
+
+:root {
+  /* ---- Brand orange ---------------------------------------------- */
+  --orange-50:  #fff3ed;
+  --orange-100: #ffe2d2;
+  --orange-200: #fed7aa;  /* soft badge borders */
+  --orange-400: #fb923c;  /* on-dark accent text */
+  --orange-500: #f5600f;
+  --orange-600: #ea580c;  /* "how it works" badge text */
+  --brand:      #e8440a;  /* THE ScopeBolt orange — wordmark, primary accent */
+  --brand-deep: #c23000;  /* gradient end / pressed state */
+
+  /* ---- Neutral ramp (zinc) --------------------------------------- */
+  --zinc-50:  #fafafa;
+  --zinc-100: #f4f4f5;
+  --zinc-200: #e4e4e7;
+  --zinc-300: #d4d4d8;
+  --zinc-400: #a1a1aa;
+  --zinc-500: #71717a;
+  --zinc-600: #52525b;
+  --zinc-700: #3f3f46;
+  --zinc-800: #27272a;
+  --zinc-900: #18181b;
+  --zinc-950: #09090b;
+  --white:    #ffffff;
+
+  /* ---- Semantic accents ------------------------------------------ */
+  --emerald-50:  #ecfdf5;  /* money badge fill */
+  --emerald-200: #a7f3d0;  /* money badge border */
+  --emerald-500: #10b981;
+  --emerald-600: #059669;
+  --emerald-700: #047857;  /* money badge text */
+  --amber-400:   #fbbf24;  /* star ratings */
+  --amber-500:   #f59e0b;
+
+  /* Avatar / category swatches (initials chips) */
+  --avatar-indigo:  #6366f1;
+  --avatar-rose:    #f43f5e;
+  --avatar-amber:   #f59e0b;
+  --avatar-emerald: #10b981;
+
+  /* ================================================================
+     SEMANTIC ALIASES — reference these in components, not raw values
+     ================================================================ */
+
+  /* Text */
+  --text-strong:  var(--zinc-900);   /* headings, primary copy */
+  --text-body:    var(--zinc-700);   /* body paragraphs */
+  --text-muted:   var(--zinc-500);   /* secondary / lead copy */
+  --text-faint:   var(--zinc-400);   /* meta, captions, footer */
+  --text-on-dark: var(--white);
+  --text-on-brand:var(--white);
+
+  /* Surfaces */
+  --surface-page:   var(--white);
+  --surface-subtle: var(--zinc-50);   /* ticker strip, inset tiles */
+  --surface-card:   var(--white);
+  --surface-dark:   var(--zinc-950);  /* features + CTA panels */
+  --surface-ink:    var(--zinc-900);  /* solid dark buttons */
+
+  /* Lines / borders */
+  --border:        var(--zinc-200);
+  --border-strong: var(--zinc-300);
+  --border-dark:   rgba(255,255,255,0.08);  /* hairlines on dark */
+  --border-dark-strong: rgba(255,255,255,0.14);  /* hover hairline on dark */
+
+  /* Accent roles */
+  --accent:        var(--brand);
+  --accent-press:  var(--brand-deep);
+  --accent-on-dark:var(--orange-400);
+
+  /* Status */
+  --positive:        var(--emerald-600);
+  --positive-fill:   var(--emerald-50);
+  --positive-border: var(--emerald-200);
+  --positive-text:   var(--emerald-700);
+  --live:            var(--emerald-500);  /* pulse dot */
+  --rating:          var(--amber-400);
+
+  /* ---- Typography ------------------------------------------------ */
+  --font-sans:    'Geist', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: 'Instrument Serif', Georgia, 'Times New Roman', serif;
+  --font-mono:    'Geist Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  --fw-light:    300;
+  --fw-regular:  400;
+  --fw-medium:   500;
+  --fw-semibold: 600;
+  --fw-bold:     700;
+
+  /* Type scale (px) — clamps power the responsive hero/section heads */
+  --fs-display-1: clamp(34px, 8.5vw, 64px);
+  --fs-display-2: clamp(24px, 6vw, 40px);
+  --fs-stat:      32px;
+  --fs-h3:        20px;
+  --fs-lead:      17px;
+  --fs-body:      15px;
+  --fs-sm:        14px;
+  --fs-meta:      13px;
+  --fs-xs:        12px;
+  --fs-eyebrow:   10px;
+
+  --lh-display: 1.06;
+  --lh-tight:   1.2;
+  --lh-snug:    1.35;
+  --lh-body:    1.6;
+  --lh-relaxed: 1.7;
+
+  --tracking-display: -0.035em;
+  --tracking-tight:   -0.01em;
+  --tracking-normal:  0;
+  --tracking-eyebrow: 0.14em;
+  --tracking-wide:    0.18em;
+
+  /* ---- Spacing / layout ------------------------------------------ */
+  --section-pad-y: clamp(64px, 10vw, 96px);
+  --container-max: 1024px;   /* max-w-5xl */
+  --container-pad: 16px;
+
+  /* ---- Radius ----------------------------------------------------- */
+  --radius-sm:   6px;    /* nav links, small chips */
+  --radius-md:   8px;    /* buttons, inputs */
+  --radius-lg:   12px;   /* cards */
+  --radius-xl:   16px;   /* feature/CTA panels */
+  --radius-pill: 999px;  /* badges, avatars, ticker pills */
+
+  /* ---- Shadows ----------------------------------------------------- */
+  --shadow-xs:   0 1px 2px rgba(0,0,0,0.05);
+  --shadow-sm:   0 1px 0 rgba(0,0,0,0.06);
+  --shadow-card: 0 4px 20px rgba(0,0,0,0.06);        /* card hover */
+  --shadow-lg:   0 8px 40px rgba(0,0,0,0.08);        /* pricing panel */
+  --shadow-pop:  0 10px 30px rgba(0,0,0,0.12);
+  /* Brand-tinted ring + lift for the primary button */
+  --shadow-brand:      0 1px 3px rgba(0,0,0,0.18), 0 4px 16px -4px rgba(232,68,10,0.40);
+  --shadow-brand-hover:0 2px 6px rgba(0,0,0,0.22),  0 8px 24px -4px rgba(232,68,10,0.50);
+  /* Faint top highlight on filled controls + dark elevation */
+  --hl-top:        inset 0 1px 0 rgba(255,255,255,0.10);
+  --hl-top-strong: inset 0 1px 0 rgba(255,255,255,0.14);
+  --shadow-control:0 1px 2px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.10);
+  --shadow-elevated:0 1px 2px rgba(0,0,0,0.40), 0 8px 24px -8px rgba(0,0,0,0.55);
+
+  /* ---- Motion ----------------------------------------------------- */
+  --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-snap:   cubic-bezier(0.2, 0.8, 0.2, 1);
+  --dur-fast:    150ms;
+  --dur-base:    200ms;
+  --dur-reveal:  600ms;
+}
