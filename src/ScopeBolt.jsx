@@ -887,11 +887,16 @@ function HowItWorks() {
   return (
     <section id="how" className="mx-auto max-w-[var(--container-max)] px-4 py-16 sm:px-6 sm:py-24">
       <div ref={ref} style={getRevealStyle(vis)}>
-        <div className="mb-10 text-center sm:mb-14">
-          <Eyebrow>How it works</Eyebrow>
-          <SectionHeading>
-            From job start to <Em>paid</Em> &mdash; in three moves
-          </SectionHeading>
+        <div className="mb-10 flex flex-col gap-4 sm:mb-14 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <Eyebrow>How it works</Eyebrow>
+            <SectionHeading className="max-w-lg">
+              From job start to <Em>paid</Em> &mdash; in three moves
+            </SectionHeading>
+          </div>
+          <p className="max-w-[260px] text-[length:var(--fs-sm)] leading-relaxed text-[color:var(--text-muted)] sm:pb-1.5 sm:text-right">
+            Lock the baseline, log from the field, bill before the crew starts.
+          </p>
         </div>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
           {HOW_STEPS.map((s) => (
@@ -927,32 +932,34 @@ function Walkthrough() {
   return (
     <section id="product" className="mx-auto max-w-[var(--container-max)] px-4 py-16 sm:px-6 sm:py-24">
       <div ref={ref} style={getRevealStyle(vis)}>
-        <div className="mb-10 text-center sm:mb-14">
-          <Eyebrow>The workflow</Eyebrow>
-          <SectionHeading className="mx-auto max-w-2xl">
-            From field note to <Em>signed change order</Em>
-          </SectionHeading>
-          <p className="mx-auto mt-4 max-w-xl text-[length:var(--fs-body)] leading-relaxed text-[color:var(--text-muted)]">
-            Five steps, one tool. Every change is captured, priced, and approved before it costs you a dime.
+        <div className="mb-10 flex flex-col gap-4 sm:mb-12 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <Eyebrow>The workflow</Eyebrow>
+            <SectionHeading className="max-w-md">
+              From field note to <Em>signed change order</Em>
+            </SectionHeading>
+          </div>
+          <p className="max-w-[280px] text-[length:var(--fs-sm)] leading-relaxed text-[color:var(--text-muted)] sm:pb-1.5 sm:text-right">
+            Five steps, one tool &mdash; captured, priced, and approved before it costs you a dime.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5">
-          {WALKTHROUGH.map((step, i) => (
-            <div key={step.n} className="sb-card relative flex flex-col p-5">
-              <div className="flex items-center justify-between">
-                <span className="sb-serif text-[26px] leading-none text-[color:var(--zinc-300)]">{step.n}</span>
-                {i < WALKTHROUGH.length - 1 ? <Icon name="arrow" className="hidden h-4 w-4 text-[color:var(--zinc-300)] lg:block" stroke={2} /> : null}
+        {/* One connected flow — five steps divided by hairlines, not five floating cards */}
+        <div className="overflow-hidden rounded-[var(--radius-xl)] border border-[color:var(--border)] bg-[var(--surface-card)]">
+          <div className="grid grid-cols-1 divide-y divide-[color:var(--border)] lg:grid-cols-5 lg:divide-y-0 lg:divide-x">
+            {WALKTHROUGH.map((step) => (
+              <div key={step.n} className="flex flex-col p-5 transition-colors duration-200 hover:bg-[var(--surface-subtle)] lg:p-6">
+                <span className="sb-serif text-[30px] leading-none text-[color:var(--zinc-300)]">{step.n}</span>
+                <h3 className="mt-3 text-[length:var(--fs-sm)] font-semibold leading-snug text-[color:var(--text-strong)]">{step.title}</h3>
+                <p className="mt-2 flex-1 text-[12.5px] leading-relaxed text-[color:var(--text-muted)]">{step.desc}</p>
+                <span className={`sb-mono mt-4 inline-flex w-fit items-center gap-1 rounded-[var(--radius-sm)] border px-2 py-1 text-[9.5px] font-semibold uppercase tracking-wide ${WALK_TONES[step.tone]}`}>
+                  {step.tone === "orange" ? <Icon name="alert" className="h-2.5 w-2.5" stroke={2.25} /> : null}
+                  {step.tone === "green" ? <Icon name="check" className="h-2.5 w-2.5" stroke={2.5} /> : null}
+                  {step.badge}
+                </span>
               </div>
-              <h3 className="mt-3 text-[length:var(--fs-sm)] font-semibold leading-snug text-[color:var(--text-strong)]">{step.title}</h3>
-              <p className="mt-2 flex-1 text-[12.5px] leading-relaxed text-[color:var(--text-muted)]">{step.desc}</p>
-              <span className={`sb-mono mt-4 inline-flex w-fit items-center gap-1 rounded-[var(--radius-sm)] border px-2 py-1 text-[9.5px] font-semibold uppercase tracking-wide ${WALK_TONES[step.tone]}`}>
-                {step.tone === "orange" ? <Icon name="alert" className="h-2.5 w-2.5" stroke={2.25} /> : null}
-                {step.tone === "green" ? <Icon name="check" className="h-2.5 w-2.5" stroke={2.5} /> : null}
-                {step.badge}
-              </span>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -1055,7 +1062,7 @@ function Features() {
 function MoneyBadge({ children, className = "" }) {
   return (
     <div
-      className={`inline-flex items-center gap-1.5 rounded-[var(--radius-pill)] border border-[color:var(--positive-border)] bg-[var(--positive-fill)] px-2.5 py-1 text-[length:var(--fs-xs)] font-semibold tabular-nums text-[color:var(--positive-text)] ${className}`}
+      className={`inline-flex w-fit items-center gap-1.5 rounded-[var(--radius-pill)] border border-[color:var(--positive-border)] bg-[var(--positive-fill)] px-2.5 py-1 text-[length:var(--fs-xs)] font-semibold tabular-nums text-[color:var(--positive-text)] ${className}`}
     >
       <Icon name="check" className="h-3 w-3" stroke={2.5} />
       {children}
@@ -1068,23 +1075,26 @@ function UseCases() {
   return (
     <section id="use-cases" className="mx-auto max-w-[var(--container-max)] px-4 py-16 sm:px-6 sm:py-24">
       <div ref={ref} style={getRevealStyle(vis)}>
-        <div className="mb-10 text-center sm:mb-14">
+        <div className="mb-10 sm:mb-12">
           <Eyebrow>Use cases</Eyebrow>
-          <SectionHeading>
+          <SectionHeading className="max-w-lg">
             Tuned to the way <Em>your trade</Em> works
           </SectionHeading>
         </div>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-          {USE_CASES.map((u) => (
-            <div key={u.trade} className="sb-card p-6">
-              <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-[var(--radius-md)] border border-[color:var(--border)] bg-[var(--surface-subtle)] text-[color:var(--text-body)]">
-                <Icon name={u.icon} className="h-5 w-5" stroke={1.75} />
+        {/* One panel, three trades — hairline-divided, not floating cards */}
+        <div className="overflow-hidden rounded-[var(--radius-xl)] border border-[color:var(--border)] bg-[var(--surface-card)]">
+          <div className="grid grid-cols-1 divide-y divide-[color:var(--border)] sm:grid-cols-3 sm:divide-y-0 sm:divide-x">
+            {USE_CASES.map((u) => (
+              <div key={u.trade} className="flex flex-col p-6 transition-colors duration-200 hover:bg-[var(--surface-subtle)] sm:p-8">
+                <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-[var(--radius-md)] border border-[color:var(--border)] bg-[var(--surface-subtle)] text-[color:var(--text-body)]">
+                  <Icon name={u.icon} className="h-5 w-5" stroke={1.75} />
+                </div>
+                <h3 className="text-[16px] font-semibold text-[color:var(--text-strong)]">{u.trade}</h3>
+                <p className="mt-2 flex-1 text-[length:var(--fs-sm)] leading-relaxed text-[color:var(--text-muted)]">{u.body}</p>
+                <MoneyBadge className="mt-5">{u.tag}</MoneyBadge>
               </div>
-              <h3 className="text-[16px] font-semibold text-[color:var(--text-strong)]">{u.trade}</h3>
-              <p className="mt-2 text-[length:var(--fs-sm)] leading-relaxed text-[color:var(--text-muted)]">{u.body}</p>
-              <MoneyBadge className="mt-5">{u.tag}</MoneyBadge>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </section>
