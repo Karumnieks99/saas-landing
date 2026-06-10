@@ -1,0 +1,53 @@
+<!-- @dsCard group="Colors" viewport="700x170" name="Semantic Accents" subtitle="Emerald = money recovered · Amber = ratings · used sparingly" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin: 0; font-family: var(--font-sans); background: var(--white); color: var(--text-strong); padding: 20px; }
+  .row { display: flex; gap: 14px; align-items: stretch; }
+  .col { flex: 1; }
+  .lbl { font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 8px; }
+  .chips { display: flex; gap: 0; }
+  .chip { flex: 1; height: 54px; display: flex; align-items: flex-end; padding: 6px; box-sizing: border-box; font-size: 10px; font-weight: 600; }
+  .chip:first-child { border-radius: 10px 0 0 10px; }
+  .chip:last-child { border-radius: 0 10px 10px 0; }
+  .badge { display: inline-flex; align-items: center; gap: 6px; border-radius: 999px; border: 1px solid var(--positive-border); background: var(--positive-fill); color: var(--positive-text); padding: 5px 11px; font-size: 12px; font-weight: 600; margin-top: 10px; }
+  .stars { display: inline-flex; gap: 2px; margin-top: 10px; }
+  .stars svg { width: 16px; height: 16px; color: var(--rating); }
+</style>
+</head>
+<body>
+  <div class="row">
+    <div class="col">
+      <div class="lbl">Positive · money</div>
+      <div class="chips">
+        <div class="chip" style="background:var(--emerald-50);color:var(--emerald-700)">50</div>
+        <div class="chip" style="background:var(--emerald-200);color:var(--emerald-700)">200</div>
+        <div class="chip" style="background:var(--emerald-500);color:#fff">500</div>
+        <div class="chip" style="background:var(--emerald-600);color:#fff">600</div>
+        <div class="chip" style="background:var(--emerald-700);color:#fff">700</div>
+      </div>
+      <span class="badge">
+        <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M4.5 12.75l6 6 9-13.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        $11,400 recovered
+      </span>
+    </div>
+    <div class="col">
+      <div class="lbl">Rating · amber</div>
+      <div class="chips">
+        <div class="chip" style="background:var(--amber-400);color:var(--zinc-900)">400</div>
+        <div class="chip" style="background:var(--amber-500);color:#fff">500</div>
+      </div>
+      <span class="stars">
+        <svg fill="currentColor" viewBox="0 0 20 20"><path d="M9.05 2.93c.3-.92 1.6-.92 1.9 0l1.07 3.29a1 1 0 00.95.69h3.46c.97 0 1.37 1.24.59 1.81l-2.8 2.03a1 1 0 00-.36 1.12l1.07 3.29c.3.92-.76 1.69-1.54 1.12l-2.8-2.03a1 1 0 00-1.18 0l-2.8 2.03c-.78.57-1.84-.2-1.54-1.12l1.07-3.29a1 1 0 00-.36-1.12l-2.8-2.03c-.78-.57-.38-1.81.59-1.81h3.46a1 1 0 00.95-.69l1.07-3.29z"/></svg>
+        <svg fill="currentColor" viewBox="0 0 20 20"><path d="M9.05 2.93c.3-.92 1.6-.92 1.9 0l1.07 3.29a1 1 0 00.95.69h3.46c.97 0 1.37 1.24.59 1.81l-2.8 2.03a1 1 0 00-.36 1.12l1.07 3.29c.3.92-.76 1.69-1.54 1.12l-2.8-2.03a1 1 0 00-1.18 0l-2.8 2.03c-.78.57-1.84-.2-1.54-1.12l1.07-3.29a1 1 0 00-.36-1.12l-2.8-2.03c-.78-.57-.38-1.81.59-1.81h3.46a1 1 0 00.95-.69l1.07-3.29z"/></svg>
+        <svg fill="currentColor" viewBox="0 0 20 20"><path d="M9.05 2.93c.3-.92 1.6-.92 1.9 0l1.07 3.29a1 1 0 00.95.69h3.46c.97 0 1.37 1.24.59 1.81l-2.8 2.03a1 1 0 00-.36 1.12l1.07 3.29c.3.92-.76 1.69-1.54 1.12l-2.8-2.03a1 1 0 00-1.18 0l-2.8 2.03c-.78.57-1.84-.2-1.54-1.12l1.07-3.29a1 1 0 00-.36-1.12l-2.8-2.03c-.78-.57-.38-1.81.59-1.81h3.46a1 1 0 00.95-.69l1.07-3.29z"/></svg>
+        <svg fill="currentColor" viewBox="0 0 20 20"><path d="M9.05 2.93c.3-.92 1.6-.92 1.9 0l1.07 3.29a1 1 0 00.95.69h3.46c.97 0 1.37 1.24.59 1.81l-2.8 2.03a1 1 0 00-.36 1.12l1.07 3.29c.3.92-.76 1.69-1.54 1.12l-2.8-2.03a1 1 0 00-1.18 0l-2.8 2.03c-.78.57-1.84-.2-1.54-1.12l1.07-3.29a1 1 0 00-.36-1.12l-2.8-2.03c-.78-.57-.38-1.81.59-1.81h3.46a1 1 0 00.95-.69l1.07-3.29z"/></svg>
+        <svg fill="currentColor" viewBox="0 0 20 20"><path d="M9.05 2.93c.3-.92 1.6-.92 1.9 0l1.07 3.29a1 1 0 00.95.69h3.46c.97 0 1.37 1.24.59 1.81l-2.8 2.03a1 1 0 00-.36 1.12l1.07 3.29c.3.92-.76 1.69-1.54 1.12l-2.8-2.03a1 1 0 00-1.18 0l-2.8 2.03c-.78.57-1.84-.2-1.54-1.12l1.07-3.29a1 1 0 00-.36-1.12l-2.8-2.03c-.78-.57-.38-1.81.59-1.81h3.46a1 1 0 00.95-.69l1.07-3.29z"/></svg>
+      </span>
+    </div>
+  </div>
+</body>
+</html>

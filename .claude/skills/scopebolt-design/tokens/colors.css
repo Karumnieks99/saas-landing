@@ -1,0 +1,91 @@
+/* ScopeBolt — Color tokens
+   ==================================================================
+   The brand is built on a single hot construction-orange against a
+   Tailwind "zinc" neutral ramp, with emerald reserved exclusively for
+   money/positive signals and amber for ratings. Dark surfaces use the
+   deepest zincs (near-black). No blues, no purples, no gradients
+   beyond the orange wordmark gradient. */
+
+:root {
+  /* ---- Brand orange ---------------------------------------------- */
+  --orange-50:  #fff3ed;
+  --orange-100: #ffe2d2;
+  --orange-200: #fed7aa;  /* soft badge borders */
+  --orange-400: #fb923c;  /* on-dark accent text */
+  --orange-500: #f5600f;
+  --orange-600: #ea580c;  /* "how it works" badge text */
+  --brand:      #e8440a;  /* THE ScopeBolt orange — wordmark, primary accent */
+  --brand-deep: #c23000;  /* gradient end / pressed state */
+
+  /* ---- Neutral ramp (zinc) --------------------------------------- */
+  --zinc-50:  #fafafa;
+  --zinc-100: #f4f4f5;
+  --zinc-200: #e4e4e7;
+  --zinc-300: #d4d4d8;
+  --zinc-400: #a1a1aa;
+  --zinc-500: #71717a;
+  --zinc-600: #52525b;
+  --zinc-700: #3f3f46;
+  --zinc-800: #27272a;
+  --zinc-900: #18181b;
+  --zinc-950: #09090b;
+  --white:    #ffffff;
+
+  /* ---- Semantic accents ------------------------------------------ */
+  --emerald-50:  #ecfdf5;  /* money badge fill */
+  --emerald-200: #a7f3d0;  /* money badge border */
+  --emerald-500: #10b981;
+  --emerald-600: #059669;
+  --emerald-700: #047857;  /* money badge text */
+  --amber-400:   #fbbf24;  /* star ratings */
+  --amber-500:   #f59e0b;
+
+  /* Avatar / category swatches (initials chips) */
+  --avatar-indigo:  #6366f1;
+  --avatar-rose:    #f43f5e;
+  --avatar-amber:   #f59e0b;
+  --avatar-emerald: #10b981;
+
+  /* ================================================================
+     SEMANTIC ALIASES — reference these in components, not raw values
+     ================================================================ */
+
+  /* Text */
+  --text-strong:  var(--zinc-900);   /* headings, primary copy */
+  --text-body:    var(--zinc-700);   /* body paragraphs */
+  --text-muted:   var(--zinc-500);   /* secondary / lead copy */
+  --text-faint:   var(--zinc-400);   /* meta, captions, footer */
+  --text-on-dark: var(--white);
+  --text-on-brand:var(--white);
+
+  /* Surfaces */
+  --surface-page:   var(--white);
+  --surface-subtle: var(--zinc-50);   /* ticker strip, inset tiles */
+  --surface-card:   var(--white);
+  --surface-dark:   var(--zinc-950);  /* features + CTA panels */
+  --surface-ink:    var(--zinc-900);  /* solid dark buttons */
+  /* Linear-style dark canvas + elevated surfaces */
+  --surface-canvas:   #08090a;        /* deep near-black page ground */
+  --surface-elevated: #161619;        /* raised card on dark */
+  --surface-overlay:  #1c1c20;        /* popovers / hover rows */
+  --grad-elevated:    linear-gradient(180deg, #1a1a1e 0%, #141417 100%); /* @kind color */
+
+  /* Lines / borders */
+  --border:        var(--zinc-200);
+  --border-strong: var(--zinc-300);
+  --border-dark:   rgba(255,255,255,0.08);  /* hairlines on dark */
+  --border-dark-strong: rgba(255,255,255,0.14);  /* hover hairline on dark */
+
+  /* Accent roles */
+  --accent:        var(--brand);
+  --accent-press:  var(--brand-deep);
+  --accent-on-dark:var(--orange-400);
+
+  /* Status */
+  --positive:        var(--emerald-600);
+  --positive-fill:   var(--emerald-50);
+  --positive-border: var(--emerald-200);
+  --positive-text:   var(--emerald-700);
+  --live:            var(--emerald-500);  /* pulse dot */
+  --rating:          var(--amber-400);
+}

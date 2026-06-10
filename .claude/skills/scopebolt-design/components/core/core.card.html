@@ -1,0 +1,87 @@
+<!-- @dsCard group="Components" viewport="700x500" name="Core — Buttons, Badges, Avatars, Cards" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../../styles.css">
+<style>
+  body { margin: 0; font-family: var(--font-sans); background: var(--surface-canvas); color: var(--text-on-dark); padding: 26px; -webkit-font-smoothing: antialiased; }
+  /* faint Linear-style glow + grid on the canvas */
+  body::before { content: ""; position: fixed; inset: 0; pointer-events: none;
+    background:
+      radial-gradient(60% 40% at 50% -5%, rgba(232,68,10,0.10), transparent 60%),
+      linear-gradient(to right, rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 100% 100%, 44px 44px, 44px 44px;
+    mask-image: radial-gradient(ellipse 90% 80% at 50% 0%, #000 40%, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse 90% 80% at 50% 0%, #000 40%, transparent 100%); }
+  .panel { position: relative; border-radius: var(--radius-lg); background: var(--grad-elevated); border: 1px solid var(--border-dark); box-shadow: var(--hl-top), var(--shadow-elevated); padding: 8px 22px; }
+  .group { padding: 18px 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .group:last-child { border-bottom: 0; }
+  .lbl { font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.42); margin-bottom: 14px; }
+  .row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+</style>
+</head>
+<body>
+  <div id="root"></div>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <script src="../../_ds_bundle.js"></script>
+  <script type="text/babel">
+    const { Button, Badge, Avatar, AvatarStack, Card, Stars } = window.ScopeBoltDesignSystem_a38b66;
+    const G = ({ label, children }) => (
+      <div className="group">
+        <div className="lbl">{label}</div>
+        <div className="row">{children}</div>
+      </div>
+    );
+    function Demo() {
+      return (
+        <div className="panel">
+          <G label="Buttons">
+            <Button variant="brand" withArrow>Start free trial</Button>
+            <Button variant="secondary">Book demo</Button>
+            <Button variant="primary">Open dashboard</Button>
+            <Button variant="ghost" size="sm">Pricing</Button>
+            <Button variant="brand" size="sm" disabled>Disabled</Button>
+          </G>
+          <G label="Badges &amp; rating">
+            <Badge variant="eyebrow">Features</Badge>
+            <Badge variant="money">$11,400 recovered</Badge>
+            <Badge variant="neutral">Procore</Badge>
+            <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}><Stars count={5} /><span style={{ fontSize: 12, color: "rgba(255,255,255,0.55)" }}>4.9</span></span>
+          </G>
+          <G label="Avatars">
+            <Avatar initials="MR" color="indigo" size="lg" />
+            <Avatar initials="JT" color="rose" />
+            <Avatar initials="AK" color="amber" size="sm" />
+            <AvatarStack size="sm" people={[
+              { initials: "MR", color: "indigo" },
+              { initials: "JT", color: "rose" },
+              { initials: "AK", color: "amber" },
+              { initials: "SB", color: "emerald" },
+            ]} />
+          </G>
+          <G label="Cards">
+            <Card variant="dark" style={{ flex: 1, minWidth: 0, padding: 18 }}>
+              <Badge variant="eyebrow">Track</Badge>
+              <h3 style={{ margin: "12px 0 6px", fontSize: 15, fontWeight: 600, letterSpacing: "-0.01em", color: "#fff" }}>Scope log that never lies</h3>
+              <p style={{ margin: 0, fontSize: 13, color: "rgba(255,255,255,0.55)", lineHeight: 1.6 }}>Every request is timestamped and tied to a job code.</p>
+            </Card>
+            <Card variant="feature" style={{ flex: 1, minWidth: 0, padding: 18 }}>
+              <Stars count={5} />
+              <p style={{ margin: "10px 0 12px", fontSize: 13, color: "rgba(255,255,255,0.72)", lineHeight: 1.5 }}>"ScopeBolt paid for itself on job one."</p>
+              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                <Avatar initials="MR" color="indigo" size="sm" />
+                <span style={{ fontSize: 12, color: "rgba(255,255,255,0.55)" }}>Mike R. · Electrical</span>
+              </div>
+            </Card>
+          </G>
+        </div>
+      );
+    }
+    ReactDOM.createRoot(document.getElementById("root")).render(<Demo />);
+  </script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!-- @dsCard group="Brand" viewport="700x210" name="Voice & Tone" subtitle="Blunt, money-first, jobsite plain-talk — says the dollar amount" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin: 0; font-family: var(--font-sans); background: var(--white); color: var(--text-strong); padding: 26px 32px; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 28px; }
+  .do, .dont { font-size: 14px; line-height: 1.5; padding-left: 26px; position: relative; }
+  .do::before, .dont::before { position: absolute; left: 0; top: 0; font-weight: 700; }
+  .do::before { content: "✓"; color: var(--emerald-600); }
+  .dont::before { content: "✕"; color: var(--zinc-400); }
+  .dont { color: var(--text-faint); text-decoration: line-through; text-decoration-color: var(--zinc-300); }
+  h4 { grid-column: 1 / -1; margin: 0 0 2px; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-faint); }
+</style>
+</head>
+<body>
+  <div class="grid">
+    <h4>Say it like a sub would</h4>
+    <div class="do">Stop giving away work for free.</div>
+    <div class="dont">Optimize your change-order lifecycle.</div>
+    <div class="do">Subs recover an avg $4,200 per job.</div>
+    <div class="dont">Drive measurable ROI improvements.</div>
+    <div class="do">Send the CO from the truck, get paid.</div>
+    <div class="dont">Streamline stakeholder collaboration.</div>
+  </div>
+</body>
+</html>
