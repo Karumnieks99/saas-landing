@@ -1020,7 +1020,7 @@ function FeatureVisual({ tag }) {
 function Features() {
   const [ref, vis] = useInView();
   return (
-    <section id="features" className="relative overflow-hidden bg-[var(--surface-dark)] px-4 py-16 sm:px-6 sm:py-24">
+    <section id="features" className="relative overflow-hidden bg-[var(--surface-dark)] px-4 pt-16 pb-10 sm:px-6 sm:pt-24 sm:pb-14">
       <div className="sb-grid-dark pointer-events-none absolute inset-0" />
       <div ref={ref} className="relative mx-auto max-w-[var(--container-max)]" style={getRevealStyle(vis)}>
         <div className="mb-10 text-center sm:mb-14">
