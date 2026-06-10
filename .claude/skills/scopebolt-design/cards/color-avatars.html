@@ -1,0 +1,30 @@
+<!-- @dsCard group="Colors" viewport="700x130" name="Avatar Swatches" subtitle="Initials chips cycle through four fixed category hues" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin: 0; font-family: var(--font-sans); background: var(--white); padding: 24px; }
+  .row { display: flex; gap: 20px; align-items: center; }
+  .av { width: 52px; height: 52px; border-radius: 999px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 16px; border: 2px solid #fff; box-shadow: 0 1px 4px rgba(0,0,0,.12); }
+  .stack { display: flex; }
+  .stack .av:not(:first-child) { margin-left: -14px; }
+  .meta { font-size: 12px; color: var(--text-muted); font-family: var(--font-mono); }
+</style>
+</head>
+<body>
+  <div class="row">
+    <div class="av" style="background:var(--avatar-indigo)">MR</div>
+    <div class="av" style="background:var(--avatar-rose)">JT</div>
+    <div class="av" style="background:var(--avatar-amber)">AK</div>
+    <div class="av" style="background:var(--avatar-emerald)">SB</div>
+    <div class="stack" style="margin-left:8px">
+      <div class="av" style="background:var(--avatar-indigo)">MR</div>
+      <div class="av" style="background:var(--avatar-rose)">JT</div>
+      <div class="av" style="background:var(--avatar-amber)">AK</div>
+      <div class="av" style="background:var(--avatar-emerald)">SB</div>
+    </div>
+  </div>
+</body>
+</html>
