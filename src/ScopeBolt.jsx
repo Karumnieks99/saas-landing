@@ -1,5 +1,10 @@
 import { useEffect, useRef, useState } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 import "./scopebolt-tokens.css";
+
+gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 /* ============================================================================
    CONTENT
@@ -304,15 +309,6 @@ function useCounter(raw, dur = 1400, go = false) {
   }, [dur, go, raw]);
 
   return n;
-}
-
-function getRevealStyle(vis) {
-  if (prefersReducedMotion()) return {};
-  return {
-    opacity: vis ? 1 : 0,
-    transform: vis ? "none" : "translateY(20px)",
-    transition: "all .6s cubic-bezier(.16,1,.3,1)",
-  };
 }
 
 /* ============================================================================
@@ -733,29 +729,30 @@ const HERO_AVATARS = [
 
 function Hero() {
   return (
-    <section id="top" className="relative overflow-hidden bg-[var(--surface-page)] px-4 pt-[92px] pb-14 sm:px-6 sm:pt-[112px] sm:pb-20">
+    <section id="top" data-hero className="relative overflow-hidden bg-[var(--surface-page)] px-4 pt-[92px] pb-16 sm:px-6 sm:pt-[112px] sm:pb-24">
       <div className="sb-grid-light pointer-events-none absolute inset-0" />
-      <div className="pointer-events-none absolute -top-16 left-1/2 h-[360px] w-[640px] -translate-x-1/2 rounded-full bg-[var(--brand)] opacity-[0.05] blur-[120px]" />
+      <div data-hero-glow className="pointer-events-none absolute -top-16 left-1/2 h-[360px] w-[640px] -translate-x-1/2 rounded-full bg-[var(--brand)] opacity-[0.05] blur-[120px]" />
 
       <div className="relative mx-auto max-w-3xl text-center">
         <div
-          className="a1 inline-flex items-center gap-2.5 rounded-[var(--radius-pill)] border border-[color:var(--border)] px-3.5 py-1.5 text-[12px] font-medium text-[color:var(--text-muted)] backdrop-blur"
+          data-hero-seq
+          className="inline-flex items-center gap-2.5 rounded-[var(--radius-pill)] border border-[color:var(--border)] px-3.5 py-1.5 text-[12px] font-medium text-[color:var(--text-muted)] backdrop-blur"
           style={{ background: "color-mix(in srgb, var(--white) 80%, transparent)" }}
         >
           <span className="sb-pulse" />
           Scope &amp; change-order control for commercial subs
         </div>
 
-        <h1 className="sb-h1 a2 mt-6">
+        <h1 data-hero-seq className="sb-h1 mt-6">
           Stop <Em>losing money</Em> to scope creep.
         </h1>
 
-        <p className="a3 mx-auto mt-6 max-w-xl text-[16px] leading-relaxed text-[color:var(--text-muted)] sm:text-[length:var(--fs-lead)]">
+        <p data-hero-seq className="mx-auto mt-5 max-w-xl text-[16px] leading-relaxed text-[color:var(--text-muted)] sm:text-[length:var(--fs-lead)]">
           ScopeBolt logs every field change, checks it against your signed contract, and turns out-of-scope work into a
           signed change order &mdash; so subs recover an average of <span className="font-semibold text-[color:var(--text-strong)]">$4,200 a job</span> instead of eating it.
         </p>
 
-        <div className="a4 mt-8 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center">
+        <div data-hero-seq className="mt-8 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center">
           <Cta href={TRIAL_CTA_HREF} variant="brand" withArrow>
             Start free trial
           </Cta>
@@ -764,9 +761,9 @@ function Hero() {
             Book a demo
           </Cta>
         </div>
-        <p className="a4 mt-3 text-[length:var(--fs-meta)] text-[color:var(--text-faint)]">No card. 14-day trial. Cancel anytime.</p>
+        <p data-hero-seq className="mt-3 text-[length:var(--fs-meta)] text-[color:var(--text-faint)]">No card. 14-day trial. Cancel anytime.</p>
 
-        <div className="a5 mt-7 flex flex-wrap items-center justify-center gap-x-3 gap-y-2">
+        <div data-hero-seq className="mt-7 flex flex-wrap items-center justify-center gap-x-3 gap-y-2">
           <div className="flex -space-x-2">
             {HERO_AVATARS.map((a) => (
               <span
@@ -788,7 +785,7 @@ function Hero() {
       </div>
 
       {/* Product mockup */}
-      <div className="a5 relative mx-auto mt-12 max-w-[var(--container-max)] sm:mt-14">
+      <div data-hero-mockup className="relative mx-auto mt-12 max-w-[var(--container-max)] sm:mt-14">
         <div className="sb-mono mb-2.5 flex items-center gap-2 text-[10px] uppercase tracking-[var(--tracking-eyebrow)] text-[color:var(--text-faint)]">
           <span className="sb-pulse" />
           Live job dashboard
@@ -797,10 +794,10 @@ function Hero() {
       </div>
 
       {/* Proof strip */}
-      <div className="relative mx-auto mt-12 max-w-4xl sm:mt-14">
+      <div data-reveal className="relative mx-auto mt-12 max-w-4xl sm:mt-14">
         <div className="grid grid-cols-3 divide-x divide-[color:var(--border)] border-y border-[color:var(--border)]">
-          {PROOF_ITEMS.map((p, i) => (
-            <ProofStat key={p.label} value={p.value} label={p.label} delay={i * 90} />
+          {PROOF_ITEMS.map((p) => (
+            <ProofStat key={p.label} value={p.value} label={p.label} />
           ))}
         </div>
       </div>
@@ -808,7 +805,7 @@ function Hero() {
   );
 }
 
-function ProofStat({ value, label, delay }) {
+function ProofStat({ value, label }) {
   const [ref, vis] = useInView(0.4);
   const prefix = value.startsWith("$") ? "$" : "";
   const suffix = value.endsWith("M+") ? "M+" : value.endsWith("+") ? "+" : value.endsWith("%") ? "%" : "";
@@ -820,7 +817,7 @@ function ProofStat({ value, label, delay }) {
     : `${prefix}0${suffix}`;
 
   return (
-    <div ref={ref} className="px-3 py-5 text-center sm:px-6" style={{ opacity: vis || prefersReducedMotion() ? 1 : 0, transition: `opacity .5s ease ${delay}ms` }}>
+    <div ref={ref} className="px-3 py-5 text-center sm:px-6">
       <div className="sb-mono text-[22px] font-semibold tabular-nums tracking-tight text-[color:var(--text-strong)] sm:text-[26px]">{display}</div>
       <div className="mt-1.5 text-[length:var(--fs-meta)] text-[color:var(--text-muted)]">{label}</div>
     </div>
@@ -841,10 +838,9 @@ function TickerPill({ name }) {
 }
 
 function IntegrationStrip() {
-  const [ref, vis] = useInView();
   return (
-    <section className="border-y border-[color:var(--border)] bg-[var(--surface-subtle)] px-0 py-12 sm:py-14">
-      <div ref={ref} className="mx-auto max-w-[var(--container-max)]" style={getRevealStyle(vis)}>
+    <section className="border-y border-[color:var(--border)] bg-[var(--surface-subtle)] px-0 py-10 sm:py-12">
+      <div data-reveal className="mx-auto max-w-[var(--container-max)]">
         <div className="flex flex-col items-center gap-3 px-4 text-center sm:px-6">
           <Eyebrow>Integrations</Eyebrow>
           <p className="max-w-md text-[length:var(--fs-body)] font-medium text-[color:var(--text-body)]">Works with the tools your crew already uses</p>
@@ -883,11 +879,10 @@ function HowVisual({ icon, n }) {
 }
 
 function HowItWorks() {
-  const [ref, vis] = useInView();
   return (
-    <section id="how" className="mx-auto max-w-[var(--container-max)] px-4 py-16 sm:px-6 sm:py-24">
-      <div ref={ref} style={getRevealStyle(vis)}>
-        <div className="mb-10 flex flex-col gap-4 sm:mb-14 sm:flex-row sm:items-end sm:justify-between">
+    <section id="how" className="mx-auto max-w-[var(--container-max)] px-4 pt-20 pb-12 sm:px-6 sm:pt-28 sm:pb-14">
+      <div>
+        <div data-reveal className="mb-10 flex flex-col gap-4 sm:mb-14 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <Eyebrow>How it works</Eyebrow>
             <SectionHeading className="max-w-lg">
@@ -898,7 +893,7 @@ function HowItWorks() {
             Lock the baseline, log from the field, bill before the crew starts.
           </p>
         </div>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <div data-reveal-group className="grid grid-cols-1 gap-4 sm:grid-cols-3">
           {HOW_STEPS.map((s) => (
             <div key={s.n} className="sb-card p-6">
               <HowVisual icon={s.icon} n={s.n} />
@@ -928,11 +923,10 @@ const WALK_TONES = {
 };
 
 function Walkthrough() {
-  const [ref, vis] = useInView();
   return (
-    <section id="product" className="mx-auto max-w-[var(--container-max)] px-4 py-16 sm:px-6 sm:py-24">
-      <div ref={ref} style={getRevealStyle(vis)}>
-        <div className="mb-10 flex flex-col gap-4 sm:mb-12 sm:flex-row sm:items-end sm:justify-between">
+    <section id="product" className="mx-auto max-w-[var(--container-max)] px-4 pt-12 pb-20 sm:px-6 sm:pt-14 sm:pb-24">
+      <div>
+        <div data-reveal className="mb-10 flex flex-col gap-4 sm:mb-12 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <Eyebrow>The workflow</Eyebrow>
             <SectionHeading className="max-w-md">
@@ -944,9 +938,10 @@ function Walkthrough() {
           </p>
         </div>
 
-        {/* One connected flow — five steps divided by hairlines, not five floating cards */}
+        {/* One connected flow — five steps divided by hairlines, not five floating cards.
+            The steps cascade in 01→05 so the reveal reads in workflow order. */}
         <div className="overflow-hidden rounded-[var(--radius-xl)] border border-[color:var(--border)] bg-[var(--surface-card)]">
-          <div className="grid grid-cols-1 divide-y divide-[color:var(--border)] lg:grid-cols-5 lg:divide-y-0 lg:divide-x">
+          <div data-reveal-group className="grid grid-cols-1 divide-y divide-[color:var(--border)] lg:grid-cols-5 lg:divide-y-0 lg:divide-x">
             {WALKTHROUGH.map((step) => (
               <div key={step.n} className="flex flex-col p-5 transition-colors duration-200 hover:bg-[var(--surface-subtle)] lg:p-6">
                 <span className="sb-serif text-[30px] leading-none text-[color:var(--zinc-300)]">{step.n}</span>
@@ -1025,18 +1020,17 @@ function FeatureVisual({ tag }) {
 }
 
 function Features() {
-  const [ref, vis] = useInView();
   return (
-    <section id="features" className="relative overflow-hidden bg-[var(--surface-dark)] px-4 pt-16 pb-10 sm:px-6 sm:pt-24 sm:pb-14">
+    <section id="features" className="relative overflow-hidden bg-[var(--surface-dark)] px-4 pt-16 pb-12 sm:px-6 sm:pt-24 sm:pb-16">
       <div className="sb-grid-dark pointer-events-none absolute inset-0" />
-      <div ref={ref} className="relative mx-auto max-w-[var(--container-max)]" style={getRevealStyle(vis)}>
-        <div className="mb-10 text-center sm:mb-14">
+      <div className="relative mx-auto max-w-[var(--container-max)]">
+        <div data-reveal className="mb-10 sm:mb-14">
           <Eyebrow tone="dark">Features</Eyebrow>
-          <SectionHeading tone="dark">
+          <SectionHeading tone="dark" className="max-w-lg">
             Built for the field, <Em>not the office</Em>
           </SectionHeading>
         </div>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div data-reveal-group className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           {FEATURES.map((f) => (
             <div key={f.title} className="sb-card--dark group p-6">
               {/* Emoji glyph — the brand's sanctioned jobsite shorthand */}
@@ -1071,11 +1065,10 @@ function MoneyBadge({ children, className = "" }) {
 }
 
 function UseCases() {
-  const [ref, vis] = useInView();
   return (
-    <section id="use-cases" className="mx-auto max-w-[var(--container-max)] px-4 py-16 sm:px-6 sm:py-24">
-      <div ref={ref} style={getRevealStyle(vis)}>
-        <div className="mb-10 sm:mb-12">
+    <section id="use-cases" className="mx-auto max-w-[var(--container-max)] px-4 py-14 sm:px-6 sm:py-20">
+      <div>
+        <div data-reveal className="mb-10 sm:mb-12">
           <Eyebrow>Use cases</Eyebrow>
           <SectionHeading className="max-w-lg">
             Tuned to the way <Em>your trade</Em> works
@@ -1083,7 +1076,7 @@ function UseCases() {
         </div>
         {/* One panel, three trades — hairline-divided, not floating cards */}
         <div className="overflow-hidden rounded-[var(--radius-xl)] border border-[color:var(--border)] bg-[var(--surface-card)]">
-          <div className="grid grid-cols-1 divide-y divide-[color:var(--border)] sm:grid-cols-3 sm:divide-y-0 sm:divide-x">
+          <div data-reveal-group className="grid grid-cols-1 divide-y divide-[color:var(--border)] sm:grid-cols-3 sm:divide-y-0 sm:divide-x">
             {USE_CASES.map((u) => (
               <div key={u.trade} className="flex flex-col p-6 transition-colors duration-200 hover:bg-[var(--surface-subtle)] sm:p-8">
                 <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-[var(--radius-md)] border border-[color:var(--border)] bg-[var(--surface-subtle)] text-[color:var(--text-body)]">
@@ -1152,38 +1145,61 @@ function TestiSwiper() {
   );
 }
 
+function TestimonialByline({ t, avatarSize = "h-8 w-8" }) {
+  return (
+    <div className="flex flex-col gap-3 border-t border-[color:var(--zinc-100)] pt-4">
+      <div className="flex items-center gap-2.5">
+        <span className={`flex ${avatarSize} flex-shrink-0 items-center justify-center rounded-full text-xs font-bold text-[color:var(--text-on-dark)]`} style={{ background: AVATAR_HUES[t.hue] }}>
+          {t.initials}
+        </span>
+        <div>
+          <div className="text-[length:var(--fs-meta)] font-semibold text-[color:var(--text-strong)]">{t.name}</div>
+          <div className="text-[10.5px] leading-tight text-[color:var(--text-muted)]">{t.role}</div>
+        </div>
+      </div>
+      <MoneyBadge>{t.recovered}</MoneyBadge>
+    </div>
+  );
+}
+
 function Testimonials() {
-  const [ref, vis] = useInView();
+  // The $22k dispute win is the biggest number on the page — it leads.
+  const featured = TESTIMONIALS[2];
+  const supporting = TESTIMONIALS.slice(0, 2);
+
   return (
     <section id="results" className="mx-auto max-w-[var(--container-max)] px-4 py-16 sm:px-6 sm:py-24">
-      <div ref={ref} style={getRevealStyle(vis)}>
-        <div className="mb-8 text-center sm:mb-12">
-          <Eyebrow>Results</Eyebrow>
-          <SectionHeading>
-            Real money recovered by <Em>real subs</Em>
-          </SectionHeading>
-          <p className="mx-auto mt-4 max-w-md text-[length:var(--fs-meta)] text-[color:var(--text-muted)]">Example outcomes from subcontractors running ScopeBolt on live jobs.</p>
+      <div>
+        <div data-reveal className="mb-8 flex flex-col gap-4 sm:mb-12 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <Eyebrow>Results</Eyebrow>
+            <SectionHeading className="max-w-md">
+              Real money recovered by <Em>real subs</Em>
+            </SectionHeading>
+          </div>
+          <p className="max-w-[260px] text-[length:var(--fs-meta)] leading-relaxed text-[color:var(--text-muted)] sm:pb-1.5 sm:text-right">
+            Example outcomes from subcontractors running ScopeBolt on live jobs.
+          </p>
         </div>
-        <div className="sm:hidden">
+        <div data-reveal className="sm:hidden">
           <TestiSwiper />
         </div>
-        <div className="hidden gap-4 sm:grid sm:grid-cols-3">
-          {TESTIMONIALS.map((t) => (
-            <div key={t.name} className="sb-card flex flex-col gap-4 p-6">
+        {/* One featured quote at reading size, two supporting quotes stacked beside it */}
+        <div data-reveal-group className="hidden gap-4 sm:grid sm:grid-cols-2 lg:grid-cols-5">
+          <div className="sb-card flex flex-col gap-5 p-7 sm:col-span-2 lg:col-span-3 lg:row-span-2 lg:p-9">
+            <Stars className="h-4 w-4" />
+            <div className="flex flex-1 items-center">
+              <p className="text-[17px] font-medium leading-relaxed text-[color:var(--text-body)] lg:text-[24px] lg:leading-[1.45] lg:tracking-[var(--tracking-tight)]">
+                &ldquo;{featured.quote}&rdquo;
+              </p>
+            </div>
+            <TestimonialByline t={featured} avatarSize="h-9 w-9" />
+          </div>
+          {supporting.map((t) => (
+            <div key={t.name} className="sb-card flex flex-col gap-4 p-6 lg:col-span-2">
               <Stars />
               <p className="flex-1 text-[length:var(--fs-sm)] leading-relaxed text-[color:var(--text-body)]">&ldquo;{t.quote}&rdquo;</p>
-              <div className="flex flex-col gap-3 border-t border-[color:var(--zinc-100)] pt-4">
-                <div className="flex items-center gap-2.5">
-                  <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full text-xs font-bold text-[color:var(--text-on-dark)]" style={{ background: AVATAR_HUES[t.hue] }}>
-                    {t.initials}
-                  </span>
-                  <div>
-                    <div className="text-[length:var(--fs-meta)] font-semibold text-[color:var(--text-strong)]">{t.name}</div>
-                    <div className="text-[10.5px] leading-tight text-[color:var(--text-muted)]">{t.role}</div>
-                  </div>
-                </div>
-                <MoneyBadge>{t.recovered}</MoneyBadge>
-              </div>
+              <TestimonialByline t={t} />
             </div>
           ))}
         </div>
@@ -1197,18 +1213,17 @@ function Testimonials() {
    ========================================================================== */
 
 function Pricing() {
-  const [ref, vis] = useInView();
   return (
-    <section id="pricing" className="mx-auto max-w-[var(--container-max)] px-4 py-16 sm:px-6 sm:py-24">
-      <div ref={ref} style={getRevealStyle(vis)}>
-        <div className="mb-8 text-center sm:mb-10">
+    <section id="pricing" className="mx-auto max-w-[var(--container-max)] px-4 py-16 sm:px-6 sm:py-28">
+      <div>
+        <div data-reveal className="mb-8 text-center sm:mb-10">
           <Eyebrow>Pricing</Eyebrow>
           <SectionHeading>
             One plan. <Em>No surprises.</Em>
           </SectionHeading>
           <p className="mx-auto mt-4 max-w-md text-[length:var(--fs-sm)] text-[color:var(--text-muted)]">No seat math, no feature gates. Everything ScopeBolt does, on every job.</p>
         </div>
-        <div className="mx-auto max-w-xl overflow-hidden rounded-[var(--radius-xl)] border border-[color:var(--border)] bg-[var(--surface-card)]" style={{ boxShadow: "var(--shadow-lg)" }}>
+        <div data-reveal className="mx-auto max-w-xl overflow-hidden rounded-[var(--radius-xl)] border border-[color:var(--border)] bg-[var(--surface-card)]" style={{ boxShadow: "var(--shadow-lg)" }}>
           <div className="flex items-center justify-between bg-[var(--surface-dark)] px-7 py-4">
             <span className="text-[length:var(--fs-eyebrow)] font-bold uppercase tracking-[var(--tracking-eyebrow)] text-[color:var(--accent-on-dark)]">Pro &middot; everything included</span>
             <span className="sb-mono text-[10px] uppercase tracking-[0.12em] text-[color:var(--zinc-500)]">14-day trial</span>
@@ -1254,24 +1269,23 @@ function Pricing() {
    ========================================================================== */
 
 function Faq() {
-  const [ref, vis] = useInView();
   return (
-    <section id="faq" className="mx-auto max-w-3xl px-4 py-16 sm:px-6 sm:py-24">
-      <div ref={ref} style={getRevealStyle(vis)}>
-        <div className="mb-8 text-center sm:mb-12">
+    <section id="faq" className="mx-auto max-w-3xl px-4 py-14 sm:px-6 sm:py-20">
+      <div>
+        <div data-reveal className="mb-8 text-center sm:mb-12">
           <Eyebrow>FAQ</Eyebrow>
           <SectionHeading>
             Questions subs <Em>actually ask</Em>
           </SectionHeading>
         </div>
-        <div className="divide-y divide-[color:var(--border)] overflow-hidden rounded-[var(--radius-xl)] border border-[color:var(--border)] bg-[var(--surface-card)]">
+        <div data-reveal className="divide-y divide-[color:var(--border)] overflow-hidden rounded-[var(--radius-xl)] border border-[color:var(--border)] bg-[var(--surface-card)]">
           {FAQ_ITEMS.map((item) => (
             <details key={item.q} className="group px-5 sm:px-6">
               <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-4 text-[14.5px] font-semibold text-[color:var(--text-strong)] transition-colors hover:text-[color:var(--zinc-600)] [&::-webkit-details-marker]:hidden">
                 {item.q}
                 <Icon name="chevron" className="faq-chevron h-4 w-4 flex-shrink-0 text-[color:var(--text-faint)] transition-transform" stroke={2} />
               </summary>
-              <p className="pb-5 pr-8 text-[length:var(--fs-sm)] leading-relaxed text-[color:var(--text-muted)]">{item.a}</p>
+              <p className="faq-answer pb-5 pr-8 text-[length:var(--fs-sm)] leading-relaxed text-[color:var(--text-muted)]">{item.a}</p>
             </details>
           ))}
         </div>
@@ -1285,10 +1299,9 @@ function Faq() {
    ========================================================================== */
 
 function FinalCta() {
-  const [ref, vis] = useInView();
   return (
     <section className="px-4 pb-16 sm:px-6 sm:pb-24">
-      <div ref={ref} className="relative mx-auto max-w-[var(--container-max)] overflow-hidden rounded-[var(--radius-xl)] border border-[color:var(--border-dark)]" style={getRevealStyle(vis)}>
+      <div data-reveal className="relative mx-auto max-w-[var(--container-max)] overflow-hidden rounded-[var(--radius-xl)] border border-[color:var(--border-dark)]">
         <div className="sb-grid-dark pointer-events-none absolute inset-0" />
         <div className="relative flex flex-col items-center justify-between gap-8 bg-[var(--surface-dark)] px-6 py-12 text-center sm:flex-row sm:px-14 sm:py-16 sm:text-left">
           <div>
@@ -1340,6 +1353,7 @@ function Footer() {
    ========================================================================== */
 
 export default function ScopeBolt() {
+  const rootRef = useRef(null);
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -1349,8 +1363,57 @@ export default function ScopeBolt() {
     return () => window.removeEventListener("scroll", fn);
   }, []);
 
+  // All motion lives here: transform/opacity only, gated on reduced-motion.
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        // Hero entrance — badge → headline → lead → CTA, then the mockup.
+        gsap
+          .timeline({ defaults: { ease: "power3.out", duration: 0.5 } })
+          .from("[data-hero-seq]", { y: 18, autoAlpha: 0, stagger: 0.07 })
+          .from("[data-hero-mockup]", { y: 26, autoAlpha: 0, duration: 0.65, ease: "power2.out" }, "-=0.3");
+
+        // One reveal pattern for every section: rise 24px, fade in, fire once.
+        gsap.utils.toArray("[data-reveal]", rootRef.current).forEach((el) => {
+          gsap.from(el, {
+            y: 24,
+            autoAlpha: 0,
+            duration: 0.6,
+            ease: "power2.out",
+            scrollTrigger: { trigger: el, start: "top 86%", once: true },
+          });
+        });
+
+        // Grouped variant: direct children cascade so sequences read in order.
+        gsap.utils.toArray("[data-reveal-group]", rootRef.current).forEach((group) => {
+          gsap.from(group.children, {
+            y: 20,
+            autoAlpha: 0,
+            duration: 0.55,
+            ease: "power2.out",
+            stagger: 0.07,
+            scrollTrigger: { trigger: group, start: "top 85%", once: true },
+          });
+        });
+
+        // Accent: the hero glow drifts down as the page scrolls away.
+        const hero = rootRef.current?.querySelector("[data-hero]");
+        if (hero) {
+          gsap.to("[data-hero-glow]", {
+            yPercent: 28,
+            ease: "none",
+            scrollTrigger: { trigger: hero, start: "top top", end: "bottom top", scrub: 0.8 },
+          });
+        }
+      });
+    },
+    { scope: rootRef }
+  );
+
   return (
-    <div className="sb-root min-h-screen overflow-x-hidden bg-[var(--surface-page)] text-[color:var(--text-strong)] antialiased">
+    <div ref={rootRef} className="sb-root min-h-screen overflow-x-hidden bg-[var(--surface-page)] text-[color:var(--text-strong)] antialiased">
       <style>{`
         /* ---- Families (tokens live in scopebolt-tokens.css) ---------- */
         .sb-root, .sb-root * { font-family: var(--font-sans); }
@@ -1371,16 +1434,19 @@ export default function ScopeBolt() {
         .sb-btn--sm { min-height: 38px; padding: 0 14px; font-size: var(--fs-meta); }
         .sb-btn--primary { background: var(--surface-ink); color: var(--text-on-dark); box-shadow: var(--shadow-control); }
         .sb-btn--primary:hover { background: var(--zinc-800); transform: translateY(-1px); }
-        .sb-btn--primary:active { background: var(--zinc-950); transform: none; }
+        .sb-btn--primary:active { background: var(--zinc-950); transform: scale(.985); }
         .sb-btn--brand { background: var(--brand); color: var(--text-on-brand); box-shadow: var(--shadow-brand), var(--hl-top-strong); }
         .sb-btn--brand:hover { box-shadow: var(--shadow-brand-hover), var(--hl-top-strong); transform: translateY(-1px); }
-        .sb-btn--brand:active { background: var(--accent-press); transform: none; }
+        .sb-btn--brand:active { background: var(--accent-press); transform: scale(.985); }
         .sb-btn--secondary { background: var(--white); color: var(--text-body); border-color: var(--border); }
         .sb-btn--secondary:hover { border-color: var(--border-strong); background: var(--zinc-50); }
+        .sb-btn--secondary:active { background: var(--zinc-100); transform: scale(.985); }
         .sb-btn--ghost { background: transparent; color: var(--text-muted); }
         .sb-btn--ghost:hover { background: var(--zinc-100); color: var(--text-strong); }
+        .sb-btn--ghost:active { background: var(--zinc-200); }
         .sb-btn--outline-dark { background: color-mix(in srgb, var(--white) 4%, transparent); color: var(--text-on-dark); border-color: var(--border-dark-strong); }
         .sb-btn--outline-dark:hover { background: color-mix(in srgb, var(--white) 9%, transparent); }
+        .sb-btn--outline-dark:active { background: color-mix(in srgb, var(--white) 6%, transparent); transform: scale(.985); }
         .sb-btn:focus-visible, .sb-root summary:focus-visible, .sb-root a:focus-visible, .sb-root button:focus-visible { outline: none; box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand) 18%, transparent); }
 
         /* ---- Cards ---------------------------------------------------
@@ -1396,15 +1462,11 @@ export default function ScopeBolt() {
         .sb-grid-light { background-image: linear-gradient(to right, var(--zinc-200) 1px, transparent 1px), linear-gradient(to bottom, var(--zinc-200) 1px, transparent 1px); background-size: 48px 48px; -webkit-mask-image: radial-gradient(ellipse 120% 70% at 50% 0%, #000 45%, transparent 100%); mask-image: radial-gradient(ellipse 120% 70% at 50% 0%, #000 45%, transparent 100%); }
         .sb-grid-dark { background-image: linear-gradient(to right, color-mix(in srgb, var(--white) 6%, transparent) 1px, transparent 1px), linear-gradient(to bottom, color-mix(in srgb, var(--white) 6%, transparent) 1px, transparent 1px); background-size: 46px 46px; -webkit-mask-image: radial-gradient(ellipse 85% 55% at 50% 0%, #000, transparent 72%); mask-image: radial-gradient(ellipse 85% 55% at 50% 0%, #000, transparent 72%); }
 
-        /* ---- Motion --------------------------------------------------- */
+        /* ---- Motion ----------------------------------------------------
+           Entrance + scroll reveals are GSAP-driven (see useGSAP in root);
+           only self-contained loops and micro-states live in CSS. */
         .touch-manipulation { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
         a, button { -webkit-tap-highlight-color: transparent; }
-        @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
-        .a1 { animation: fadeUp var(--dur-reveal) var(--ease-out) .05s both; }
-        .a2 { animation: fadeUp var(--dur-reveal) var(--ease-out) .13s both; }
-        .a3 { animation: fadeUp var(--dur-reveal) var(--ease-out) .22s both; }
-        .a4 { animation: fadeUp var(--dur-reveal) var(--ease-out) .32s both; }
-        .a5 { animation: fadeUp var(--dur-reveal) var(--ease-out) .44s both; }
         @keyframes logRow { from { opacity: 0; transform: translateY(7px); } to { opacity: 1; transform: none; } }
         .log-row { opacity: 0; animation: logRow .5s var(--ease-out) both; }
         .sb-pulse { width: 7px; height: 7px; border-radius: var(--radius-pill); background: var(--live); flex-shrink: 0; box-shadow: 0 0 0 0 color-mix(in srgb, var(--live) 50%, transparent); animation: sbPulse 2s infinite; }
@@ -1415,8 +1477,10 @@ export default function ScopeBolt() {
         .sb-ticker-half { display: flex; gap: 10px; padding-right: 10px; }
         @keyframes sbTicker { to { transform: translateX(-50%); } }
         details[open] .faq-chevron { transform: rotate(180deg); }
+        @keyframes faqIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+        details[open] .faq-answer { animation: faqIn .3s var(--ease-out); }
         @media (prefers-reduced-motion: reduce) {
-          .a1,.a2,.a3,.a4,.a5,.log-row { animation: none !important; opacity: 1 !important; transform: none !important; }
+          .log-row, .faq-answer { animation: none !important; opacity: 1 !important; transform: none !important; }
           .sb-pulse { animation: none !important; }
           .sb-ticker-track { animation: none !important; }
           .sb-ticker { -webkit-mask-image: none !important; mask-image: none !important; }
