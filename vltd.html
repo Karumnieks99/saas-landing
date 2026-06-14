@@ -1237,6 +1237,7 @@
        ============================================================ */
 
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let heroScene = null; // set once the 3D scene loads; read by the scroll wiring in init()
 
     /* ----- Three.js hero scene (dynamic import: page survives without it) ----- */
     (async () => {
@@ -1247,6 +1248,7 @@
           reducedMotion: reduceMotion,
         });
         if (!scene) throw new Error("no webgl");
+        heroScene = scene;
 
         window.addEventListener("pointermove", (e) => {
           scene.setPointer(
@@ -1335,6 +1337,12 @@
             y: -70,
             ease: "none",
             scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: 0.6 },
+          });
+
+          /* the 3D turntable settles and the camera pulls back as the hero leaves */
+          ScrollTrigger.create({
+            trigger: ".hero", start: "top top", end: "bottom top", scrub: true,
+            onUpdate: (self) => { if (heroScene) heroScene.setScroll(self.progress); },
           });
 
           /* ---- shared reveal helpers ---- */

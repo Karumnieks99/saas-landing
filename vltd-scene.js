@@ -205,6 +205,7 @@ export function createVltdScene(canvas, { reducedMotion = false } = {}) {
   /* ---- motion ---- */
 
   const pointer = { tx: 0, ty: 0 };
+  let scrollP = 0; // 0 = hero in view, 1 = hero fully scrolled away
   const clock = new THREE.Clock();
   let raf = 0;
   let running = false;
@@ -213,7 +214,12 @@ export function createVltdScene(canvas, { reducedMotion = false } = {}) {
     raf = requestAnimationFrame(frame);
     const dt = Math.min(clock.getDelta(), 0.05);
 
-    spin.rotation.y += SPIN_SPEED * dt;
+    // scroll settles the turntable and pulls the camera back/down as the hero leaves
+    const settle = 1 - scrollP * 0.6;
+    spin.rotation.y += SPIN_SPEED * dt * settle;
+    camera.position.z = 7.2 + scrollP * 0.85;
+    camera.position.y = 0.35 + scrollP * 0.4;
+    camera.lookAt(0.5, 0.35 - scrollP * 0.28, 0);
     for (const f of forms) f.obj.rotateOnAxis(f.axis, f.speed * dt * 10);
 
     // inertial tilt toward the pointer target — framerate-independent lerp
@@ -236,6 +242,10 @@ export function createVltdScene(canvas, { reducedMotion = false } = {}) {
       if (reducedMotion) return;
       pointer.tx = Math.max(-1, Math.min(1, nx));
       pointer.ty = Math.max(-1, Math.min(1, ny));
+    },
+    setScroll(p) {
+      if (reducedMotion) return;
+      scrollP = Math.max(0, Math.min(1, p));
     },
     pause() {
       if (!running) return;
