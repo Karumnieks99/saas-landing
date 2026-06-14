@@ -230,6 +230,22 @@ export function createVltdScene(canvas, { reducedMotion = false } = {}) {
     renderer.render(scene, camera);
   }
 
+  // WebGL context loss: stop cleanly, then resume (or re-render one frame) on restore
+  canvas.addEventListener("webglcontextlost", (e) => {
+    e.preventDefault();
+    cancelAnimationFrame(raf);
+    running = false;
+  }, false);
+  canvas.addEventListener("webglcontextrestored", () => {
+    if (reducedMotion) {
+      renderer.render(scene, camera);
+    } else {
+      running = true;
+      clock.getDelta(); // swallow the gap so nothing jumps
+      frame();
+    }
+  }, false);
+
   if (reducedMotion) {
     renderer.render(scene, camera); // one considered frame, no loop
   } else {

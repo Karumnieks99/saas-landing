@@ -1293,6 +1293,8 @@
         document.addEventListener("visibilitychange", () => {
           document.hidden ? scene.pause() : scene.resume();
         });
+
+        window.addEventListener("pagehide", () => scene.dispose(), { once: true });
       } catch {
         hero.classList.add("scene-fallback");
       }
