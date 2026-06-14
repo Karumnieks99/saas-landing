@@ -7,6 +7,17 @@
   <meta name="description" content="VLTD builds small-batch, hand-assembled performance systems. Specified to the component, torqued to spec, validated for seventy-two hours before they leave the bench. Twelve commissions a month." />
   <meta name="theme-color" content="#0f0e0d" />
   <meta name="robots" content="index,follow" />
+
+  <!-- Open Graph / Twitter — absolute URLs so crawlers resolve the card. -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="VLTD — Volta Custom Machines" />
+  <meta property="og:description" content="Small-batch, hand-assembled performance systems. Twelve commissions a month." />
+  <meta property="og:image" content="https://karumnieks99.github.io/3rd-webpage/og/vltd-og.png" />
+  <meta property="og:url" content="https://karumnieks99.github.io/3rd-webpage/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="VLTD — Volta Custom Machines" />
+  <meta name="twitter:description" content="An instrument, not a product. Built in series of one." />
+  <meta name="twitter:image" content="https://karumnieks99.github.io/3rd-webpage/og/vltd-og.png" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230f0e0d'/%3E%3Cpath d='M14 16h8.4l9.6 26.2L41.6 16H50L36.2 50h-8.4L14 16z' fill='%23b8912a'/%3E%3C/svg%3E" />
 
   <!-- Self-hosted brand fonts, preloaded so display type is ready by first paint. -->
@@ -47,6 +58,17 @@
       font-style: normal;
       font-display: swap;
     }
+    /* metric-matched fallbacks so the swap from Georgia/Arial barely shifts */
+    @font-face {
+      font-family: "Fraunces-fallback";
+      src: local("Georgia");
+      size-adjust: 96%; ascent-override: 92%; descent-override: 24%; line-gap-override: 0%;
+    }
+    @font-face {
+      font-family: "Archivo-fallback";
+      src: local("Arial");
+      size-adjust: 100%;
+    }
 
     :root {
       --bg: #0f0e0d;
@@ -60,8 +82,8 @@
       --brass-dim: rgba(184, 145, 42, 0.45);
       --line: rgba(231, 225, 212, 0.08);
       --line-strong: rgba(231, 225, 212, 0.18);
-      --serif: "Fraunces", "Iowan Old Style", Georgia, serif;
-      --sans: "Archivo", "Helvetica Neue", Arial, sans-serif;
+      --serif: "Fraunces", "Fraunces-fallback", "Iowan Old Style", Georgia, serif;
+      --sans: "Archivo", "Archivo-fallback", "Helvetica Neue", Arial, sans-serif;
       --ease-mass: cubic-bezier(0.19, 1, 0.22, 1); /* heavy deceleration */
       --pad-x: clamp(20px, 5vw, 72px);
     }
