@@ -130,16 +130,16 @@
 
     .statement {
       font-family: var(--serif);
-      font-variation-settings: "opsz" 100;
-      font-weight: 400;
+      font-variation-settings: "opsz" 100, "wght" 400;
       font-size: clamp(1.9rem, 4vw, 3.4rem);
       line-height: 1.12;
-      letter-spacing: -0.01em;
+      letter-spacing: -0.02em;
       max-width: 18em;
     }
     .statement em {
       font-style: italic;
-      font-weight: 420;
+      /* pinned so the reveal's per-line weight animation can't flatten it */
+      font-variation-settings: "opsz" 100, "wght" 430;
     }
 
     .body-copy {
@@ -337,13 +337,18 @@
     }
 
     .hero__title {
+      /* huge optical size, lighter + tighter for refinement at display scale */
+      font-variation-settings: "opsz" 144, "wght" 350;
       font-size: clamp(2.85rem, 8.6vw, 7.3rem);
+      letter-spacing: -0.03em;
+      line-height: 1.0;
       color: var(--ink);
       margin-bottom: clamp(24px, 4vh, 44px);
     }
     .hero__title em {
       font-style: italic;
-      font-weight: 400;
+      /* explicit axes so the accent keeps its weight over the lighter title */
+      font-variation-settings: "opsz" 144, "wght" 408;
       color: var(--brass-bright);
     }
     .mask { overflow: hidden; display: block; }
@@ -1349,12 +1354,20 @@
           // serif statements: split into lines, rise from line masks
           gsap.utils.toArray("[data-split]").forEach((el) => {
             const split = SplitText.create(el, { type: "lines", mask: "lines", linesClass: "split-line" });
-            gsap.from(split.lines, {
-              yPercent: 115,
-              duration: 1.1,
-              stagger: 0.09,
-              ease: EASE,
-              scrollTrigger: { trigger: el, start: "top 85%", once: true },
+            // resting axes for this element so the settle lands exactly on the CSS values
+            const cs = getComputedStyle(el);
+            const restW = parseInt(cs.fontWeight, 10) || 400;
+            const om = /"opsz"\s*([\d.]+)/.exec(cs.fontVariationSettings || "");
+            const opsz = om ? parseFloat(om[1]) : 100;
+            const setW = (line, w) => {
+              line.style.fontVariationSettings = '"opsz" ' + opsz + ', "wght" ' + Math.round(w);
+            };
+            split.lines.forEach((line) => setW(line, 300)); // start light, before the reveal
+            const tl = gsap.timeline({ scrollTrigger: { trigger: el, start: "top 85%", once: true } });
+            tl.from(split.lines, { yPercent: 115, duration: 1.1, stagger: 0.09, ease: EASE }, 0);
+            split.lines.forEach((line, i) => {
+              const o = { w: 300 };
+              tl.to(o, { w: restW, duration: 1.2, ease: EASE, onUpdate: () => setW(line, o.w) }, i * 0.09);
             });
           });
 
