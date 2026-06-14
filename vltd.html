@@ -724,6 +724,8 @@
     }
     .seg span:last-child { border-right: none; }
     .seg span.on { color: var(--brass-bright); background: rgba(184, 145, 42, 0.08); }
+    .seg span[role="radio"] { cursor: pointer; }
+    .seg span[role="radio"]:hover:not(.on) { color: var(--ink-dim); }
 
     .swatches { display: flex; align-items: center; gap: 10px; }
     .swatch {
@@ -732,6 +734,8 @@
       border: 1px solid var(--line-strong);
     }
     .swatch.on { box-shadow: 0 0 0 1px var(--bg-panel), 0 0 0 2px var(--brass); }
+    .swatch[role="radio"] { cursor: pointer; }
+    .swatch[role="radio"]:hover:not(.on) { border-color: var(--brass-dim); }
 
     .cfg-total {
       display: flex;
@@ -1106,15 +1110,17 @@
           </div>
         </div>
 
-        <div class="cfg-panel" data-cfg-panel aria-label="Configuration preview">
+        <div class="cfg-panel" data-cfg-panel data-base="5200" aria-label="Configure your build">
           <div class="cfg-row">
             <span class="k">Platform</span>
             <span class="v">Joule · RTX 5080 <span class="chev">›</span></span>
           </div>
           <div class="cfg-row">
-            <span class="k">Cooling</span>
-            <span class="v seg" role="img" aria-label="Open loop selected">
-              <span>Air</span><span>AIO</span><span class="on">Open loop</span>
+            <span class="k" id="cfg-cooling-label">Cooling</span>
+            <span class="v seg" role="radiogroup" aria-labelledby="cfg-cooling-label">
+              <span role="radio" tabindex="-1" aria-checked="false" data-delta="0">Air</span>
+              <span role="radio" tabindex="-1" aria-checked="false" data-delta="280">AIO</span>
+              <span class="on" role="radio" tabindex="0" aria-checked="true" data-delta="600">Open loop</span>
             </span>
           </div>
           <div class="cfg-row">
@@ -1122,13 +1128,13 @@
             <span class="v">Milled 6063 · bead-blasted <span class="chev">›</span></span>
           </div>
           <div class="cfg-row">
-            <span class="k">Finish</span>
-            <span class="v swatches" role="img" aria-label="Oxblood cerakote selected">
-              <span class="swatch" style="background:#26231f"></span>
-              <span class="swatch" style="background:#b3ada2"></span>
-              <span class="swatch" style="background:#3f4233"></span>
-              <span class="swatch on" style="background:#4a2521"></span>
-              <span style="font-size:11px;color:var(--ink-dim);margin-left:4px">Oxblood cerakote</span>
+            <span class="k" id="cfg-finish-label">Finish</span>
+            <span class="v swatches" role="radiogroup" aria-labelledby="cfg-finish-label">
+              <span class="swatch" role="radio" tabindex="-1" aria-checked="false" aria-label="Graphite cerakote" data-delta="0" data-label="Graphite cerakote" style="background:#26231f"></span>
+              <span class="swatch" role="radio" tabindex="-1" aria-checked="false" aria-label="Tungsten cerakote" data-delta="120" data-label="Tungsten cerakote" style="background:#b3ada2"></span>
+              <span class="swatch" role="radio" tabindex="-1" aria-checked="false" aria-label="Olive cerakote" data-delta="220" data-label="Olive cerakote" style="background:#3f4233"></span>
+              <span class="swatch on" role="radio" tabindex="0" aria-checked="true" aria-label="Oxblood cerakote" data-delta="340" data-label="Oxblood cerakote" style="background:#4a2521"></span>
+              <span style="font-size:11px;color:var(--ink-dim);margin-left:4px" data-cfg-label>Oxblood cerakote</span>
             </span>
           </div>
           <div class="cfg-row">
@@ -1264,6 +1270,64 @@
         hero.classList.add("scene-fallback");
       }
     })();
+
+    /* ----- interactive configurator (works without GSAP; degrades to instant totals) ----- */
+    function initConfigurator() {
+      const panel = document.querySelector("[data-cfg-panel]");
+      if (!panel) return;
+      const base = +panel.dataset.base || 5200;
+      const sumEl = panel.querySelector(".sum");
+      const groups = panel.querySelectorAll('[role="radiogroup"]');
+      const radios = (g) => [...g.querySelectorAll('[role="radio"]')];
+
+      const total = () => {
+        let t = base;
+        groups.forEach((g) => {
+          const on = g.querySelector('[aria-checked="true"]');
+          t += on ? (+on.dataset.delta || 0) : 0;
+        });
+        return t;
+      };
+      const render = (animate) => {
+        const t = total();
+        const fmt = (n) => "$" + Math.round(n).toLocaleString("en-US");
+        if (animate && window.gsap && !reduceMotion) {
+          const proxy = { v: +sumEl.dataset.v || base };
+          gsap.to(proxy, {
+            v: t, duration: 0.6, ease: "power3.out",
+            onUpdate: () => { sumEl.textContent = fmt(proxy.v); },
+          });
+        } else {
+          sumEl.textContent = fmt(t);
+        }
+        sumEl.dataset.v = t;
+      };
+      const select = (group, option) => {
+        radios(group).forEach((o) => {
+          const on = o === option;
+          o.setAttribute("aria-checked", on ? "true" : "false");
+          o.classList.toggle("on", on);
+          o.tabIndex = on ? 0 : -1; // roving tabindex
+        });
+        option.focus();
+        const lbl = group.querySelector("[data-cfg-label]");
+        if (lbl && option.dataset.label) lbl.textContent = option.dataset.label;
+        render(true);
+      };
+      groups.forEach((group) => {
+        const arr = radios(group);
+        arr.forEach((option, i) => {
+          option.addEventListener("click", () => select(group, option));
+          option.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " ") { e.preventDefault(); select(group, option); }
+            else if (e.key === "ArrowRight" || e.key === "ArrowDown") { e.preventDefault(); select(group, arr[(i + 1) % arr.length]); }
+            else if (e.key === "ArrowLeft" || e.key === "ArrowUp") { e.preventDefault(); select(group, arr[(i - 1 + arr.length) % arr.length]); }
+          });
+        });
+      });
+      render(false);
+    }
+    initConfigurator();
 
     /* ----- GSAP ----- */
     function whenGsapReady(cb) {
