@@ -18,3 +18,7 @@ Thumbs.db
 .env
 .env.*
 *.local
+
+# VLTD verification tooling (local-only)
+.cdp-shot.mjs
+*.shot.png
