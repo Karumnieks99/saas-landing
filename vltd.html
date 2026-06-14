@@ -165,7 +165,8 @@
       border: 1px solid var(--line-strong);
       color: var(--ink);
       overflow: hidden;
-      transition: color 0.45s var(--ease-mass), border-color 0.45s var(--ease-mass);
+      transition: color 0.45s var(--ease-mass), border-color 0.45s var(--ease-mass),
+                  transform 0.3s var(--ease-mass);
     }
     .btn::before {
       content: "";
@@ -184,6 +185,32 @@
     .btn--brass:hover { color: var(--bg); }
 
     .btn .tick { font-family: var(--serif); font-style: italic; letter-spacing: 0; }
+
+    /* brass cursor ring — only on hover-capable, motion-on devices */
+    .cursor-ring {
+      position: fixed;
+      top: 0; left: 0;
+      width: 24px; height: 24px;
+      border: 1px solid var(--brass);
+      border-radius: 50%;
+      background: transparent;
+      pointer-events: none;
+      z-index: 100;
+      opacity: 0;
+      transition: opacity 0.3s var(--ease-mass), width 0.3s var(--ease-mass),
+                  height 0.3s var(--ease-mass), background-color 0.3s var(--ease-mass),
+                  border-color 0.3s var(--ease-mass);
+      will-change: transform;
+    }
+    .cursor-ring.is-active { opacity: 1; }
+    .cursor-ring.is-over {
+      width: 54px; height: 54px;
+      background: rgba(184, 145, 42, 0.10);
+      border-color: var(--brass-bright);
+    }
+    @media (hover: none), (prefers-reduced-motion: reduce) {
+      .cursor-ring { display: none !important; }
+    }
 
     /* ---------- nav ---------- */
 
@@ -1328,6 +1355,48 @@
       render(false);
     }
     initConfigurator();
+
+    /* ----- brass cursor ring + magnetic CTAs (hover + motion devices only) ----- */
+    function initCursor() {
+      if (reduceMotion || !window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+      const ring = document.createElement("div");
+      ring.className = "cursor-ring";
+      document.body.appendChild(ring);
+
+      const pos = { x: innerWidth / 2, y: innerHeight / 2 };
+      const aim = { x: pos.x, y: pos.y };
+      let magnet = null;
+      let shown = false;
+      const release = () => { if (magnet) { magnet.style.transform = ""; magnet = null; } ring.classList.remove("is-over"); };
+
+      addEventListener("pointermove", (e) => {
+        aim.x = e.clientX; aim.y = e.clientY;
+        if (!shown) { shown = true; ring.classList.add("is-active"); }
+        const el = e.target.closest ? e.target.closest(".btn") : null;
+        if (el) {
+          if (el !== magnet) { release(); magnet = el; ring.classList.add("is-over"); }
+          const r = el.getBoundingClientRect();
+          const dx = e.clientX - (r.left + r.width / 2);
+          const dy = e.clientY - (r.top + r.height / 2);
+          el.style.transform = "translate(" + (dx * 0.28).toFixed(1) + "px," + (dy * 0.4).toFixed(1) + "px)";
+        } else if (magnet) {
+          release();
+        }
+      }, { passive: true });
+
+      addEventListener("pointerleave", () => { ring.classList.remove("is-active"); shown = false; release(); });
+
+      let last = performance.now();
+      (function tick(now) {
+        requestAnimationFrame(tick);
+        const dt = Math.min((now - last) / 1000, 0.05); last = now;
+        const k = 1 - Math.exp(-16 * dt); // framerate-independent follow
+        pos.x += (aim.x - pos.x) * k;
+        pos.y += (aim.y - pos.y) * k;
+        ring.style.transform = "translate(" + pos.x.toFixed(1) + "px," + pos.y.toFixed(1) + "px) translate(-50%, -50%)";
+      })(last);
+    }
+    initCursor();
 
     /* ----- GSAP ----- */
     function whenGsapReady(cb) {
