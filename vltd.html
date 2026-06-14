@@ -639,7 +639,8 @@
     /* doctrine strip — counted numbers */
     .doctrine {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: 1.5fr 1fr 1.5fr 1fr;
+      align-items: end;
       border: 1px solid var(--line);
       border-top: none;
     }
@@ -649,20 +650,28 @@
     }
     .doctrine__cell:last-child { border-right: none; }
     .doctrine__num {
-      font-variation-settings: "wdth" 115;
-      font-weight: 300;
-      font-size: clamp(2rem, 3.2vw, 3.1rem);
-      line-height: 1;
+      /* quiet, supporting facts */
+      font-variation-settings: "wdth" 118, "wght" 300;
+      font-size: clamp(1.6rem, 2.3vw, 2.3rem);
+      line-height: 0.92;
       font-variant-numeric: tabular-nums;
+      color: var(--ink-dim);
+      margin-bottom: 12px;
+    }
+    /* headline facts — soak time + monthly cap carry the weight */
+    .doctrine__cell--lead .doctrine__num {
+      font-variation-settings: "wdth" 110, "wght" 365;
+      font-size: clamp(3rem, 5.6vw, 5.6rem);
+      letter-spacing: -0.02em;
       color: var(--ink);
-      margin-bottom: 10px;
     }
     .doctrine__num sup {
-      font-size: 0.45em;
+      font-size: 0.4em;
       color: var(--brass);
-      font-weight: 420;
-      margin-left: 2px;
+      font-variation-settings: "wght" 420;
+      margin-left: 3px;
     }
+    .doctrine__cell--lead .doctrine__num sup { font-size: 0.26em; }
     .doctrine__cell .label { font-size: 9.5px; color: var(--ink-faint); }
 
     /* ---------- configurator teaser ---------- */
@@ -1051,20 +1060,20 @@
       </div>
 
       <div class="doctrine" data-doctrine>
-        <div class="doctrine__cell">
-          <div class="doctrine__num"><span data-count="72">72</span><sup>hrs</sup></div>
+        <div class="doctrine__cell doctrine__cell--lead">
+          <div class="doctrine__num"><span data-count="72" data-wght="365" data-wdth="110">72</span><sup>hrs</sup></div>
           <span class="label">Validation soak, every build</span>
         </div>
         <div class="doctrine__cell">
-          <div class="doctrine__num"><span data-count="311">311</span></div>
+          <div class="doctrine__num"><span data-count="311" data-wght="300" data-wdth="118">311</span></div>
           <span class="label">Checkpoints per assembly</span>
         </div>
-        <div class="doctrine__cell">
-          <div class="doctrine__num"><span data-count="12">12</span></div>
+        <div class="doctrine__cell doctrine__cell--lead">
+          <div class="doctrine__num"><span data-count="12" data-wght="365" data-wdth="110">12</span></div>
           <span class="label">Commissions a month, maximum</span>
         </div>
         <div class="doctrine__cell">
-          <div class="doctrine__num"><span data-count="4">4</span><sup>yr</sup></div>
+          <div class="doctrine__num"><span data-count="4" data-wght="300" data-wdth="118">4</span><sup>yr</sup></div>
           <span class="label">Transferable warranty</span>
         </div>
       </div>
@@ -1372,14 +1381,20 @@
           /* ---- doctrine: counters roll up ---- */
           gsap.utils.toArray("[data-count]").forEach((el) => {
             const target = parseFloat(el.dataset.count);
-            const proxy = { v: 0 };
+            const restW = parseFloat(el.dataset.wght) || 300;   // resting weight
+            const wdth = parseFloat(el.dataset.wdth) || 115;
+            const proxy = { v: 0, w: 200 };                     // start light, firm up as it rolls
             gsap.to(proxy, {
               v: target,
+              w: restW,
               duration: 1.6,
               ease: "power3.out",
               snap: { v: 1 },
               scrollTrigger: { trigger: el, start: "top 88%", once: true },
-              onUpdate: () => { el.textContent = String(Math.round(proxy.v)); },
+              onUpdate: () => {
+                el.textContent = String(Math.round(proxy.v));
+                el.style.fontVariationSettings = '"wdth" ' + wdth + ', "wght" ' + Math.round(proxy.w);
+              },
             });
           });
           gsap.from("[data-doctrine]", {
