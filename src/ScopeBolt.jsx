@@ -1,3 +1,15 @@
+/**
+ * ScopeBolt.jsx — the ScopeBolt marketing landing page (single-file React).
+ * A fictional SaaS for commercial subcontractors: it logs field changes, checks
+ * them against the signed contract, and turns out-of-scope work into signed
+ * change orders.
+ *
+ * Structure: all page copy lives in the CONTENT constants just below; each
+ * section is a self-contained presentational component; <ScopeBolt/> at the
+ * bottom composes them in order. GSAP + ScrollTrigger drive the scroll-reveal
+ * motion (with a prefers-reduced-motion fallback). Visual design tokens come
+ * from scopebolt-tokens.css.
+ */
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -45,7 +57,7 @@ const MOCK_LOG_ROWS = [
   { t: "09:42", code: "IN-001", desc: "Added 40 LF of 2\" conduit run", base: "In contract", kind: "logged" },
   { t: "09:43", code: "OUT-118", desc: "Reroute around new duct bank", base: "Not in baseline", kind: "flag", amount: "+$1,240" },
   { t: "10:01", code: "CO-118", desc: "Change order sent to GC", base: "Pending sign-off", kind: "sent" },
-  { t: "10:14", code: "CO-118", desc: "GC signed — Riverfront PM", base: "Approved", kind: "signed", amount: "+$1,240" },
+  { t: "10:14", code: "CO-118", desc: "GC signed, Riverfront PM", base: "Approved", kind: "signed", amount: "+$1,240" },
 ];
 
 const MOCK_SIDEBAR = [
@@ -71,7 +83,7 @@ const HOW_STEPS = [
     n: "2",
     tag: "Capture",
     title: "Log changes from the field",
-    body: "Foremen capture every extra, delay, or verbal directive by photo, voice, or text — timestamped and tied to the job.",
+    body: "Foremen capture every extra, delay, or verbal directive by photo, voice, or text, timestamped and tied to the job.",
     meta: "Works offline on mobile",
     icon: "camera",
   },
@@ -123,30 +135,28 @@ const WALKTHROUGH = [
   },
 ];
 
-// The four emoji glyphs are the brand's single sanctioned emoji use —
-// jobsite shorthand on the feature cards, nowhere else.
 const FEATURES = [
   {
     tag: "Track",
-    glyph: "📋",
+    icon: "list",
     title: "A scope log that never lies",
     desc: "Every request, email, and verbal directive is timestamped and tied to a job code the moment it happens.",
   },
   {
     tag: "Alert",
-    glyph: "⚠️",
+    icon: "alert",
     title: "Know before you dig in",
-    desc: "ScopeBolt compares new work against your signed contract and flags anything outside it — instantly.",
+    desc: "ScopeBolt compares new work against your signed contract and flags anything outside it, instantly.",
   },
   {
     tag: "Bill",
-    glyph: "⚡",
+    icon: "bolt",
     title: "Change orders in 60 seconds",
     desc: "One tap turns a flagged item into a professional, GC-ready change order with the proof attached.",
   },
   {
     tag: "Protect",
-    glyph: "🛡️",
+    icon: "shield",
     title: "Dispute-proof documentation",
     desc: "Every interaction is archived for five years. Pull it up mid-dispute and win the conversation.",
   },
@@ -176,9 +186,9 @@ const USE_CASES = [
 const TESTIMONIALS = [
   {
     quote:
-      "We were bleeding $6–8k a project on scope drift and didn't even know it. ScopeBolt paid for itself on the first job.",
+      "We were bleeding $6-8k a project on scope drift and didn't even know it. ScopeBolt paid for itself on the first job.",
     name: "Mike R.",
-    role: "Owner · 18-person electrical sub · Chicago, IL",
+    role: "Owner of an 18-person electrical sub in Chicago, IL",
     initials: "MR",
     hue: "indigo",
     recovered: "$11,400 recovered in 3 months",
@@ -187,7 +197,7 @@ const TESTIMONIALS = [
     quote:
       "Change orders used to take two days of back-and-forth. Now my PM sends one from the truck and the GC signs it the same day.",
     name: "Sandra T.",
-    role: "Project manager · 32-person mechanical sub · Dallas, TX",
+    role: "Project manager at a 32-person mechanical sub in Dallas, TX",
     initials: "ST",
     hue: "rose",
     recovered: "$7,800 recovered in month one",
@@ -196,7 +206,7 @@ const TESTIMONIALS = [
     quote:
       "I pulled the scope log up mid-dispute and won $22k that would've been a complete write-off. That log is gold.",
     name: "Aaron K.",
-    role: "Owner · 9-person concrete crew · Denver, CO",
+    role: "Owner of a 9-person concrete crew in Denver, CO",
     initials: "AK",
     hue: "emerald",
     recovered: "$22,000 won in one dispute",
@@ -221,7 +231,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "Can field crews use it on mobile?",
-    a: "Yes. The field app is built mobile-first for foremen. They log a change by photo, voice, or text in under 30 seconds — no training required.",
+    a: "Yes. The field app is built mobile-first for foremen. They log a change by photo, voice, or text in under 30 seconds. No training required.",
   },
   {
     q: "Can I export change orders as PDF?",
@@ -229,7 +239,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "Can GCs sign digitally?",
-    a: "Yes. GCs get a secure link, review the CO, and sign on any device. You see the signed status the second it happens — no account required on their end.",
+    a: "Yes. GCs get a secure link, review the CO, and sign on any device. You see the signed status the second it happens. No account required on their end.",
   },
   {
     q: "Does it work for electrical, mechanical, and concrete subs?",
@@ -241,7 +251,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "Can I invite PMs, foremen, and office staff?",
-    a: "Yes — unlimited users on every plan. Set role-based access so the field logs, the office bills, and PMs see everything in one place.",
+    a: "Yes. Unlimited users on every plan. Set role-based access so the field logs, the office bills, and PMs see everything in one place.",
   },
   {
     q: "Is my contract and job data secure?",
@@ -443,7 +453,7 @@ function MetricTile({ label, value, sub, tone }) {
   );
 }
 
-function ProductMockup() {
+function ProductMockup({ compact = false }) {
   const [go, setGo] = useState(false);
   const reduce = prefersReducedMotion();
 
@@ -461,7 +471,9 @@ function ProductMockup() {
       style={{ boxShadow: "var(--shadow-lg), var(--shadow-pop)" }}
     >
       <div className="flex min-h-[420px]">
-        {/* Sidebar (desktop) */}
+        {/* Sidebar (desktop). Hidden in the compact/hero placement so the
+            log + rail keep their room in a narrower column. */}
+        {!compact && (
         <aside className="hidden w-52 flex-shrink-0 flex-col bg-[var(--surface-dark)] lg:flex">
           <div className="flex items-center gap-2 px-5 py-4">
             <LogoMark className="h-6 w-6" />
@@ -494,6 +506,7 @@ function ProductMockup() {
             </div>
           </div>
         </aside>
+        )}
 
         {/* Main */}
         <div className="flex min-w-0 flex-1 flex-col">
@@ -618,12 +631,35 @@ function Logo({ className = "text-[17px]" }) {
 }
 
 function Drawer({ open, onClose }) {
+  const panelRef = useRef(null);
+  const closeRef = useRef(null);
+  const wasOpen = useRef(false);
+
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
+    // Keep the off-canvas panel out of the tab order + a11y tree when closed.
+    if (panelRef.current) panelRef.current.inert = !open;
+    if (open) {
+      closeRef.current?.focus();
+      wasOpen.current = true;
+    } else if (wasOpen.current) {
+      // Return focus to the trigger when the drawer closes (not on first mount).
+      document.getElementById("menu-button")?.focus();
+      wasOpen.current = false;
+    }
     return () => {
       document.body.style.overflow = "";
     };
   }, [open]);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [open, onClose]);
 
   return (
     <>
@@ -632,11 +668,16 @@ function Drawer({ open, onClose }) {
         onClick={onClose}
       />
       <div
+        ref={panelRef}
+        id="mobile-drawer"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Menu"
         className={`fixed top-0 right-0 bottom-0 z-50 flex w-[300px] flex-col bg-[var(--surface-page)] shadow-2xl transition-transform duration-300 ${open ? "translate-x-0" : "translate-x-full"}`}
       >
         <div className="flex h-[60px] items-center justify-between border-b border-[color:var(--border)] px-5">
           <Logo className="text-[15px]" />
-          <button type="button" onClick={onClose} aria-label="Close menu" className="flex h-9 w-9 items-center justify-center rounded-[var(--radius-md)] text-[color:var(--text-strong)] active:bg-[var(--zinc-100)] touch-manipulation">
+          <button ref={closeRef} type="button" onClick={onClose} aria-label="Close menu" className="flex h-11 w-11 items-center justify-center rounded-[var(--radius-md)] text-[color:var(--text-strong)] active:bg-[var(--zinc-100)] touch-manipulation">
             <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
               <path d="M6 18L18 6M6 6l12 12" strokeLinecap="round" />
             </svg>
@@ -667,7 +708,7 @@ function Drawer({ open, onClose }) {
   );
 }
 
-function Navbar({ onOpenMenu, scrolled }) {
+function Navbar({ onOpenMenu, scrolled, expanded }) {
   return (
     <nav
       className="fixed top-0 inset-x-0 z-30 transition-all duration-200"
@@ -698,7 +739,7 @@ function Navbar({ onOpenMenu, scrolled }) {
             Start free trial
           </a>
         </div>
-        <button type="button" onClick={onOpenMenu} aria-label="Open menu" className="flex h-10 w-10 items-center justify-center rounded-[var(--radius-md)] text-[color:var(--text-strong)] active:bg-[var(--zinc-100)] touch-manipulation md:hidden">
+        <button type="button" id="menu-button" aria-expanded={expanded} aria-controls="mobile-drawer" onClick={onOpenMenu} aria-label="Open menu" className="flex h-11 w-11 items-center justify-center rounded-[var(--radius-md)] text-[color:var(--text-strong)] active:bg-[var(--zinc-100)] touch-manipulation md:hidden">
           <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
             <path d="M4 6h16M4 12h16M4 18h16" strokeLinecap="round" />
           </svg>
@@ -731,70 +772,72 @@ function Hero() {
   return (
     <section id="top" data-hero className="relative overflow-hidden bg-[var(--surface-page)] px-4 pt-[92px] pb-16 sm:px-6 sm:pt-[112px] sm:pb-24">
       <div className="sb-grid-light pointer-events-none absolute inset-0" />
-      <div data-hero-glow className="pointer-events-none absolute -top-16 left-1/2 h-[360px] w-[640px] -translate-x-1/2 rounded-full bg-[var(--brand)] opacity-[0.05] blur-[120px]" />
+      <div data-hero-glow className="pointer-events-none absolute -top-16 left-1/2 h-[360px] w-[640px] -translate-x-1/2 rounded-full bg-[var(--brand)] opacity-[0.05] blur-[100px]" />
 
-      <div className="relative mx-auto max-w-3xl text-center">
-        <div
-          data-hero-seq
-          className="inline-flex items-center gap-2.5 rounded-[var(--radius-pill)] border border-[color:var(--border)] px-3.5 py-1.5 text-[12px] font-medium text-[color:var(--text-muted)] backdrop-blur"
-          style={{ background: "color-mix(in srgb, var(--white) 80%, transparent)" }}
-        >
-          <span className="sb-pulse" />
-          Scope &amp; change-order control for commercial subs
-        </div>
+      <div className="relative mx-auto flex max-w-[var(--container-max)] flex-col items-start gap-12 lg:flex-row lg:items-center lg:gap-14">
+        {/* Left: the pitch */}
+        <div className="w-full max-w-xl lg:w-[42%] lg:flex-shrink-0">
+          <div
+            data-hero-seq
+            className="inline-flex items-center gap-2.5 rounded-[var(--radius-pill)] border border-[color:var(--border)] px-3.5 py-1.5 text-[12px] font-medium text-[color:var(--text-muted)] backdrop-blur"
+            style={{ background: "color-mix(in srgb, var(--white) 80%, transparent)" }}
+          >
+            <span className="sb-pulse" />
+            Scope &amp; change-order control for commercial subs
+          </div>
 
-        <h1 data-hero-seq className="sb-h1 mt-6">
-          Stop <Em>losing money</Em> to scope creep.
-        </h1>
+          <h1 data-hero-seq className="sb-h1 mt-6">
+            Stop <Em>losing money</Em> to scope creep.
+          </h1>
 
-        <p data-hero-seq className="mx-auto mt-5 max-w-xl text-[16px] leading-relaxed text-[color:var(--text-muted)] sm:text-[length:var(--fs-lead)]">
-          ScopeBolt logs every field change, checks it against your signed contract, and turns out-of-scope work into a
-          signed change order &mdash; so subs recover an average of <span className="font-semibold text-[color:var(--text-strong)]">$4,200 a job</span> instead of eating it.
-        </p>
+          <p data-hero-seq className="mt-5 max-w-lg text-[16px] leading-relaxed text-[color:var(--text-muted)] sm:text-[length:var(--fs-lead)]">
+            ScopeBolt logs every field change, checks it against your signed contract, and turns out-of-scope work into a
+            signed change order, so subs recover an average of <span className="font-semibold text-[color:var(--text-strong)]">$4,200 a job</span> instead of eating it.
+          </p>
 
-        <div data-hero-seq className="mt-8 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center">
-          <Cta href={TRIAL_CTA_HREF} variant="brand" withArrow>
-            Start free trial
-          </Cta>
-          <Cta href={DEMO_CTA_HREF} variant="secondary">
-            <Icon name="play" className="h-3.5 w-3.5 text-[color:var(--text-muted)]" stroke={1.75} />
-            Book a demo
-          </Cta>
-        </div>
-        <p data-hero-seq className="mt-3 text-[length:var(--fs-meta)] text-[color:var(--text-faint)]">No card. 14-day trial. Cancel anytime.</p>
+          <div data-hero-seq className="mt-8 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center">
+            <Cta href={TRIAL_CTA_HREF} variant="brand" withArrow>
+              Start free trial
+            </Cta>
+            <Cta href={DEMO_CTA_HREF} variant="secondary">
+              <Icon name="play" className="h-3.5 w-3.5 text-[color:var(--text-muted)]" stroke={1.75} />
+              Book a demo
+            </Cta>
+          </div>
 
-        <div data-hero-seq className="mt-7 flex flex-wrap items-center justify-center gap-x-3 gap-y-2">
-          <div className="flex -space-x-2">
-            {HERO_AVATARS.map((a) => (
-              <span
-                key={a.initials}
-                className="flex h-7 w-7 items-center justify-center rounded-full border-2 border-[color:var(--white)] text-[9px] font-bold text-[color:var(--text-on-dark)]"
-                style={{ background: AVATAR_HUES[a.hue] }}
-              >
-                {a.initials}
+          <div data-hero-seq className="mt-9 flex flex-wrap items-center gap-x-3 gap-y-2">
+            <div className="flex -space-x-2">
+              {HERO_AVATARS.map((a) => (
+                <span
+                  key={a.initials}
+                  className="flex h-7 w-7 items-center justify-center rounded-full border-2 border-[color:var(--white)] text-[9px] font-bold text-[color:var(--text-on-dark)]"
+                  style={{ background: AVATAR_HUES[a.hue] }}
+                >
+                  {a.initials}
+                </span>
+              ))}
+            </div>
+            <div className="flex items-center gap-1.5">
+              <Stars />
+              <span className="text-[length:var(--fs-meta)] text-[color:var(--text-muted)]">
+                <span className="font-semibold text-[color:var(--text-strong)]">4.9</span> &middot; 340+ subs on live jobs
               </span>
-            ))}
-          </div>
-          <div className="flex items-center gap-1.5">
-            <Stars />
-            <span className="text-[length:var(--fs-meta)] text-[color:var(--text-muted)]">
-              <span className="font-semibold text-[color:var(--text-strong)]">4.9</span> &middot; 340+ subs
-            </span>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Product mockup */}
-      <div data-hero-mockup className="relative mx-auto mt-12 max-w-[var(--container-max)] sm:mt-14">
-        <div className="sb-mono mb-2.5 flex items-center gap-2 text-[10px] uppercase tracking-[var(--tracking-eyebrow)] text-[color:var(--text-faint)]">
-          <span className="sb-pulse" />
-          Live job dashboard
+        {/* Right: the live job dashboard — the product doing its job, not a slide. */}
+        <div data-hero-mockup className="w-full lg:w-[58%] lg:min-w-[560px]">
+          <div className="sb-mono mb-2.5 flex items-center gap-2 text-[10px] uppercase tracking-[var(--tracking-eyebrow)] text-[color:var(--text-faint)]">
+            <span className="sb-pulse" />
+            Live job dashboard
+          </div>
+          <ProductMockup compact />
         </div>
-        <ProductMockup />
       </div>
 
       {/* Proof strip */}
-      <div data-reveal className="relative mx-auto mt-12 max-w-4xl sm:mt-14">
+      <div data-reveal className="relative mx-auto mt-14 max-w-4xl sm:mt-16">
         <div className="grid grid-cols-3 divide-x divide-[color:var(--border)] border-y border-[color:var(--border)]">
           {PROOF_ITEMS.map((p) => (
             <ProofStat key={p.label} value={p.value} label={p.label} />
@@ -842,7 +885,6 @@ function IntegrationStrip() {
     <section className="border-y border-[color:var(--border)] bg-[var(--surface-subtle)] px-0 py-10 sm:py-12">
       <div data-reveal className="mx-auto max-w-[var(--container-max)]">
         <div className="flex flex-col items-center gap-3 px-4 text-center sm:px-6">
-          <Eyebrow>Integrations</Eyebrow>
           <p className="max-w-md text-[length:var(--fs-body)] font-medium text-[color:var(--text-body)]">Works with the tools your crew already uses</p>
         </div>
         {/* Logo ticker — drifts horizontally, pauses on hover */}
@@ -884,9 +926,8 @@ function HowItWorks() {
       <div>
         <div data-reveal className="mb-10 flex flex-col gap-4 sm:mb-14 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <Eyebrow>How it works</Eyebrow>
             <SectionHeading className="max-w-lg">
-              From job start to <Em>paid</Em> &mdash; in three moves
+              From job start to <Em>paid</Em>, in three moves
             </SectionHeading>
           </div>
           <p className="max-w-[260px] text-[length:var(--fs-sm)] leading-relaxed text-[color:var(--text-muted)] sm:pb-1.5 sm:text-right">
@@ -897,7 +938,7 @@ function HowItWorks() {
           {HOW_STEPS.map((s) => (
             <div key={s.n} className="sb-card p-6">
               <HowVisual icon={s.icon} n={s.n} />
-              <div className="text-[length:var(--fs-eyebrow)] font-bold uppercase tracking-[var(--tracking-eyebrow)] text-[color:var(--orange-600)]">{s.tag}</div>
+              <div className="text-[length:var(--fs-eyebrow)] font-bold uppercase tracking-[var(--tracking-eyebrow)] text-[color:var(--brand-deep)]">{s.tag}</div>
               <h3 className="mt-1.5 text-[16px] font-semibold text-[color:var(--text-strong)]">{s.title}</h3>
               <p className="mt-2 text-[length:var(--fs-sm)] leading-relaxed text-[color:var(--text-muted)]">{s.body}</p>
               <div className="mt-5 inline-flex items-center gap-1.5 border-t border-[color:var(--zinc-100)] pt-3 text-[length:var(--fs-xs)] font-medium text-[color:var(--text-muted)]">
@@ -928,13 +969,12 @@ function Walkthrough() {
       <div>
         <div data-reveal className="mb-10 flex flex-col gap-4 sm:mb-12 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <Eyebrow>The workflow</Eyebrow>
             <SectionHeading className="max-w-md">
               From field note to <Em>signed change order</Em>
             </SectionHeading>
           </div>
           <p className="max-w-[280px] text-[length:var(--fs-sm)] leading-relaxed text-[color:var(--text-muted)] sm:pb-1.5 sm:text-right">
-            Five steps, one tool &mdash; captured, priced, and approved before it costs you a dime.
+            Five steps, one tool. Captured, priced, and approved before it costs you a dime.
           </p>
         </div>
 
@@ -1033,9 +1073,11 @@ function Features() {
         <div data-reveal-group className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           {FEATURES.map((f) => (
             <div key={f.title} className="sb-card--dark group p-6">
-              {/* Emoji glyph — the brand's sanctioned jobsite shorthand */}
-              <div className="mb-4 text-[24px] leading-none" aria-hidden="true">
-                {f.glyph}
+              <div
+                className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-[var(--radius-md)] border border-[color:var(--border-dark)] text-[color:var(--accent-on-dark)]"
+                style={{ background: "color-mix(in srgb, var(--accent-on-dark) 10%, transparent)" }}
+              >
+                <Icon name={f.icon} className="h-5 w-5" stroke={1.75} />
               </div>
               <div className="text-[length:var(--fs-eyebrow)] font-bold uppercase tracking-[var(--tracking-eyebrow)] text-[color:var(--accent-on-dark)]">{f.tag}</div>
               <h3 className="mt-1.5 text-[length:var(--fs-h3)] font-semibold text-[color:var(--text-on-dark)]">{f.title}</h3>
@@ -1069,7 +1111,6 @@ function UseCases() {
     <section id="use-cases" className="mx-auto max-w-[var(--container-max)] px-4 py-14 sm:px-6 sm:py-20">
       <div>
         <div data-reveal className="mb-10 sm:mb-12">
-          <Eyebrow>Use cases</Eyebrow>
           <SectionHeading className="max-w-lg">
             Tuned to the way <Em>your trade</Em> works
           </SectionHeading>
@@ -1136,9 +1177,12 @@ function TestiSwiper() {
             key={i}
             type="button"
             aria-label={`Go to testimonial ${i + 1}`}
+            aria-current={i === idx ? "true" : undefined}
             onClick={() => setIdx(i)}
-            className={`h-1.5 rounded-full transition-all touch-manipulation ${i === idx ? "w-5 bg-[var(--surface-ink)]" : "w-1.5 bg-[var(--zinc-300)]"}`}
-          />
+            className="flex h-11 items-center px-1 touch-manipulation"
+          >
+            <span className={`block h-1.5 rounded-full transition-all ${i === idx ? "w-5 bg-[var(--surface-ink)]" : "w-1.5 bg-[var(--zinc-300)]"}`} />
+          </button>
         ))}
       </div>
     </div>
@@ -1172,7 +1216,6 @@ function Testimonials() {
       <div>
         <div data-reveal className="mb-8 flex flex-col gap-4 sm:mb-12 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <Eyebrow>Results</Eyebrow>
             <SectionHeading className="max-w-md">
               Real money recovered by <Em>real subs</Em>
             </SectionHeading>
@@ -1241,7 +1284,7 @@ function Pricing() {
 
             <div className="my-6 inline-flex items-center gap-1.5 rounded-[var(--radius-pill)] border border-[color:var(--border)] bg-[var(--surface-subtle)] px-3 py-1.5 text-[length:var(--fs-xs)] font-semibold text-[color:var(--text-muted)]">
               <Icon name="briefcase" className="h-3.5 w-3.5" stroke={2} />
-              Best for subs running 3&ndash;25 active jobs a month
+              Best for subs running 3-25 active jobs a month
             </div>
 
             <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -1256,7 +1299,7 @@ function Pricing() {
             <Cta href={TRIAL_CTA_HREF} variant="primary" withArrow className="mt-8 w-full">
               Start free 14-day trial
             </Cta>
-            <p className="mt-3 text-center text-[length:var(--fs-meta)] text-[color:var(--text-faint)]">No credit card required</p>
+            <p className="mt-3 text-center text-[length:var(--fs-meta)] text-[color:var(--text-muted)]">No credit card required</p>
           </div>
         </div>
       </div>
@@ -1273,7 +1316,6 @@ function Faq() {
     <section id="faq" className="mx-auto max-w-3xl px-4 py-14 sm:px-6 sm:py-20">
       <div>
         <div data-reveal className="mb-8 text-center sm:mb-12">
-          <Eyebrow>FAQ</Eyebrow>
           <SectionHeading>
             Questions subs <Em>actually ask</Em>
           </SectionHeading>
@@ -1305,9 +1347,6 @@ function FinalCta() {
         <div className="sb-grid-dark pointer-events-none absolute inset-0" />
         <div className="relative flex flex-col items-center justify-between gap-8 bg-[var(--surface-dark)] px-6 py-12 text-center sm:flex-row sm:px-14 sm:py-16 sm:text-left">
           <div>
-            <div className="mb-4">
-              <Eyebrow tone="dark">Start today</Eyebrow>
-            </div>
             <h2 className="sb-h2 sb-h2--dark">
               Stop giving away <Em>work for free</Em>.
             </h2>
@@ -1336,13 +1375,19 @@ function Footer() {
       <div className="mx-auto flex max-w-[var(--container-max)] flex-col items-center justify-between gap-4 px-4 py-7 sm:flex-row sm:px-6">
         <Logo className="text-[15px]" />
         <div className="flex flex-wrap justify-center gap-6">
-          {["Privacy", "Terms", "Security", "Contact", "Docs"].map((l) => (
-            <a key={l} href="#" className="py-1 text-[length:var(--fs-meta)] text-[color:var(--text-muted)] transition-colors hover:text-[color:var(--text-strong)] touch-manipulation">
-              {l}
+          {[
+            { label: "Privacy", href: "#" },
+            { label: "Terms", href: "#" },
+            { label: "Security", href: "#" },
+            { label: "Contact", href: DEMO_CTA_HREF },
+            { label: "Docs", href: "#" },
+          ].map((l) => (
+            <a key={l.label} href={l.href} className="py-2 text-[length:var(--fs-meta)] text-[color:var(--text-muted)] transition-colors hover:text-[color:var(--text-strong)] touch-manipulation">
+              {l.label}
             </a>
           ))}
         </div>
-        <span className="text-[length:var(--fs-meta)] text-[color:var(--text-faint)]">&copy; 2026 ScopeBolt</span>
+        <span className="text-[length:var(--fs-meta)] text-[color:var(--text-muted)]">&copy; 2026 ScopeBolt</span>
       </div>
     </footer>
   );
@@ -1413,7 +1458,8 @@ export default function ScopeBolt() {
   );
 
   return (
-    <div ref={rootRef} className="sb-root min-h-screen overflow-x-hidden bg-[var(--surface-page)] text-[color:var(--text-strong)] antialiased">
+    <div ref={rootRef} className="sb-root relative min-h-screen overflow-x-hidden bg-[var(--surface-page)] text-[color:var(--text-strong)] antialiased">
+      <a href="#main" className="skip-link">Skip to content</a>
       <style>{`
         /* ---- Families (tokens live in scopebolt-tokens.css) ---------- */
         .sb-root, .sb-root * { font-family: var(--font-sans); }
@@ -1424,14 +1470,14 @@ export default function ScopeBolt() {
         .sb-h1 { font-size: var(--fs-display-1); line-height: var(--lh-display); letter-spacing: var(--tracking-display); font-weight: var(--fw-semibold); color: var(--text-strong); text-wrap: balance; }
         .sb-h2 { font-size: var(--fs-display-2); line-height: var(--lh-display); letter-spacing: var(--tracking-display); font-weight: var(--fw-semibold); color: var(--text-strong); text-wrap: balance; }
         .sb-h2--dark { color: var(--text-on-dark); }
-        .sb-eyebrow { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: var(--radius-pill); background: var(--orange-50); border: 1px solid var(--orange-200); color: var(--orange-600); font-size: var(--fs-eyebrow); font-weight: var(--fw-bold); letter-spacing: var(--tracking-eyebrow); text-transform: uppercase; }
+        .sb-eyebrow { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: var(--radius-pill); background: var(--orange-50); border: 1px solid var(--orange-200); color: var(--brand-deep); font-size: var(--fs-eyebrow); font-weight: var(--fw-bold); letter-spacing: var(--tracking-eyebrow); text-transform: uppercase; }
         .sb-eyebrow--dark { background: color-mix(in srgb, var(--white) 5%, transparent); border-color: var(--border-dark); color: var(--accent-on-dark); }
 
         /* ---- Buttons -------------------------------------------------
            Primary is INK — orange ('brand') is a once-per-view hero
            option. Secondary = white outline; ghost = text-only. */
         .sb-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 52px; padding: 0 28px; border-radius: var(--radius-md); border: 1px solid transparent; font-size: var(--fs-body); font-weight: var(--fw-semibold); letter-spacing: var(--tracking-tight); line-height: 1; text-decoration: none; white-space: nowrap; cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent; transition: transform var(--dur-fast) var(--ease-out), background var(--dur-base) ease, color var(--dur-base) ease, box-shadow var(--dur-base) ease, border-color var(--dur-base) ease; }
-        .sb-btn--sm { min-height: 38px; padding: 0 14px; font-size: var(--fs-meta); }
+        .sb-btn--sm { min-height: 44px; padding: 0 14px; font-size: var(--fs-meta); }
         .sb-btn--primary { background: var(--surface-ink); color: var(--text-on-dark); box-shadow: var(--shadow-control); }
         .sb-btn--primary:hover { background: var(--zinc-800); transform: translateY(-1px); }
         .sb-btn--primary:active { background: var(--zinc-950); transform: scale(.985); }
@@ -1447,7 +1493,8 @@ export default function ScopeBolt() {
         .sb-btn--outline-dark { background: color-mix(in srgb, var(--white) 4%, transparent); color: var(--text-on-dark); border-color: var(--border-dark-strong); }
         .sb-btn--outline-dark:hover { background: color-mix(in srgb, var(--white) 9%, transparent); }
         .sb-btn--outline-dark:active { background: color-mix(in srgb, var(--white) 6%, transparent); transform: scale(.985); }
-        .sb-btn:focus-visible, .sb-root summary:focus-visible, .sb-root a:focus-visible, .sb-root button:focus-visible { outline: none; box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand) 18%, transparent); }
+        .sb-btn:focus-visible, .sb-root summary:focus-visible, .sb-root a:focus-visible, .sb-root button:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+        .sb-root [id="main"]:focus { outline: none; }
 
         /* ---- Cards ---------------------------------------------------
            White, 1px zinc hairline, no shadow at rest; soft lift +
@@ -1487,10 +1534,10 @@ export default function ScopeBolt() {
         }
       `}</style>
 
-      <Navbar onOpenMenu={() => setMenuOpen(true)} scrolled={scrolled} />
+      <Navbar onOpenMenu={() => setMenuOpen(true)} scrolled={scrolled} expanded={menuOpen} />
       <Drawer open={menuOpen} onClose={() => setMenuOpen(false)} />
 
-      <main>
+      <main id="main" tabIndex={-1}>
         <Hero />
         <IntegrationStrip />
         <HowItWorks />
