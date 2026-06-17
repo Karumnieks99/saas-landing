@@ -41,7 +41,7 @@ const HERO = {
   title: ["Automate the busywork.", "Run operations from one", "intelligent platform."],
   accentWord: "intelligent",
   subtitle:
-    "FlowPilot helps growing teams automate repetitive work, track performance in real time, and make faster decisions — without stitching together five disconnected tools.",
+    "FlowPilot helps growing teams automate repetitive work, track performance in real time, and make faster decisions, without stitching together five disconnected tools.",
   microcopy: ["No credit card required", "Setup in minutes", "Cancel anytime"],
 };
 
@@ -77,7 +77,7 @@ const SOLUTION = {
   accent: "operating layer",
   copy: "FlowPilot sits on top of the tools you already use and turns scattered work into one connected, automated, measurable flow.",
   capabilities: [
-    { icon: "bolt", title: "Workflow automation", body: "Trigger multi-step processes across tools — no code, no babysitting." },
+    { icon: "bolt", title: "Workflow automation", body: "Trigger multi-step processes across tools. No code, no babysitting." },
     { icon: "pipeline", title: "Pipeline tracking", body: "Every deal, ticket, and request in a single live view." },
     { icon: "spark", title: "AI prioritization", body: "FlowPilot ranks what matters so the right work happens first." },
     { icon: "chart", title: "Real-time analytics", body: "Live dashboards that flag bottlenecks before they cost you." },
@@ -87,9 +87,9 @@ const SOLUTION = {
 const FEATURES = {
   eyebrow: "Capabilities",
   title: "Everything your team needs to move faster",
-  copy: "Purpose-built features that replace busywork with momentum — each one tied to a result you can measure.",
+  copy: "Purpose-built features that replace busywork with momentum, each one tied to a result you can measure.",
   cards: [
-    { icon: "route", title: "Automated handoffs", body: "Move work between teams the moment it's ready — without a single status meeting." },
+    { icon: "route", title: "Automated handoffs", body: "Move work between teams the moment it's ready, without a single status meeting." },
     { icon: "gauge", title: "Live performance dashboards", body: "See bottlenecks before they become revenue problems, not after the quarter closes." },
     { icon: "spark", title: "AI summaries", body: "Turn scattered updates and threads into a clear list of next actions, automatically." },
     { icon: "bolt", title: "Smart task prioritization", body: "Your team always works the highest-impact item next, ranked by real business signal." },
@@ -101,7 +101,7 @@ const FEATURES = {
 const SHOWCASE = {
   eyebrow: "Product tour",
   title: "A workspace your team will actually want to open",
-  copy: "Switch between the views your team lives in every day — all designed, all editable, all in one place.",
+  copy: "Switch between the views your team lives in every day. All designed, all editable, all in one place.",
 };
 
 const USE_CASES = {
@@ -149,7 +149,7 @@ const HOW_STEPS = {
 const RESULTS = {
   eyebrow: "Results",
   title: "What teams see in the first 90 days",
-  note: "Illustrative figures for template demonstration only — replace with your own verified metrics.",
+  note: "Illustrative figures for template demonstration only. Replace with your own verified metrics.",
   stats: [
     { value: "42%", label: "less manual admin" },
     { value: "3.2x", label: "faster team handoffs" },
@@ -191,7 +191,7 @@ const TESTIMONIALS = {
 const INTEGRATIONS = {
   eyebrow: "Integrations",
   title: "Connects with the tools you already run",
-  note: "Placeholder integrations — swap in your own logos and names.",
+  note: "Placeholder integrations. Swap in your own logos and names.",
   categories: ["CRM", "Support", "Analytics", "Communication", "Project mgmt"],
   items: [
     { name: "Relay CRM", cat: "CRM", icon: "pipeline" },
@@ -250,17 +250,17 @@ const PRICING = {
 // replace the array below.
 const FAQ_ITEMS = [
   { q: "How long does setup take?", a: "Most teams connect their tools and ship their first workflow in an afternoon. There's nothing to install and no engineering work required." },
-  { q: "Do I have to replace my current tools?", a: "No. FlowPilot sits on top of your CRM, helpdesk, and apps and syncs both ways — it connects what you already use instead of replacing it." },
+  { q: "Do I have to replace my current tools?", a: "No. FlowPilot sits on top of your CRM, helpdesk, and apps and syncs both ways, connecting what you already use instead of replacing it." },
   { q: "Is my data secure?", a: "Yes. FlowPilot is SOC 2 Type II, encrypts data in transit and at rest, and supports SSO/SAML, granular role-based access, and full audit logs." },
   { q: "Can I build workflows without code?", a: "Every workflow is built in a visual drag-and-drop editor. Technical teams can go further with our REST API and webhooks." },
-  { q: "What happens if I outgrow my plan?", a: "Nothing breaks — we'll simply prompt you to upgrade. You can change or cancel your plan at any time, no contract required." },
+  { q: "What happens if I outgrow my plan?", a: "Nothing breaks. We'll simply prompt you to upgrade. You can change or cancel your plan at any time, no contract required." },
   { q: "Do you offer onboarding help?", a: "Growth includes guided onboarding and priority support. Scale adds a dedicated customer success manager to get your team live." },
 ];
 
 const FINAL_CTA = {
   badge: "Get started",
   title: "Put your busywork on autopilot",
-  copy: "Join the teams running their operations on one intelligent platform. Start free — no credit card, setup in minutes.",
+  copy: "Join the teams running their operations on one intelligent platform. Start free, no credit card, setup in minutes.",
 };
 
 const FOOTER_COLS = [
@@ -1152,7 +1152,7 @@ function PanelTeam() {
   return (
     <div className="flex flex-1 flex-col rounded-[8px] border border-[color:var(--fp-line)] bg-[color:var(--fp-surface-2)]">
       <div className="flex items-center justify-between border-b border-[color:var(--fp-line)] px-4 py-2.5">
-        <span className="text-[12px] font-semibold text-[color:var(--fp-ink)]">Team activity — today</span>
+        <span className="text-[12px] font-semibold text-[color:var(--fp-ink)]">Team activity, today</span>
         <span className="fp-mono text-[10px] text-[color:var(--fp-muted)]">4 active</span>
       </div>
       <div className="divide-y divide-[color:var(--fp-line-2)]">
@@ -1417,7 +1417,7 @@ function Integrations() {
             ))}
           </div>
           <p className="mt-6 text-center text-[13px] text-[color:var(--fp-ink-2)]">
-            Plus 200+ more — or build your own with the open API.
+            Plus 200+ more, or build your own with the open API.
             <span className="ml-2 fp-mono text-[10px] uppercase tracking-wide text-[color:var(--fp-muted)]">{INTEGRATIONS.note}</span>
           </p>
         </div>
