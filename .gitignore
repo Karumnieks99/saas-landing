@@ -31,4 +31,5 @@ nul
 # Installed agent skills + Claude Code config (tooling, not site code)
 .agents/
 .claude/
+.impeccable/
 skills-lock.json

@@ -369,11 +369,6 @@ function Stars({ className = "h-3.5 w-3.5" }) {
   );
 }
 
-// Uppercase tracked eyebrow pill — the brand's only sanctioned uppercase.
-function Eyebrow({ children, tone = "light" }) {
-  return <span className={`sb-eyebrow${tone === "dark" ? " sb-eyebrow--dark" : ""}`}>{children}</span>;
-}
-
 // Italic Instrument Serif accent phrase inside an upright Geist headline.
 function Em({ children }) {
   return <em className="sb-serif">{children}</em>;
@@ -718,7 +713,7 @@ function Navbar({ onOpenMenu, scrolled, expanded }) {
           : { background: "transparent", borderBottom: "1px solid transparent" }
       }
     >
-      <div className="mx-auto flex h-[60px] max-w-6xl items-center justify-between gap-4 px-4 sm:h-[64px] sm:px-6">
+      <div className="mx-auto flex h-[60px] max-w-[var(--container-max)] items-center justify-between gap-4 px-4 sm:h-[64px] sm:px-6">
         <Logo />
         <div className="hidden items-center gap-0.5 md:flex">
           {NAV_LINKS.map((l) => (
@@ -1358,11 +1353,11 @@ function Footer() {
         <Logo className="text-[15px]" />
         <div className="flex flex-wrap justify-center gap-6">
           {[
-            { label: "Privacy", href: "#" },
-            { label: "Terms", href: "#" },
-            { label: "Security", href: "#" },
+            { label: "Product", href: "#product" },
+            { label: "How it works", href: "#how" },
+            { label: "Pricing", href: "#pricing" },
+            { label: "FAQ", href: "#faq" },
             { label: "Contact", href: DEMO_CTA_HREF },
-            { label: "Docs", href: "#" },
           ].map((l) => (
             <a key={l.label} href={l.href} className="py-2 text-[length:var(--fs-meta)] text-[color:var(--text-muted)] transition-colors hover:text-[color:var(--text-strong)] touch-manipulation">
               {l.label}
@@ -1452,8 +1447,6 @@ export default function ScopeBolt() {
         .sb-h1 { font-size: var(--fs-display-1); line-height: var(--lh-display); letter-spacing: var(--tracking-display); font-weight: var(--fw-semibold); color: var(--text-strong); text-wrap: balance; }
         .sb-h2 { font-size: var(--fs-display-2); line-height: var(--lh-display); letter-spacing: var(--tracking-display); font-weight: var(--fw-semibold); color: var(--text-strong); text-wrap: balance; }
         .sb-h2--dark { color: var(--text-on-dark); }
-        .sb-eyebrow { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: var(--radius-pill); background: var(--orange-50); border: 1px solid var(--orange-200); color: var(--brand-deep); font-size: var(--fs-eyebrow); font-weight: var(--fw-bold); letter-spacing: var(--tracking-eyebrow); text-transform: uppercase; }
-        .sb-eyebrow--dark { background: color-mix(in srgb, var(--white) 5%, transparent); border-color: var(--border-dark); color: var(--accent-on-dark); }
 
         /* ---- Buttons -------------------------------------------------
            Primary is INK — orange ('brand') is a once-per-view hero
