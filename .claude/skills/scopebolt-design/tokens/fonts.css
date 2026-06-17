@@ -1,9 +1,0 @@
-/* ScopeBolt webfonts
-   ------------------------------------------------------------------
-   The live ScopeBolt landing page renders with Geist (body/UI) and
-   Instrument Serif (italic display accents). Both are loaded from
-   Google Fonts. The repo also ships IBM Plex Sans woff2 files, but
-   those belong to an earlier, abandoned blue concept and are NOT the
-   live brand — kept out of the system on purpose. */
-
-@import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&family=Geist+Mono:wght@400;500&display=swap');

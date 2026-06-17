@@ -9,6 +9,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+.dev.log
 
 # Editor/OS junk
 .DS_Store
@@ -19,6 +20,15 @@ Thumbs.db
 .env.*
 *.local
 
-# VLTD verification tooling (local-only)
+# Verification tooling + screenshots (local-only)
 .cdp-shot.mjs
 *.shot.png
+screenshots/
+
+# Windows reserved-name junk (e.g. from a botched `> nul` redirect)
+nul
+
+# Installed agent skills + Claude Code config (tooling, not site code)
+.agents/
+.claude/
+skills-lock.json
