@@ -36,9 +36,9 @@ const DEMO_CTA_HREF = `mailto:${CONTACT_EMAIL}?subject=Book%20a%20ScopeBolt%20de
 const TRIAL_CTA_HREF = `mailto:${CONTACT_EMAIL}?subject=Start%20a%20ScopeBolt%20free%20trial`;
 
 const PROOF_ITEMS = [
-  { value: "$2.4M+", label: "recovered for subs" },
-  { value: "340+", label: "crews on ScopeBolt" },
-  { value: "98%", label: "stay after trial" },
+  { value: "$2.7M", label: "recovered for subs" },
+  { value: "410", label: "crews on ScopeBolt" },
+  { value: "94%", label: "stay after trial" },
 ];
 
 const INTEGRATIONS = [
@@ -187,29 +187,29 @@ const TESTIMONIALS = [
   {
     quote:
       "We were bleeding $6-8k a project on scope drift and didn't even know it. ScopeBolt paid for itself on the first job.",
-    name: "Mike R.",
-    role: "Owner of an 18-person electrical sub in Chicago, IL",
-    initials: "MR",
+    name: "Marcus Delgado",
+    role: "Owner of Delgado Electric, an 18-person electrical sub in Chicago, IL",
+    initials: "MD",
     hue: "indigo",
     recovered: "$11,400 recovered in 3 months",
   },
   {
     quote:
       "Change orders used to take two days of back-and-forth. Now my PM sends one from the truck and the GC signs it the same day.",
-    name: "Sandra T.",
-    role: "Project manager at a 32-person mechanical sub in Dallas, TX",
-    initials: "ST",
+    name: "Sandra Veit",
+    role: "Project manager at Veit Mechanical, a 32-person mechanical sub in Dallas, TX",
+    initials: "SV",
     hue: "rose",
     recovered: "$7,800 recovered in month one",
   },
   {
     quote:
       "I pulled the scope log up mid-dispute and won $22k that would've been a complete write-off. That log is gold.",
-    name: "Aaron K.",
-    role: "Owner of a 9-person concrete crew in Denver, CO",
+    name: "Aaron Koss",
+    role: "Owner of Koss Concrete, a 9-person concrete crew in Denver, CO",
     initials: "AK",
     hue: "emerald",
-    recovered: "$22,000 won in one dispute",
+    recovered: "$21,600 won in one dispute",
   },
 ];
 
@@ -782,7 +782,6 @@ function Hero() {
             className="inline-flex items-center gap-2.5 rounded-[var(--radius-pill)] border border-[color:var(--border)] px-3.5 py-1.5 text-[12px] font-medium text-[color:var(--text-muted)] backdrop-blur"
             style={{ background: "color-mix(in srgb, var(--white) 80%, transparent)" }}
           >
-            <span className="sb-pulse" />
             Scope &amp; change-order control for commercial subs
           </div>
 
@@ -820,7 +819,7 @@ function Hero() {
             <div className="flex items-center gap-1.5">
               <Stars />
               <span className="text-[length:var(--fs-meta)] text-[color:var(--text-muted)]">
-                <span className="font-semibold text-[color:var(--text-strong)]">4.9</span> &middot; 340+ subs on live jobs
+                <span className="font-semibold text-[color:var(--text-strong)]">4.9</span> &middot; 410 subs on live jobs
               </span>
             </div>
           </div>
@@ -829,7 +828,6 @@ function Hero() {
         {/* Right: the live job dashboard — the product doing its job, not a slide. */}
         <div data-hero-mockup className="w-full lg:w-[58%] lg:min-w-[560px]">
           <div className="sb-mono mb-2.5 flex items-center gap-2 text-[10px] uppercase tracking-[var(--tracking-eyebrow)] text-[color:var(--text-faint)]">
-            <span className="sb-pulse" />
             Live job dashboard
           </div>
           <ProductMockup compact />
@@ -851,7 +849,7 @@ function Hero() {
 function ProofStat({ value, label }) {
   const [ref, vis] = useInView(0.4);
   const prefix = value.startsWith("$") ? "$" : "";
-  const suffix = value.endsWith("M+") ? "M+" : value.endsWith("+") ? "+" : value.endsWith("%") ? "%" : "";
+  const suffix = value.endsWith("M+") ? "M+" : value.endsWith("M") ? "M" : value.endsWith("+") ? "+" : value.endsWith("%") ? "%" : "";
   const count = useCounter(value, 1300, vis);
   const display = prefersReducedMotion()
     ? value
@@ -900,7 +898,7 @@ function IntegrationStrip() {
           </div>
         </div>
         <p className="mt-6 px-4 text-center text-[length:var(--fs-meta)] text-[color:var(--text-faint)] sm:px-6">
-          Two-way sync &middot; no double entry &middot; SOC 2 infrastructure
+          Two-way sync, no double entry. SOC 2 infrastructure.
         </p>
       </div>
     </section>
@@ -924,15 +922,10 @@ function HowItWorks() {
   return (
     <section id="how" className="mx-auto max-w-[var(--container-max)] px-4 pt-20 pb-12 sm:px-6 sm:pt-28 sm:pb-14">
       <div>
-        <div data-reveal className="mb-10 flex flex-col gap-4 sm:mb-14 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <SectionHeading className="max-w-lg">
-              From job start to <Em>paid</Em>, in three moves
-            </SectionHeading>
-          </div>
-          <p className="max-w-[260px] text-[length:var(--fs-sm)] leading-relaxed text-[color:var(--text-muted)] sm:pb-1.5 sm:text-right">
-            Lock the baseline, log from the field, bill before the crew starts.
-          </p>
+        <div data-reveal className="mb-10 sm:mb-14">
+          <SectionHeading className="max-w-lg">
+            From job start to paid, in three moves
+          </SectionHeading>
         </div>
         <div data-reveal-group className="grid grid-cols-1 gap-4 sm:grid-cols-3">
           {HOW_STEPS.map((s) => (
@@ -967,15 +960,10 @@ function Walkthrough() {
   return (
     <section id="product" className="mx-auto max-w-[var(--container-max)] px-4 pt-12 pb-20 sm:px-6 sm:pt-14 sm:pb-24">
       <div>
-        <div data-reveal className="mb-10 flex flex-col gap-4 sm:mb-12 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <SectionHeading className="max-w-md">
-              From field note to <Em>signed change order</Em>
-            </SectionHeading>
-          </div>
-          <p className="max-w-[280px] text-[length:var(--fs-sm)] leading-relaxed text-[color:var(--text-muted)] sm:pb-1.5 sm:text-right">
-            Five steps, one tool. Captured, priced, and approved before it costs you a dime.
-          </p>
+        <div data-reveal className="mb-10 sm:mb-12">
+          <SectionHeading className="max-w-md">
+            From field note to signed change order
+          </SectionHeading>
         </div>
 
         {/* One connected flow — five steps divided by hairlines, not five floating cards.
@@ -1112,7 +1100,7 @@ function UseCases() {
       <div>
         <div data-reveal className="mb-10 sm:mb-12">
           <SectionHeading className="max-w-lg">
-            Tuned to the way <Em>your trade</Em> works
+            Tuned to the way your trade works
           </SectionHeading>
         </div>
         {/* One panel, three trades — hairline-divided, not floating cards */}
@@ -1214,15 +1202,10 @@ function Testimonials() {
   return (
     <section id="results" className="mx-auto max-w-[var(--container-max)] px-4 py-16 sm:px-6 sm:py-24">
       <div>
-        <div data-reveal className="mb-8 flex flex-col gap-4 sm:mb-12 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <SectionHeading className="max-w-md">
-              Real money recovered by <Em>real subs</Em>
-            </SectionHeading>
-          </div>
-          <p className="max-w-[260px] text-[length:var(--fs-meta)] leading-relaxed text-[color:var(--text-muted)] sm:pb-1.5 sm:text-right">
-            Example outcomes from subcontractors running ScopeBolt on live jobs.
-          </p>
+        <div data-reveal className="mb-8 sm:mb-12">
+          <SectionHeading className="max-w-md">
+            Real money recovered by real subs
+          </SectionHeading>
         </div>
         <div data-reveal className="sm:hidden">
           <TestiSwiper />
@@ -1260,9 +1243,8 @@ function Pricing() {
     <section id="pricing" className="mx-auto max-w-[var(--container-max)] px-4 py-16 sm:px-6 sm:py-28">
       <div>
         <div data-reveal className="mb-8 text-center sm:mb-10">
-          <Eyebrow>Pricing</Eyebrow>
           <SectionHeading>
-            One plan. <Em>No surprises.</Em>
+            One plan. No surprises.
           </SectionHeading>
           <p className="mx-auto mt-4 max-w-md text-[length:var(--fs-sm)] text-[color:var(--text-muted)]">No seat math, no feature gates. Everything ScopeBolt does, on every job.</p>
         </div>
@@ -1317,7 +1299,7 @@ function Faq() {
       <div>
         <div data-reveal className="mb-8 text-center sm:mb-12">
           <SectionHeading>
-            Questions subs <Em>actually ask</Em>
+            Questions subs actually ask
           </SectionHeading>
         </div>
         <div data-reveal className="divide-y divide-[color:var(--border)] overflow-hidden rounded-[var(--radius-xl)] border border-[color:var(--border)] bg-[var(--surface-card)]">
