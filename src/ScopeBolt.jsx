@@ -1045,12 +1045,29 @@ function FeatureVisual({ tag }) {
 function Features() {
   return (
     <section id="features" className="relative overflow-hidden bg-[var(--surface-dark)] px-4 pt-16 pb-12 sm:px-6 sm:pt-24 sm:pb-16">
+      {/* Treated field photo behind the heading — grayscale + darkened so it reads as
+          brand texture (not loud stock), masked to fade into the dark section before the cards. */}
+      <img
+        src={`${import.meta.env.BASE_URL}img/field-worker.jpg`}
+        alt=""
+        aria-hidden="true"
+        loading="lazy"
+        className="pointer-events-none absolute top-0 right-0 h-[64%] w-[60%] object-cover object-[58%_28%]"
+        style={{
+          filter: "grayscale(1) brightness(0.85) contrast(1.08)",
+          WebkitMaskImage: "radial-gradient(125% 120% at 100% 0%, #000 28%, transparent 72%)",
+          maskImage: "radial-gradient(125% 120% at 100% 0%, #000 28%, transparent 72%)",
+        }}
+      />
+      <div
+        className="pointer-events-none absolute inset-x-0 top-0 h-[58%]"
+        style={{ background: "linear-gradient(102deg, var(--surface-dark) 16%, color-mix(in srgb, var(--surface-dark) 55%, transparent) 56%, transparent 92%)" }}
+      />
       <div className="sb-grid-dark pointer-events-none absolute inset-0" />
       <div className="relative mx-auto max-w-[var(--container-max)]">
         <div data-reveal className="mb-10 sm:mb-14">
-          <Eyebrow tone="dark">Features</Eyebrow>
           <SectionHeading tone="dark" className="max-w-lg">
-            Built for the field, <Em>not the office</Em>
+            Built for the field. Not the office.
           </SectionHeading>
         </div>
         <div data-reveal-group className="grid grid-cols-1 gap-4 sm:grid-cols-2">
