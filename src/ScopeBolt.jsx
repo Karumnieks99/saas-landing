@@ -772,15 +772,7 @@ function Hero() {
       <div className="relative mx-auto flex max-w-[var(--container-max)] flex-col items-start gap-12 lg:flex-row lg:items-center lg:gap-14">
         {/* Left: the pitch */}
         <div className="w-full max-w-xl lg:w-[42%] lg:flex-shrink-0">
-          <div
-            data-hero-seq
-            className="inline-flex items-center gap-2.5 rounded-[var(--radius-pill)] border border-[color:var(--border)] px-3.5 py-1.5 text-[12px] font-medium text-[color:var(--text-muted)] backdrop-blur"
-            style={{ background: "color-mix(in srgb, var(--white) 80%, transparent)" }}
-          >
-            Scope &amp; change-order control for commercial subs
-          </div>
-
-          <h1 data-hero-seq className="sb-h1 mt-6">
+          <h1 data-hero-seq className="sb-h1">
             Stop <Em>losing money</Em> to scope creep.
           </h1>
 
