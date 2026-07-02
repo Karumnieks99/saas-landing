@@ -1,17 +1,20 @@
-/* ScopeBolt design tokens
+/* ScopeBolt design tokens — enterprise field-service system
    ==================================================================
-   Copied from the ScopeBolt Design System (.claude/skills/scopebolt-design).
+   Direction: "job-cost ledger, not brochure." Hairline-ruled data
+   blocks, tabular numerals, sharp corners, one industrial orange on
+   warm-paper neutrals with a near-black ink frame.
    Components reference the SEMANTIC ALIASES, never raw values.
-   Fonts: Geist (UI/body) + Instrument Serif (italic display accents)
-   + Geist Mono (metric flourishes) — self-hosted latin variable woff2
-   (no third-party request chain; files are preloaded from index.html). */
+   Fonts: Archivo (variable wght 100-900 / wdth 62-125%) for display,
+   UI, and body; Geist Mono for all data and numerals. Self-hosted
+   latin woff2, preloaded from index.html. */
 
 @font-face {
-  font-family: 'Geist';
+  font-family: 'Archivo';
   font-style: normal;
-  font-weight: 300 700;
+  font-weight: 100 900;
+  font-stretch: 62% 125%;
   font-display: swap;
-  src: url('/fonts/geist-latin-var.woff2') format('woff2');
+  src: url('/fonts/archivo-latin-var.woff2') format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
@@ -24,159 +27,123 @@
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
+/* Metric-matched fallback so the swap from Arial barely shifts layout. */
 @font-face {
-  font-family: 'Instrument Serif';
-  font-style: italic;
-  font-weight: 400;
-  font-display: swap;
-  src: url('/fonts/instrument-serif-latin-italic.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  font-family: 'Archivo-fallback';
+  src: local('Arial');
+  size-adjust: 100%;
 }
 
-:root {
-  /* ---- Brand orange ---------------------------------------------- */
-  --orange-50:  #fff3ed;
-  --orange-100: #ffe2d2;
-  --orange-200: #fed7aa;  /* soft badge borders */
-  --orange-400: #fb923c;  /* on-dark accent text */
-  --orange-500: #f5600f;
-  --orange-600: #ea580c;  /* "how it works" badge text */
-  --brand:      #e8440a;  /* THE ScopeBolt orange — wordmark, primary accent */
-  --brand-deep: #c23000;  /* gradient end / pressed state */
+/* Scoped to .sb-root (not :root) so these always beat the default-page
+   variables in index.css (which reuses names like --accent-strong) and
+   never leak into the FlowPilot template. */
+.sb-root {
+  /* ---- Brand orange (the single accent) --------------------------- */
+  --orange-tint:   #fdeae1;  /* flagged-row fill on paper */
+  --orange-line:   #f2b795;  /* flagged-row hairline */
+  --brand:         #e8440a;  /* display stats, large data, rules */
+  --brand-strong:  #cf3a04;  /* button fills + small text: 4.9:1 on white */
+  --brand-press:   #b33203;
+  --brand-on-dark: #ff6a2a;  /* accent on ink surfaces: 6.7:1 on ink */
 
-  /* ---- Neutral ramp (zinc) --------------------------------------- */
-  --zinc-50:  #fafafa;
-  --zinc-100: #f4f4f5;
-  --zinc-200: #e4e4e7;
-  --zinc-300: #d4d4d8;
-  --zinc-400: #a1a1aa;
-  --zinc-500: #71717a;
-  --zinc-600: #52525b;
-  --zinc-700: #3f3f46;
-  --zinc-800: #27272a;
-  --zinc-900: #18181b;
-  --zinc-950: #09090b;
-  --white:    #ffffff;
+  /* ---- Ink (dark frame: utility bar, chips, CTA band, footer) ----- */
+  --ink-950: #0b0d0f;
+  --ink-900: #14171a;
+  --ink-800: #21252a;
+  --ink-700: #343a40;
 
-  /* ---- Semantic accents ------------------------------------------ */
-  --emerald-50:  #ecfdf5;  /* money badge fill */
-  --emerald-200: #a7f3d0;  /* money badge border */
-  --emerald-500: #10b981;
-  --emerald-600: #059669;
-  --emerald-700: #047857;  /* money badge text */
-  --amber-400:   #fbbf24;  /* star ratings */
-  --amber-500:   #f59e0b;
-
-  /* Avatar / category swatches (initials chips) */
-  --avatar-indigo:  #6366f1;
-  --avatar-rose:    #f43f5e;
-  --avatar-amber:   #f59e0b;
-  --avatar-emerald: #10b981;
+  /* ---- Paper neutrals (warm gray, "printed spec sheet") ------------ */
+  --paper:      #f2f2ef;  /* page background */
+  --paper-card: #fbfbf9;  /* data-block surfaces */
+  --gray-150:   #e7e7e2;
+  --gray-300:   #d4d4cd;
+  --gray-450:   #a9a9a1;
 
   /* ================================================================
      SEMANTIC ALIASES — reference these in components, not raw values
      ================================================================ */
 
   /* Text */
-  --text-strong:  var(--zinc-900);   /* headings, primary copy */
-  --text-body:    var(--zinc-700);   /* body paragraphs */
-  --text-muted:   var(--zinc-500);   /* secondary / lead copy */
-  --text-faint:   var(--zinc-400);   /* meta, captions, footer */
-  --text-on-dark: var(--white);
-  --text-on-brand:var(--white);
+  --text-strong:   #16181a;
+  --text-body:     #3a3f43;
+  --text-muted:    #62686d;   /* 4.9:1 on paper */
+  --text-faint:    #83898e;   /* large/meta only */
+  --text-on-dark:  #f4f4f1;
+  --text-dim-dark: #a3a9ad;
+  --text-on-brand: #ffffff;
 
   /* Surfaces */
-  --surface-page:   var(--white);
-  --surface-subtle: var(--zinc-50);   /* ticker strip, inset tiles */
-  --surface-card:   var(--white);
-  --surface-dark:   var(--zinc-950);  /* features + CTA panels */
-  --surface-ink:    var(--zinc-900);  /* solid dark buttons */
+  --surface-page:  var(--paper);
+  --surface-card:  var(--paper-card);
+  --surface-dark:  var(--ink-950);
+  --surface-panel: var(--ink-900);
+  --surface-ink:   var(--ink-900);   /* filled chips, dark buttons */
 
   /* Lines / borders */
-  --border:        var(--zinc-200);
-  --border-strong: var(--zinc-300);
-  --border-dark:   rgba(255,255,255,0.08);  /* hairlines on dark */
-  --border-dark-strong: rgba(255,255,255,0.14);  /* hover hairline on dark */
+  --border:        var(--gray-300);
+  --border-strong: var(--gray-450);
+  --border-heavy:  var(--text-strong);      /* 2px section/ledger rules */
+  --border-dark:   rgba(244,244,241,0.12);  /* hairlines on ink */
+  --border-dark-strong: rgba(244,244,241,0.24);
 
   /* Accent roles */
-  --accent:        var(--brand);
-  --accent-press:  var(--brand-deep);
-  --accent-on-dark:var(--orange-400);
-
-  /* Status */
-  --positive:        var(--emerald-600);
-  --positive-fill:   var(--emerald-50);
-  --positive-border: var(--emerald-200);
-  --positive-text:   var(--emerald-700);
-  --live:            var(--emerald-500);  /* pulse dot */
-  --rating:          var(--amber-400);
+  --accent:         var(--brand);
+  --accent-strong:  var(--brand-strong);
+  --accent-press:   var(--brand-press);
+  --accent-on-dark: var(--brand-on-dark);
+  --flag-fill:      var(--orange-tint);
+  --flag-line:      var(--orange-line);
 
   /* ---- Typography ------------------------------------------------ */
-  --font-sans:    'Geist', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-display: 'Instrument Serif', Georgia, 'Times New Roman', serif;
-  --font-mono:    'Geist Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  --font-sans: 'Archivo', 'Archivo-fallback', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, 'SF Mono', Menlo, monospace;
 
-  --fw-light:    300;
-  --fw-regular:  400;
-  --fw-medium:   500;
-  --fw-semibold: 600;
+  --fw-regular:  430;
+  --fw-medium:   520;
+  --fw-semibold: 620;
   --fw-bold:     700;
+  --fw-display:  760;
+  --fw-black:    820;
 
-  /* Type scale (px) — clamps power the responsive hero/section heads */
-  --fs-display-1: clamp(34px, 8.5vw, 64px);
-  --fs-display-2: clamp(24px, 6vw, 40px);
-  --fs-stat:      32px;
-  --fs-h3:        20px;
+  /* Width axis: display type runs slightly condensed = industrial */
+  --stretch-display: 90%;
+  --stretch-stat:    82%;
+
+  /* Type scale (px) */
+  --fs-stat-hero: clamp(72px, 17vw, 148px);
+  --fs-display-1: clamp(27px, 5.4vw, 44px);
+  --fs-display-2: clamp(24px, 4.6vw, 36px);
+  --fs-stat:      clamp(34px, 5vw, 44px);
+  --fs-h3:        19px;
   --fs-lead:      17px;
   --fs-body:      15px;
   --fs-sm:        14px;
   --fs-meta:      13px;
   --fs-xs:        12px;
-  --fs-eyebrow:   10px;
+  --fs-label:     10.5px;
 
-  --lh-display: 1.06;
-  --lh-tight:   1.2;
-  --lh-snug:    1.35;
-  --lh-body:    1.6;
-  --lh-relaxed: 1.7;
+  --lh-display: 1.02;
+  --lh-tight:   1.15;
+  --lh-snug:    1.4;
+  --lh-body:    1.55;
 
-  --tracking-display: -0.035em;
+  --tracking-display: -0.02em;
   --tracking-tight:   -0.01em;
-  --tracking-normal:  0;
-  --tracking-eyebrow: 0.14em;
-  --tracking-wide:    0.18em;
+  --tracking-label:   0.12em;
 
   /* ---- Spacing / layout ------------------------------------------ */
-  --section-pad-y: clamp(64px, 10vw, 96px);
-  --container-max: 1024px;   /* max-w-5xl */
-  --container-pad: 16px;
+  --section-pad-y: clamp(56px, 9vw, 92px);
+  --container-max: 1120px;
 
-  /* ---- Radius ----------------------------------------------------- */
-  --radius-sm:   6px;    /* nav links, small chips */
-  --radius-md:   8px;    /* buttons, inputs */
-  --radius-lg:   12px;   /* cards */
-  --radius-xl:   16px;   /* feature/CTA panels */
-  --radius-pill: 999px;  /* badges, avatars, ticker pills */
+  /* ---- Radius: all-sharp system ----------------------------------- */
+  --radius-0:   0px;    /* panels, tables, images, sections */
+  --radius-ctl: 2px;    /* buttons, chips, inputs */
 
-  /* ---- Shadows ----------------------------------------------------- */
-  --shadow-xs:   0 1px 2px rgba(0,0,0,0.05);
-  --shadow-sm:   0 1px 0 rgba(0,0,0,0.06);
-  --shadow-card: 0 4px 20px rgba(0,0,0,0.06);        /* card hover */
-  --shadow-lg:   0 8px 40px rgba(0,0,0,0.08);        /* pricing panel */
-  --shadow-pop:  0 10px 30px rgba(0,0,0,0.12);
-  /* Brand-tinted ring + lift for the primary button */
-  --shadow-brand:      0 1px 3px rgba(0,0,0,0.18), 0 4px 16px -4px rgba(232,68,10,0.40);
-  --shadow-brand-hover:0 2px 6px rgba(0,0,0,0.22),  0 8px 24px -4px rgba(232,68,10,0.50);
-  /* Faint top highlight on filled controls + dark elevation */
-  --hl-top:        inset 0 1px 0 rgba(255,255,255,0.10);
-  --hl-top-strong: inset 0 1px 0 rgba(255,255,255,0.14);
-  --shadow-control:0 1px 2px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.10);
-  --shadow-elevated:0 1px 2px rgba(0,0,0,0.40), 0 8px 24px -8px rgba(0,0,0,0.55);
+  /* ---- Shadows: flat system; nav elevation only -------------------- */
+  --shadow-nav: 0 1px 0 var(--gray-300);
 
   /* ---- Motion ----------------------------------------------------- */
-  --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-snap:   cubic-bezier(0.2, 0.8, 0.2, 1);
-  --dur-fast:    150ms;
-  --dur-base:    200ms;
-  --dur-reveal:  600ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast: 140ms;
+  --dur-base: 200ms;
 }
