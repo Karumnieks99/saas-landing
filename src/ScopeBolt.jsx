@@ -18,11 +18,12 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { SplitText } from "gsap/SplitText";
 import { useGSAP } from "@gsap/react";
 import { ArrowRight, CaretDown, Check, List, WarningDiamond, X } from "@phosphor-icons/react";
 import "./scopebolt-tokens.css";
 
-gsap.registerPlugin(useGSAP, ScrollTrigger);
+gsap.registerPlugin(useGSAP, ScrollTrigger, SplitText);
 
 /* ============================================================================
    CONTENT
@@ -39,10 +40,24 @@ const NAV_LINKS = [
 ];
 
 const CONTACT_EMAIL = "hello@scopebolt.com";
-const DEMO_CTA_HREF = `mailto:${CONTACT_EMAIL}?subject=Book%20a%20ScopeBolt%20demo`;
-const TRIAL_CTA_HREF = `mailto:${CONTACT_EMAIL}?subject=Start%20a%20ScopeBolt%20free%20trial`;
+// Primary CTAs route like product pages (public/404.html catches them on the
+// static deploy); the plain mailto stays on utility-bar and footer email links.
+const DEMO_CTA_HREF = `${import.meta.env.BASE_URL}demo`;
+const TRIAL_CTA_HREF = `${import.meta.env.BASE_URL}signup`;
 const DEMO_LABEL = "Book a demo";
 const TRIAL_LABEL = "Start free trial";
+
+// Trust strip under the hero: subs running ScopeBolt, set as type-only
+// wordmarks. The first three echo the case studies further down the page.
+const TRUST_COMPANIES = [
+  "Delgado Electric",
+  "Veit Mechanical",
+  "Koss Concrete",
+  "Torres Electric",
+  "Ironline Concrete",
+];
+
+const LEGAL_LINKS = ["Privacy Policy", "Terms of Service", "Status"];
 
 // The hero scope-log ledger: one morning on a live job, field note to signature.
 const LOG_ROWS = [
@@ -52,10 +67,31 @@ const LOG_ROWS = [
   { t: "10:14", desc: "CO-118 signed by Riverfront GC", base: "Approved", kind: "signed", amount: "+$1,240" },
 ];
 
-const IMPACT_STATS = [
-  { prefix: "$", num: 2.7, suffix: "M", label: "Recovered for subs", sub: "Out-of-scope work billed and signed" },
-  { num: 410, label: "Crews logging daily", sub: "Commercial subs on live jobs" },
-  { num: 94, suffix: "%", label: "Stay after the trial", sub: "Subs who convert and keep logging" },
+// The field wire: a rolling feed of change-order events across live jobs.
+// The 09:43/10:14 Riverfront entries retell the hero LOG_ROWS story (CO-118,
+// +$1,240) — if that narrative changes, update it here and in ChangeOrderDoc.
+const TICKER_ITEMS = [
+  { t: "09:43", figure: "+$1,240", body: "flagged · Riverfront Medical, Chicago" },
+  { t: "10:14", body: "CO-118 signed in 31 min · Riverfront GC" },
+  { t: "11:02", body: "T&M ticket #204 documented · Gateway Logistics, Dallas" },
+  { t: "12:26", figure: "+$3,860", body: "approved · Harbor Point Garage, Denver" },
+  { t: "13:41", body: "punch-item CO sent · Mercy West Tower, Phoenix" },
+  { t: "15:08", figure: "$21,600", body: "dispute won · Koss Concrete, Denver" },
+  { t: "16:22", figure: "+$940", body: "flagged · Lakeside K-8 Addition, Milwaukee" },
+];
+
+// Aggregate results: one headline figure plus three ruled ledger rows.
+const HEADLINE_STAT = {
+  prefix: "$",
+  num: 2.7,
+  suffix: "M",
+  label: "recovered for subs",
+  sub: "Out-of-scope work billed, signed, and paid across ScopeBolt accounts.",
+};
+
+const LEDGER_STATS = [
+  { num: 1900, label: "Crews logging daily", sub: "Foremen and PMs on live jobs" },
+  { num: 91, suffix: "%", label: "Subs who stay after the trial", sub: "Trial cohorts, trailing 12 months" },
   { num: 1, suffix: " day", label: "Median CO turnaround", sub: "Field note to GC signature" },
 ];
 
@@ -87,63 +123,71 @@ const WORKFLOW = [
   {
     t: "10:14",
     title: "GC signs before crews start",
-    body: "Digital signature from any device. Your crew lifts a tool only after approval.",
+    body: "Digital signature from any device. Crews don't start until it's signed.",
     chip: { label: "Signed", kind: "signed" },
   },
 ];
 
+// The document register: every paperwork type ScopeBolt produces, coded the
+// way a spec book indexes documents.
 const CAPABILITIES = [
   {
+    code: "CO",
     label: "Change orders",
     promise: "GC-ready COs in one tap",
     body: "Flagged work becomes a priced, professional change order with the photo and contract reference attached.",
   },
   {
+    code: "PL",
     label: "Punch lists",
     promise: "Catch the extras hiding in closeout",
     body: "Every punch item is checked against the baseline, so out-of-scope fixes become billable COs instead of free labor.",
   },
   {
+    code: "JC",
     label: "Job costing",
     promise: "See margin drift while the job runs",
     body: "Every change posts to its cost code and the schedule of values, so drift shows up in dollars before closeout.",
   },
   {
+    code: "TM",
     label: "T&M tickets",
     promise: "Verbal directives, documented",
     body: "A directive becomes a time-and-material ticket with labor, equipment, and photos attached the same day.",
   },
   {
+    code: "CB",
     label: "Contract baseline",
     promise: "The signed scope, machine-read",
     body: "Upload the contract and schedule of values once. ScopeBolt builds the baseline every field entry is checked against.",
   },
   {
+    code: "DA",
     label: "Dispute archive",
     promise: "Five years of proof on demand",
-    body: "Every entry, photo, and signature is archived. Pull the record mid-dispute and win the conversation.",
+    body: "Every entry, photo, and signature is archived. When a GC disputes a CO, pull the record and get paid.",
   },
 ];
 
 const INTEGRATION_LINE =
-  "Two-way sync with Procore, Buildertrend, QuickBooks, Sage, and Viewpoint. No double entry, SOC 2 infrastructure.";
+  "Two-way sync with Procore, Buildertrend, QuickBooks, Sage, and Viewpoint. No double entry. SOC 2.";
 
 const TRADES = [
   {
     trade: "Electrical",
-    body: "T&M tickets, added circuits, and directive work logged the moment the GC asks for it.",
-    figure: "$4,200",
+    body: "The GC asks for one more circuit? That's a T&M ticket before lunch.",
+    figure: "$5,100",
     sub: "avg recovered per job",
   },
   {
     trade: "Mechanical",
-    body: "Equipment swaps, rerouted runs, and access delays captured with photo and timestamp proof.",
+    body: "Equipment swaps and access delays, captured with photo and timestamp proof.",
     figure: "Same day",
     sub: "CO sign-off, down from 2 days",
   },
   {
     trade: "Concrete",
-    body: "Pour changes, rebar adds, and weather standby documented down to the minute.",
+    body: "Weather standby documented down to the minute. Pour changes priced the same day.",
     figure: "$0",
     sub: "written off in disputes",
   },
@@ -194,7 +238,7 @@ const PRICING_OFFICE = [
   "Job costing against the schedule of values",
   "Procore, Buildertrend, and QuickBooks sync",
   "5-year dispute-proof archive",
-  "Priority support from a real human",
+  "Phone support that picks up",
 ];
 
 const FAQ_ITEMS = [
@@ -300,6 +344,16 @@ function formatStat(n, target) {
   return n.toLocaleString("en-US", { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
 }
 
+// In-view counter with the reduced-motion fallback baked in: returns a ref for
+// the observed node and the formatted display string. One source of truth for
+// every counted figure on the page.
+function useCountedStat(target, { dur = 1300, threshold = 0.5 } = {}) {
+  const [ref, vis] = useInView(threshold);
+  const count = useCounter(target, dur, vis);
+  const display = prefersReducedMotion() ? formatStat(target, target) : formatStat(count, target);
+  return [ref, display];
+}
+
 /* ============================================================================
    PRIMITIVES
    ========================================================================== */
@@ -315,7 +369,6 @@ function SectionHeading({ children, tone = "light", className = "" }) {
 const BTN_VARIANTS = {
   primary: "sb-btn--primary",
   secondary: "sb-btn--secondary",
-  ghost: "sb-btn--ghost",
   outlineDark: "sb-btn--outline-dark",
 };
 
@@ -484,6 +537,8 @@ function Drawer({ open, onClose }) {
 function Navbar({ onOpenMenu, expanded }) {
   return (
     <nav className="sticky top-0 z-30 border-b border-[color:var(--border)] bg-[var(--surface-page)]">
+      {/* Page-progress rule: fills left to right as the reader moves down. */}
+      <span aria-hidden="true" data-nav-progress className="sb-nav-progress" />
       <Wrap className="flex h-[60px] items-center justify-between gap-4">
         <Logo />
         <div className="hidden items-center gap-1 lg:flex">
@@ -523,10 +578,8 @@ function Navbar({ onOpenMenu, expanded }) {
    ========================================================================== */
 
 function ScopeLedger() {
-  const [ref, vis] = useInView(0.35);
   const reduce = prefersReducedMotion();
-  const count = useCounter(4200, 1300, vis);
-  const recovered = reduce ? "4,200" : formatStat(count, 4200);
+  const [ref, recovered] = useCountedStat(3180, { threshold: 0.35 });
 
   return (
     <div ref={ref} className="border border-[color:var(--border)] border-t-2 border-t-[color:var(--border-heavy)] bg-[var(--surface-card)]">
@@ -538,13 +591,13 @@ function ScopeLedger() {
       <table className="w-full border-collapse">
         <thead>
           <tr className="border-b border-[color:var(--gray-150)]">
-            <th scope="col" className="sb-label w-[52px] px-4 py-2 text-left font-normal text-[color:var(--text-faint)] sm:px-5">
+            <th scope="col" className="sb-label w-[52px] px-4 py-2 text-left font-normal text-[color:var(--text-muted)] sm:px-5">
               Time
             </th>
-            <th scope="col" className="sb-label px-1 py-2 text-left font-normal text-[color:var(--text-faint)]">
+            <th scope="col" className="sb-label px-1 py-2 text-left font-normal text-[color:var(--text-muted)]">
               Entry
             </th>
-            <th scope="col" className="sb-label px-4 py-2 text-right font-normal text-[color:var(--text-faint)] sm:px-5">
+            <th scope="col" className="sb-label px-4 py-2 text-right font-normal text-[color:var(--text-muted)] sm:px-5">
               Status
             </th>
           </tr>
@@ -561,7 +614,7 @@ function ScopeLedger() {
                 <td className="sb-mono px-4 py-3 text-[12px] tabular-nums text-[color:var(--text-muted)] sm:px-5">{r.t}</td>
                 <td className="px-1 py-3">
                   <div className="text-[13.5px] leading-snug text-[color:var(--text-body)]">{r.desc}</div>
-                  <div className={`sb-mono mt-0.5 text-[10px] uppercase tracking-[0.08em] ${isFlag ? "text-[color:var(--accent-strong)]" : "text-[color:var(--text-faint)]"}`}>
+                  <div className={`sb-mono mt-0.5 text-[10px] uppercase tracking-[0.08em] ${isFlag ? "text-[color:var(--accent-strong)]" : "text-[color:var(--text-muted)]"}`}>
                     {r.base}
                   </div>
                 </td>
@@ -580,7 +633,7 @@ function ScopeLedger() {
       <div className="flex items-center justify-between gap-3 border-t-2 border-[color:var(--border-heavy)] px-4 py-3.5 sm:px-5">
         <div>
           <div className="sb-label text-[color:var(--text-strong)]">Recovered on this job</div>
-          <div className="mt-0.5 text-[12px] text-[color:var(--text-muted)]">3 signed change orders</div>
+          <div className="sb-mono mt-0.5 text-[11px] text-[color:var(--text-muted)]">CO-112 · CO-115 · CO-118 signed</div>
         </div>
         <div className="sb-mono text-[26px] font-medium tabular-nums leading-none text-[color:var(--accent-strong)] sm:text-[30px]">
           ${recovered}
@@ -592,16 +645,18 @@ function ScopeLedger() {
 
 function Hero() {
   return (
-    <section id="top" data-hero className="bg-[var(--surface-page)]">
-      <Wrap className="grid items-center gap-10 pt-10 pb-14 sm:pt-14 lg:grid-cols-12 lg:gap-12 lg:pb-20">
+    <section id="top" data-hero className="relative overflow-hidden bg-[var(--surface-page)]">
+      {/* Faint engineering-grid texture, masked so it fades before the fold. */}
+      <div aria-hidden="true" className="sb-grid-texture absolute inset-0" />
+      <Wrap className="relative grid items-center gap-10 pt-10 pb-14 sm:pt-14 lg:grid-cols-12 lg:gap-12 lg:pb-20">
         <div className="lg:col-span-6">
-          <h1 data-hero-seq>
-            <span className="sb-stat-hero block text-[color:var(--brand)]">$4,200</span>
-            <span className="sb-display mt-3 block max-w-[16ch] text-[length:var(--fs-display-1)] text-[color:var(--text-strong)]">
+          <h1>
+            <span data-hero-stat className="sb-stat-hero block text-[color:var(--brand)]">$4,200</span>
+            <span data-hero-display className="sb-display mt-3 block max-w-[16ch] text-[length:var(--fs-display-1)] text-[color:var(--text-strong)]">
               lost on every job to unbilled scope creep.
             </span>
           </h1>
-          <p data-hero-seq className="sb-mono mt-4 max-w-md text-[11.5px] leading-relaxed text-[color:var(--text-faint)]">
+          <p data-hero-seq className="sb-mono mt-4 max-w-md text-[11.5px] leading-relaxed text-[color:var(--text-muted)]">
             Average unbilled extras per commercial job. 2025 data, 410 subs on ScopeBolt.
           </p>
           <p data-hero-seq className="mt-6 max-w-lg text-[15.5px] leading-relaxed text-[color:var(--text-body)] sm:text-[length:var(--fs-lead)]">
@@ -619,7 +674,10 @@ function Hero() {
         </div>
 
         <div data-hero-ledger className="lg:col-span-6">
-          <ScopeLedger />
+          {/* Carbon-copy stack: change orders ship in triplicate. */}
+          <div className="sb-carbon relative">
+            <ScopeLedger />
+          </div>
         </div>
       </Wrap>
     </section>
@@ -627,41 +685,123 @@ function Hero() {
 }
 
 /* ============================================================================
+   TRUST STRIP  —  one hairline-ruled row of customer wordmarks, type only
+   ========================================================================== */
+
+function TrustStrip() {
+  return (
+    <section aria-label="Subcontractors running ScopeBolt" className="border-t border-[color:var(--border)] bg-[var(--surface-page)]">
+      <Wrap>
+        <div data-reveal className="flex flex-wrap items-baseline gap-x-7 gap-y-2.5 py-5 sm:gap-x-9 sm:py-6">
+          <span className="sb-label text-[color:var(--text-faint)]">Subs running ScopeBolt</span>
+          {TRUST_COMPANIES.map((name) => (
+            <span key={name} className="sb-mono text-[12px] uppercase tracking-[0.08em] text-[color:var(--text-muted)]">
+              {name}
+            </span>
+          ))}
+        </div>
+      </Wrap>
+    </section>
+  );
+}
+
+/* ============================================================================
+   FIELD WIRE  —  thin ink strip: live change-order events across jobs
+   ========================================================================== */
+
+function WireTrack({ hidden }) {
+  return (
+    <ul aria-hidden={hidden ? "true" : undefined} className="sb-wire-track flex flex-none list-none items-center">
+      {TICKER_ITEMS.map((it, i) => (
+        <li key={i} className="flex items-baseline gap-2.5 whitespace-nowrap pr-12">
+          <span className="sb-mono text-[11px] tabular-nums text-[color:var(--text-dim-dark)]">{it.t}</span>
+          <span className="text-[12.5px] text-[color:var(--text-dim-dark)]">
+            {it.figure ? (
+              <>
+                <span className="sb-mono tabular-nums text-[color:var(--accent-on-dark)]">{it.figure}</span>{" "}
+              </>
+            ) : null}
+            {it.body}
+          </span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function FieldWire() {
+  return (
+    <div className="sb-wire bg-[var(--surface-dark)]" aria-label="Recent activity across ScopeBolt jobs">
+      <div className="flex h-11 w-full items-stretch">
+        <div className="flex flex-shrink-0 items-center gap-2 border-r border-[color:var(--border-dark)] px-4 sm:px-5">
+          <span aria-hidden="true" className="sb-wire-dot h-1.5 w-1.5 bg-[var(--accent-on-dark)]" />
+          <span className="sb-label text-[color:var(--text-dim-dark)]">Field wire</span>
+        </div>
+        {/* Marquee is decorative for AT: the label above carries the meaning. */}
+        <div aria-hidden="true" className="sb-wire-viewport flex min-w-0 flex-1 items-center overflow-hidden pl-6">
+          <WireTrack />
+          <WireTrack hidden />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ============================================================================
    IMPACT STATS  —  the quantified-ROI band
    ========================================================================== */
 
-function StatBlock({ prefix = "", num, suffix = "", label, sub }) {
-  const [ref, vis] = useInView(0.4);
-  const count = useCounter(num, 1200, vis);
-  const display = prefersReducedMotion() ? formatStat(num, num) : formatStat(count, num);
+// Invoice-style row: label, dotted leader, counted figure on one baseline.
+function LeaderRow({ prefix = "", num, suffix = "", label, sub }) {
+  const [ref, display] = useCountedStat(num, { dur: 1100 });
 
   return (
-    <div ref={ref} className="bg-[var(--surface-card)] px-5 py-6 sm:px-6 sm:py-7">
-      <div className="sb-mono text-[length:var(--fs-stat)] font-medium tabular-nums leading-none tracking-tight text-[color:var(--text-strong)]">
-        {prefix}
-        {display}
-        {suffix}
+    <div ref={ref} className="py-4 sm:py-5">
+      <div className="flex items-baseline gap-3 sm:gap-4">
+        <span className="text-[15px] font-semibold text-[color:var(--text-strong)]" style={{ fontWeight: "var(--fw-semibold)" }}>
+          {label}
+        </span>
+        <span aria-hidden="true" className="sb-leader min-w-8 flex-1" />
+        <span className="sb-mono flex-shrink-0 text-[26px] font-medium tabular-nums leading-none text-[color:var(--text-strong)] sm:text-[30px]">
+          {prefix}
+          {display}
+          {suffix}
+        </span>
       </div>
-      <div className="mt-2.5 text-[14px] font-semibold text-[color:var(--text-strong)]" style={{ fontWeight: "var(--fw-semibold)" }}>
-        {label}
-      </div>
-      <div className="mt-1 text-[12.5px] leading-snug text-[color:var(--text-muted)]">{sub}</div>
+      <div className="mt-1 max-w-[34ch] text-[12.5px] leading-snug text-[color:var(--text-muted)]">{sub}</div>
+    </div>
+  );
+}
+
+// Leaf component so the count-up only re-renders the figure, not the section.
+function HeadlineFigure() {
+  const [ref, display] = useCountedStat(HEADLINE_STAT.num);
+  return (
+    <div ref={ref} className="sb-stat-xl text-[color:var(--text-strong)]">
+      {HEADLINE_STAT.prefix}
+      {display}
+      {HEADLINE_STAT.suffix}
     </div>
   );
 }
 
 function ImpactStats() {
   return (
-    <section aria-label="Results across ScopeBolt subs" className="border-y border-[color:var(--border)] bg-[var(--surface-card)]">
-      <Wrap className="py-10 sm:py-12">
-        <div data-reveal className="grid grid-cols-2 gap-px border border-[color:var(--border)] bg-[var(--gray-300)] lg:grid-cols-4">
-          {IMPACT_STATS.map((s) => (
-            <StatBlock key={s.label} {...s} />
-          ))}
+    <section aria-label="Results across ScopeBolt subs" className="border-b border-[color:var(--border)] bg-[var(--surface-card)]">
+      <Wrap className="grid gap-8 py-12 sm:py-16 lg:grid-cols-12 lg:gap-14">
+        <div data-reveal className="lg:col-span-5">
+          <HeadlineFigure />
+          <div className="sb-display mt-2 text-[22px] text-[color:var(--text-strong)]">{HEADLINE_STAT.label}</div>
+          <p className="mt-3 max-w-[36ch] text-[13.5px] leading-relaxed text-[color:var(--text-muted)]">{HEADLINE_STAT.sub}</p>
         </div>
-        <p data-reveal className="sb-mono mt-3 text-right text-[10.5px] text-[color:var(--text-faint)]">
-          Aggregate across ScopeBolt accounts, January 2024 to date.
-        </p>
+        <div data-reveal-group className="self-center lg:col-span-7">
+          {LEDGER_STATS.map((s) => (
+            <LeaderRow key={s.label} {...s} />
+          ))}
+          <p className="sb-mono mt-2 text-right text-[10.5px] text-[color:var(--text-faint)]">
+            Aggregate across ScopeBolt accounts, January 2024 to date.
+          </p>
+        </div>
       </Wrap>
     </section>
   );
@@ -678,13 +818,19 @@ function Workflow() {
         <div data-reveal>
           <SectionHeading className="max-w-xl">From field note to signed change order in one shift.</SectionHeading>
         </div>
-        <ol data-reveal-group className="mt-9 max-w-3xl list-none border-t-2 border-[color:var(--border-heavy)] sm:mt-12">
+        <div data-wf className="sb-wf mt-9 max-w-3xl sm:mt-12">
+          {/* The rule beside the timestamps draws with scroll; rows tick on as it passes. */}
+          <div aria-hidden="true" className="sb-wf-line">
+            <i data-wf-progress className="sb-wf-progress" />
+          </div>
+          <ol data-reveal-group className="list-none border-t-2 border-[color:var(--border-heavy)]">
           {WORKFLOW.map((step) => (
             <li
               key={step.title}
-              className="grid grid-cols-[52px_1fr] items-start gap-x-4 border-b border-[color:var(--border)] py-5 sm:grid-cols-[72px_1fr_auto] sm:gap-x-6 sm:py-6"
+              className="relative grid grid-cols-[52px_1fr] items-start gap-x-4 border-b border-[color:var(--border)] py-5 sm:grid-cols-[72px_1fr_auto] sm:gap-x-6 sm:py-6"
             >
-              <span className="sb-mono pt-0.5 text-[13px] tabular-nums text-[color:var(--text-muted)]">{step.t}</span>
+              <span aria-hidden="true" className="sb-wf-marker" />
+              <span className="sb-wf-time sb-mono pt-0.5 text-[13px] tabular-nums text-[color:var(--text-muted)]">{step.t}</span>
               <div>
                 <h3 className="text-[16px] font-semibold leading-snug text-[color:var(--text-strong)]" style={{ fontWeight: "var(--fw-semibold)" }}>
                   {step.title}
@@ -696,15 +842,160 @@ function Workflow() {
               </div>
             </li>
           ))}
-        </ol>
+          </ol>
+        </div>
       </Wrap>
     </section>
   );
 }
 
 /* ============================================================================
-   CAPABILITIES  —  the paperwork that gets subs paid
+   CAPABILITIES  —  the document register + the CO sheet it produces
    ========================================================================== */
+
+// A believable GC-ready change order, rendered as a crisp sheet. This is the
+// product artifact the register on the left produces.
+function ChangeOrderDoc() {
+  const meta = [
+    {
+      label: "Project",
+      value: (
+        <>
+          Riverfront Medical Center — <span className="sb-mono">Job 4417</span>
+        </>
+      ),
+    },
+    { label: "To", value: "Riverfront GC, LLC" },
+    { label: "From", value: "Delgado Electric" },
+    { label: "Date", value: <span className="sb-mono">Mar 14, 2026</span> },
+    {
+      label: "Contract ref",
+      value: <span className="sb-mono">Section 26 05 19 · SOV line 14</span>,
+    },
+  ];
+
+  const items = [
+    { desc: "Journeyman labor @ $98/hr", qty: "8.0 hr", amount: "$784.00" },
+    { desc: '2" RMC conduit + fittings', qty: "120 LF", amount: "$312.00" },
+    { desc: "Equipment: bender, lift (half day)", qty: "0.5 day", amount: "$144.00" },
+  ];
+
+  const cellLabel = "sb-label pb-1.5 font-normal text-[color:var(--text-muted)]";
+
+  return (
+    <figure
+      data-co-doc
+      className="relative border border-[color:var(--border)] border-t-2 border-t-[color:var(--border-heavy)] bg-white px-5 py-5 text-[13px] leading-snug text-[color:var(--text-body)]"
+    >
+      <header className="flex items-start justify-between gap-4">
+        <div>
+          <div className="sb-label text-[color:var(--text-muted)]">Change Order</div>
+          <div className="sb-mono mt-1 text-[26px] font-semibold leading-none tracking-tight text-[color:var(--text-strong)]">
+            CO-118
+          </div>
+        </div>
+        <div className="sb-mono shrink-0 pt-0.5 text-right text-[10.5px] leading-[1.7] text-[color:var(--text-faint)]">
+          Generated by ScopeBolt
+          <br />
+          10:01 CST
+        </div>
+      </header>
+
+      <dl className="mt-4 border-t border-[color:var(--border)]">
+        {meta.map((row) => (
+          <div
+            key={row.label}
+            className="flex items-baseline justify-between gap-4 border-b border-[color:var(--gray-150)] py-[7px]"
+          >
+            <dt className="sb-label shrink-0 text-[color:var(--text-muted)]">{row.label}</dt>
+            <dd className="min-w-0 break-words text-right text-[12.5px] text-[color:var(--text-strong)]">
+              {row.value}
+            </dd>
+          </div>
+        ))}
+      </dl>
+
+      <section className="mt-4">
+        <div className="sb-label text-[color:var(--text-muted)]">Scope of Change</div>
+        <p className="mt-1.5 text-[12.5px]">
+          Reroute 480V feeders around new duct bank per GC field directive. Work falls outside
+          baseline contract scope.
+        </p>
+        <span className="sb-mono mt-2 inline-block border border-[color:var(--flag-line)] bg-[color:var(--flag-fill)] px-2 py-[3px] text-[10px] uppercase tracking-[0.12em] text-[color:var(--accent-strong)]">
+          Not in Baseline
+        </span>
+      </section>
+
+      <table className="mt-4 w-full">
+        <thead>
+          <tr className="border-b border-[color:var(--border)]">
+            <th className={`${cellLabel} text-left`}>Description</th>
+            <th className={`${cellLabel} pl-3 text-right`}>Qty</th>
+            <th className={`${cellLabel} pl-3 text-right`}>Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          {items.map((item) => (
+            <tr key={item.desc} className="border-b border-[color:var(--gray-150)]">
+              <td className="break-words py-2 pr-3 text-[12.5px]">{item.desc}</td>
+              <td className="sb-mono whitespace-nowrap py-2 pl-3 text-right text-[12px] tabular-nums text-[color:var(--text-muted)]">
+                {item.qty}
+              </td>
+              <td className="sb-mono whitespace-nowrap py-2 pl-3 text-right text-[12.5px] tabular-nums text-[color:var(--text-strong)]">
+                {item.amount}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colSpan={2} className="sb-label border-t-2 border-[color:var(--border-heavy)] pt-3 align-baseline text-[color:var(--text-strong)]">
+              Total This Change Order
+            </td>
+            <td className="sb-mono whitespace-nowrap border-t-2 border-[color:var(--border-heavy)] pt-3 pl-3 text-right align-baseline text-[19px] font-semibold leading-none tabular-nums text-[color:var(--accent-strong)]">
+              $1,240.00
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+
+      <div className="mt-5 grid grid-cols-2 divide-x divide-[color:var(--gray-150)] border-t border-[color:var(--border)] pt-3.5">
+        {[
+          {
+            role: "Submitted",
+            name: "M. Delgado · 10:01",
+            pad: "pr-4",
+            d: "M6 19c5-11 8-13 9-8 1 4-2 9 1 8 4-1 6-12 10-11 3 1-1 10 3 9 5-2 8-11 13-9 3 1 0 8 4 7 6-2 12-8 20-6 7 1 15-3 25-4 8-1 15 2 23 7",
+          },
+          {
+            role: "Approved",
+            name: "R. Whitfield, Riverfront GC · 10:14",
+            pad: "pl-4",
+            d: "M8 18c3-9 6-14 8-10 2 5-4 11 0 11 5 0 8-14 14-13 4 1-2 12 2 11 6-2 9-10 16-9 5 1 8 5 15 3 8-3 16-2 24-1 7 1 15-3 23 3",
+          },
+        ].map((s) => (
+          <div key={s.role} className={`min-w-0 ${s.pad}`}>
+            <div className="sb-label text-[color:var(--text-muted)]">{s.role}</div>
+            <svg viewBox="0 0 120 26" className="mt-1 h-6 w-full max-w-[130px] text-[color:var(--text-strong)]" aria-hidden="true">
+              <path d={s.d} fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
+            </svg>
+            <div className="mt-0.5 border-t border-[color:var(--gray-150)] pt-1">
+              <span className="sb-mono text-[10.5px] text-[color:var(--text-muted)]">{s.name}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Root useGSAP animates this stamping in via data-co-stamp. */}
+      <div
+        data-co-stamp
+        className="sb-mono pointer-events-none absolute bottom-[31%] right-[10%] rotate-[-7deg] select-none border-2 border-[color:var(--accent-strong)] bg-[rgba(232,68,10,0.06)] px-3.5 py-1.5 text-[13px] uppercase tracking-[0.25em] text-[color:var(--accent-strong)]"
+      >
+        Approved
+      </div>
+    </figure>
+  );
+}
 
 function Capabilities() {
   return (
@@ -713,20 +1004,33 @@ function Capabilities() {
         <div data-reveal>
           <SectionHeading className="max-w-xl">Built around the paperwork that gets subs paid.</SectionHeading>
         </div>
-        <div data-reveal-group className="mt-9 grid gap-px border border-[color:var(--border)] bg-[var(--gray-300)] sm:mt-12 sm:grid-cols-2 lg:grid-cols-3">
-          {CAPABILITIES.map((c) => (
-            <div key={c.label} className="bg-[var(--surface-card)] p-5 sm:p-6">
-              <div className="sb-label text-[color:var(--accent-strong)]">{c.label}</div>
-              <h3 className="mt-3 text-[17px] font-semibold leading-snug text-[color:var(--text-strong)]" style={{ fontWeight: "var(--fw-semibold)" }}>
-                {c.promise}
-              </h3>
-              <p className="mt-2 text-[length:var(--fs-sm)] leading-relaxed text-[color:var(--text-muted)]">{c.body}</p>
+        <div className="mt-9 grid gap-10 sm:mt-12 lg:grid-cols-12 lg:gap-14">
+          <div data-reveal-group className="border-t-2 border-[color:var(--border-heavy)] lg:col-span-7">
+            {CAPABILITIES.map((c) => (
+              <div key={c.label} className="grid grid-cols-[48px_1fr] gap-x-4 border-b border-[color:var(--border)] py-5 sm:grid-cols-[56px_1fr] sm:gap-x-5 sm:py-6">
+                <span className="sb-mono pt-1 text-[13px] font-medium text-[color:var(--accent-strong)]">{c.code}</span>
+                <div>
+                  <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                    <h3 className="text-[17px] font-semibold leading-snug text-[color:var(--text-strong)]" style={{ fontWeight: "var(--fw-semibold)" }}>
+                      {c.promise}
+                    </h3>
+                    <span className="sb-label text-[color:var(--text-muted)]">{c.label}</span>
+                  </div>
+                  <p className="mt-1.5 max-w-xl text-[length:var(--fs-sm)] leading-relaxed text-[color:var(--text-muted)]">{c.body}</p>
+                </div>
+              </div>
+            ))}
+            <p className="mt-5 text-[13px] leading-relaxed text-[color:var(--text-muted)]">{INTEGRATION_LINE}</p>
+          </div>
+          <div data-reveal className="lg:col-span-5">
+            <div className="lg:sticky lg:top-24">
+              <ChangeOrderDoc />
+              <p className="sb-mono mt-3 text-[11px] leading-relaxed text-[color:var(--text-faint)]">
+                The document your GC signs — generated from one field note, 19 minutes after the flag.
+              </p>
             </div>
-          ))}
+          </div>
         </div>
-        <p data-reveal className="mt-5 text-[13px] leading-relaxed text-[color:var(--text-muted)]">
-          {INTEGRATION_LINE}
-        </p>
       </Wrap>
     </section>
   );
@@ -749,7 +1053,7 @@ function Trades() {
               key={t.trade}
               className="grid gap-x-8 gap-y-2.5 border-b border-[color:var(--border)] py-6 sm:py-7 lg:grid-cols-[200px_1fr_auto] lg:items-center"
             >
-              <h3 className="sb-display text-[22px] text-[color:var(--text-strong)]">{t.trade}</h3>
+              <h3 className="sb-display text-[24px] text-[color:var(--text-strong)] sm:text-[28px]">{t.trade}</h3>
               <p className="max-w-lg text-[length:var(--fs-sm)] leading-relaxed text-[color:var(--text-muted)]">{t.body}</p>
               <div className="lg:text-right">
                 <div className="sb-mono text-[24px] font-medium tabular-nums leading-none text-[color:var(--accent-strong)] sm:text-[26px]">
@@ -769,11 +1073,12 @@ function Trades() {
    CASE STUDIES  —  enterprise-style proof
    ========================================================================== */
 
+// Spec-sheet row on the ink band: dark hairlines, light values.
 function SpecRow({ k, v, accent = false }) {
   return (
-    <div className="flex items-baseline justify-between gap-4 border-b border-[color:var(--gray-150)] py-2.5">
-      <dt className="sb-label text-[color:var(--text-faint)]">{k}</dt>
-      <dd className={accent ? "sb-mono text-[14px] font-medium tabular-nums text-[color:var(--accent-strong)]" : "text-[14px] font-medium text-[color:var(--text-strong)]"}>
+    <div className="flex items-baseline justify-between gap-4 border-b border-[color:var(--border-dark)] py-2.5">
+      <dt className="sb-label text-[color:var(--text-dim-dark)]">{k}</dt>
+      <dd className={accent ? "sb-mono text-[14px] font-medium tabular-nums text-[color:var(--accent-on-dark)]" : "text-[14px] font-medium text-[color:var(--text-on-dark)]"}>
         {v}
       </dd>
     </div>
@@ -782,34 +1087,34 @@ function SpecRow({ k, v, accent = false }) {
 
 function CaseStudies() {
   return (
-    <section id="results" className="bg-[var(--surface-page)]">
+    <section id="results" className="bg-[var(--surface-dark)]">
       <Wrap className="py-14 sm:py-20 lg:py-24">
         <div data-reveal>
-          <SectionHeading className="max-w-xl">Case studies from live jobs.</SectionHeading>
+          <SectionHeading tone="dark" className="max-w-xl">Case studies from live jobs.</SectionHeading>
         </div>
 
-        {/* Featured study: photo, pull quote, spec sheet */}
-        <div data-reveal className="mt-9 grid border border-[color:var(--border)] border-t-2 border-t-[color:var(--border-heavy)] bg-[var(--surface-card)] sm:mt-12 lg:grid-cols-12">
-          <figure className="relative lg:col-span-5">
+        {/* Featured study: photo, pull quote, spec sheet — proof on the ink band */}
+        <div data-reveal className="mt-9 grid border border-[color:var(--border-dark)] border-t-2 border-t-[color:var(--border-dark-strong)] bg-[var(--surface-panel)] sm:mt-12 lg:grid-cols-12">
+          <figure data-case-photo className="relative lg:col-span-5">
             <img
               src={`${import.meta.env.BASE_URL}img/field-worker.jpg`}
               alt={FEATURED_CASE.imgAlt}
               loading="lazy"
               className="h-64 w-full object-cover object-[62%_20%] sm:h-80 lg:h-full"
-              style={{ filter: "grayscale(1) contrast(1.1) brightness(0.94)" }}
+              style={{ filter: "grayscale(1) contrast(1.12) brightness(0.88)" }}
             />
           </figure>
           <div className="flex flex-col p-5 sm:p-8 lg:col-span-7 lg:p-10">
-            <blockquote className="text-[18px] font-medium leading-snug text-[color:var(--text-strong)] sm:text-[21px]" style={{ fontWeight: "var(--fw-medium)" }}>
+            <blockquote className="text-[18px] font-medium leading-normal text-[color:var(--text-on-dark)] sm:text-[21px]" style={{ fontWeight: "var(--fw-medium)" }}>
               &ldquo;{FEATURED_CASE.quote}&rdquo;
             </blockquote>
-            <p className="mt-4 text-[13.5px] text-[color:var(--text-muted)]">
-              <span className="font-semibold text-[color:var(--text-strong)]" style={{ fontWeight: "var(--fw-semibold)" }}>
+            <p className="mt-4 text-[13.5px] text-[color:var(--text-dim-dark)]">
+              <span className="font-semibold text-[color:var(--text-on-dark)]" style={{ fontWeight: "var(--fw-semibold)" }}>
                 {FEATURED_CASE.name}
               </span>
               , {FEATURED_CASE.role}
             </p>
-            <dl className="mt-7 border-t-2 border-[color:var(--border-heavy)]">
+            <dl className="mt-7 border-t-2 border-[color:var(--border-dark-strong)]">
               {FEATURED_CASE.specs.map((s) => (
                 <SpecRow key={s.k} k={s.k} v={s.v} />
               ))}
@@ -819,19 +1124,19 @@ function CaseStudies() {
         </div>
 
         {/* Supporting studies: same spec-line format, no photo */}
-        <div data-reveal-group className="mt-px grid gap-px border border-t-0 border-[color:var(--border)] bg-[var(--gray-300)] sm:grid-cols-2">
+        <div data-reveal-group className="mt-px grid divide-y divide-[color:var(--border-dark)] border border-t-0 border-[color:var(--border-dark)] sm:grid-cols-2 sm:divide-x sm:divide-y-0">
           {SUPPORTING_CASES.map((c) => (
-            <div key={c.name} className="flex flex-col bg-[var(--surface-card)] p-5 sm:p-7">
-              <blockquote className="flex-1 text-[14.5px] leading-relaxed text-[color:var(--text-body)]">&ldquo;{c.quote}&rdquo;</blockquote>
-              <p className="mt-4 text-[13px] text-[color:var(--text-muted)]">
-                <span className="font-semibold text-[color:var(--text-strong)]" style={{ fontWeight: "var(--fw-semibold)" }}>
+            <div key={c.name} className="flex flex-col bg-[var(--surface-panel)] p-5 sm:p-7">
+              <blockquote className="flex-1 text-[14.5px] leading-relaxed text-[color:var(--text-dim-dark)]">&ldquo;{c.quote}&rdquo;</blockquote>
+              <p className="mt-4 text-[13px] text-[color:var(--text-dim-dark)]">
+                <span className="font-semibold text-[color:var(--text-on-dark)]" style={{ fontWeight: "var(--fw-semibold)" }}>
                   {c.name}
                 </span>
                 , {c.role}
               </p>
-              <div className="mt-4 flex flex-wrap items-baseline justify-between gap-2 border-t border-[color:var(--gray-150)] pt-3">
-                <span className="sb-mono text-[10.5px] uppercase tracking-[0.08em] text-[color:var(--text-faint)]">{c.spec}</span>
-                <span className="sb-mono text-[13px] font-medium tabular-nums text-[color:var(--accent-strong)]">{c.recovered}</span>
+              <div className="mt-4 flex flex-wrap items-baseline justify-between gap-2 border-t border-[color:var(--border-dark)] pt-3">
+                <span className="sb-mono text-[10.5px] uppercase tracking-[0.08em] text-[color:var(--text-dim-dark)]">{c.spec}</span>
+                <span className="sb-mono text-[13px] font-medium tabular-nums text-[color:var(--accent-on-dark)]">{c.recovered}</span>
               </div>
             </div>
           ))}
@@ -852,12 +1157,13 @@ function Pricing() {
         <div data-reveal className="lg:col-span-5">
           <SectionHeading>One plan. No surprises.</SectionHeading>
           <p className="mt-4 max-w-md text-[length:var(--fs-sm)] leading-relaxed text-[color:var(--text-muted)]">
-            No seat math, no feature gates. Every PM gets everything ScopeBolt does, and field users are free.
+            $79 a month for each PM who runs jobs, everything included. No tiers, no feature gates, and field
+            crews are free, however many you put on.
           </p>
           <div className="mt-8 grid max-w-md grid-cols-2 border-t-2 border-[color:var(--border-heavy)]">
             <div className="border-b border-r border-[color:var(--border)] py-4 pr-4">
               <div className="sb-mono text-[26px] font-medium tabular-nums leading-none text-[color:var(--text-strong)]">$948</div>
-              <div className="mt-1.5 text-[12px] leading-snug text-[color:var(--text-muted)]">ScopeBolt for a full year</div>
+              <div className="mt-1.5 text-[12px] leading-snug text-[color:var(--text-muted)]">One PM on ScopeBolt for a full year</div>
             </div>
             <div className="border-b border-[color:var(--border)] py-4 pl-4">
               <div className="sb-mono text-[26px] font-medium tabular-nums leading-none text-[color:var(--accent-strong)]">$1,240</div>
@@ -865,7 +1171,7 @@ function Pricing() {
             </div>
           </div>
           <p className="mt-4 max-w-md text-[13px] leading-relaxed text-[color:var(--text-muted)]">
-            One signed CO covers the year. Everything after that is margin back in your pocket.
+            One signed CO pays for that PM&rsquo;s whole year. Everything after it is margin back in your pocket.
           </p>
         </div>
 
@@ -1034,8 +1340,19 @@ function Footer() {
         </div>
       </Wrap>
       <div className="border-t border-[color:var(--border-dark)]">
-        <Wrap className="flex flex-col items-start justify-between gap-2 py-5 sm:flex-row sm:items-center">
+        <Wrap className="flex flex-col items-start justify-between gap-3 py-5 sm:flex-row sm:items-center">
           <span className="text-[12px] text-[color:var(--text-dim-dark)]">&copy; 2026 ScopeBolt</span>
+          <nav aria-label="Legal" className="flex flex-wrap gap-x-5 gap-y-1">
+            {LEGAL_LINKS.map((label) => (
+              <a
+                key={label}
+                href="#"
+                className="py-1 text-[12px] text-[color:var(--text-dim-dark)] transition-colors hover:text-[color:var(--text-on-dark)] touch-manipulation"
+              >
+                {label}
+              </a>
+            ))}
+          </nav>
           <a href={`mailto:${CONTACT_EMAIL}`} className="sb-mono text-[11px] text-[color:var(--text-dim-dark)] transition-colors hover:text-[color:var(--text-on-dark)]">
             {CONTACT_EMAIL}
           </a>
@@ -1059,11 +1376,32 @@ export default function ScopeBolt() {
       const mm = gsap.matchMedia();
 
       mm.add("(prefers-reduced-motion: no-preference)", () => {
-        // Hero entrance: stat lockup, source line, lead, CTAs, then the ledger.
+        // Hero entrance: the $4,200 rises character by character, the display
+        // line follows line by line, then copy, CTAs, and the ledger settle in.
+        // onSplit + autoSplit keep the tweens correct if the webfont re-flows.
+        const statSplit = SplitText.create("[data-hero-stat]", {
+          type: "chars",
+          onSplit: (self) =>
+            gsap.from(self.chars, { yPercent: 55, autoAlpha: 0, duration: 0.65, stagger: 0.05, ease: "power4.out" }),
+        });
+        const displaySplit = SplitText.create("[data-hero-display]", {
+          type: "lines",
+          autoSplit: true,
+          onSplit: (self) =>
+            gsap.from(self.lines, { y: 26, autoAlpha: 0, duration: 0.6, stagger: 0.1, ease: "power4.out", delay: 0.3 }),
+        });
+
         gsap
-          .timeline({ defaults: { ease: "power3.out", duration: 0.5 } })
+          .timeline({ defaults: { ease: "power3.out", duration: 0.5 }, delay: 0.55 })
           .from("[data-hero-seq]", { y: 16, autoAlpha: 0, stagger: 0.07 })
           .from("[data-hero-ledger]", { y: 22, autoAlpha: 0, duration: 0.6, ease: "power2.out" }, "-=0.3");
+
+        // Nav progress rule tracks overall scroll position.
+        gsap.to("[data-nav-progress]", {
+          scaleX: 1,
+          ease: "none",
+          scrollTrigger: { start: 0, end: "max", scrub: 0.3 },
+        });
 
         // One restrained reveal pattern for every section: rise, fade, fire once.
         gsap.utils.toArray("[data-reveal]", rootRef.current).forEach((el) => {
@@ -1087,13 +1425,66 @@ export default function ScopeBolt() {
             scrollTrigger: { trigger: group, start: "top 85%", once: true },
           });
         });
+
+        // Workflow: the timeline rule draws with scroll; rows tick on as it passes.
+        const wf = rootRef.current.querySelector("[data-wf]");
+        if (wf) {
+          gsap.fromTo(
+            "[data-wf-progress]",
+            { scaleY: 0 },
+            {
+              scaleY: 1,
+              transformOrigin: "top",
+              ease: "none",
+              scrollTrigger: { trigger: wf, start: "top 70%", end: "bottom 58%", scrub: 0.4 },
+            }
+          );
+          wf.querySelectorAll("li").forEach((li) => {
+            ScrollTrigger.create({ trigger: li, start: "top 64%", once: true, onEnter: () => li.classList.add("is-passed") });
+          });
+        }
+
+        // The CO sheet: the APPROVED stamp punches down once the doc is on screen.
+        const stamp = rootRef.current.querySelector("[data-co-stamp]");
+        if (stamp) {
+          gsap.from(stamp, {
+            scale: 1.7,
+            autoAlpha: 0,
+            rotate: -20,
+            duration: 0.4,
+            ease: "power4.out",
+            scrollTrigger: { trigger: "[data-co-doc]", start: "top 62%", once: true },
+          });
+        }
+
+        // Case-study photo: clip wipe, left to right.
+        const photo = rootRef.current.querySelector("[data-case-photo]");
+        if (photo) {
+          gsap.fromTo(
+            photo,
+            { clipPath: "inset(0 100% 0 0)" },
+            {
+              clipPath: "inset(0 0% 0 0)",
+              duration: 0.9,
+              ease: "power4.inOut",
+              scrollTrigger: { trigger: photo, start: "top 75%", once: true },
+            }
+          );
+        }
+
+        return () => {
+          statSplit.revert();
+          displaySplit.revert();
+        };
       });
     },
     { scope: rootRef }
   );
 
+  // overflow-x-clip (not -hidden): hidden would turn this into a scroll
+  // container and silently kill every position:sticky inside.
   return (
-    <div ref={rootRef} className="sb-root relative min-h-screen overflow-x-hidden bg-[var(--surface-page)] text-[color:var(--text-strong)] antialiased">
+    <div ref={rootRef} className="sb-root relative min-h-screen overflow-x-clip bg-[var(--surface-page)] text-[color:var(--text-strong)] antialiased">
       <a href="#main" className="skip-link">Skip to content</a>
       <style>{`
         /* ---- Families (tokens live in scopebolt-tokens.css) ---------- */
@@ -1104,6 +1495,28 @@ export default function ScopeBolt() {
         /* ---- Type --------------------------------------------------- */
         .sb-display { font-weight: var(--fw-display); font-stretch: var(--stretch-display); letter-spacing: var(--tracking-display); line-height: var(--lh-display); text-wrap: balance; }
         .sb-stat-hero { font-weight: var(--fw-black); font-stretch: var(--stretch-stat); font-size: var(--fs-stat-hero); line-height: 0.9; letter-spacing: -0.025em; font-variant-numeric: tabular-nums; }
+        .sb-stat-xl { font-weight: var(--fw-black); font-stretch: var(--stretch-stat); font-size: var(--fs-stat-xl); line-height: 0.92; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+        .sb-leader { border-bottom: 2px dotted var(--gray-300); transform: translateY(-3px); }
+
+        /* ---- Nav progress rule ----------------------------------------- */
+        .sb-nav-progress {
+          position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; z-index: 1;
+          background: var(--accent-strong); transform: scaleX(0); transform-origin: left;
+        }
+
+        /* ---- Workflow timeline rule ----------------------------------- */
+        .sb-wf { --wf-line-x: 60px; position: relative; }
+        @media (min-width: 640px) { .sb-wf { --wf-line-x: 84px; } }
+        .sb-wf-line { position: absolute; top: 2px; bottom: 0; left: var(--wf-line-x); width: 2px; background: var(--gray-150); }
+        .sb-wf-progress { position: absolute; inset: 0; display: block; background: var(--accent-strong); }
+        .sb-wf-marker {
+          position: absolute; left: calc(var(--wf-line-x) - 2px); top: 26px;
+          width: 6px; height: 6px; background: var(--surface-page); border: 2px solid var(--gray-450);
+          transition: background var(--dur-base) ease, border-color var(--dur-base) ease;
+        }
+        .sb-wf-time { transition: color var(--dur-base) ease; }
+        li.is-passed .sb-wf-marker { background: var(--accent-strong); border-color: var(--accent-strong); }
+        li.is-passed .sb-wf-time { color: var(--accent-strong); }
         .sb-h2 { font-size: var(--fs-display-2); font-weight: var(--fw-display); font-stretch: var(--stretch-display); line-height: var(--lh-display); letter-spacing: var(--tracking-display); color: var(--text-strong); text-wrap: balance; }
         .sb-h2--dark { color: var(--text-on-dark); }
         .sb-label { font-family: var(--font-mono); font-size: var(--fs-label); font-weight: 500; text-transform: uppercase; letter-spacing: var(--tracking-label); }
@@ -1119,8 +1532,6 @@ export default function ScopeBolt() {
         .sb-btn--secondary { background: transparent; color: var(--text-strong); border-color: var(--border-strong); }
         .sb-btn--secondary:hover { border-color: var(--text-strong); background: var(--surface-card); }
         .sb-btn--secondary:active { background: var(--gray-150); transform: scale(.985); }
-        .sb-btn--ghost { background: transparent; color: var(--text-muted); }
-        .sb-btn--ghost:hover { color: var(--text-strong); }
         .sb-btn--outline-dark { background: transparent; color: var(--text-on-dark); border-color: var(--border-dark-strong); }
         .sb-btn--outline-dark:hover { border-color: var(--text-on-dark); }
         .sb-btn--outline-dark:active { transform: scale(.985); }
@@ -1132,6 +1543,36 @@ export default function ScopeBolt() {
         .sb-chip--neutral { border-color: var(--gray-300); color: var(--text-muted); }
         .sb-chip--flag { border-color: var(--flag-line); background: var(--flag-fill); color: var(--accent-strong); }
         .sb-chip--signed { background: var(--surface-ink); color: var(--text-on-dark); }
+
+        /* ---- Hero atmosphere -------------------------------------------
+           Engineering-grid texture masked toward the top-right (behind the
+           ledger) and a carbon-copy sheet stack: COs ship in triplicate. */
+        .sb-grid-texture {
+          pointer-events: none; opacity: .55;
+          background-image:
+            linear-gradient(var(--gray-150) 1px, transparent 1px),
+            linear-gradient(90deg, var(--gray-150) 1px, transparent 1px);
+          background-size: 48px 48px;
+          -webkit-mask-image: radial-gradient(130% 100% at 78% 0%, #000 25%, transparent 72%);
+          mask-image: radial-gradient(130% 100% at 78% 0%, #000 25%, transparent 72%);
+        }
+        .sb-carbon { z-index: 0; }
+        .sb-carbon::before, .sb-carbon::after {
+          content: ""; position: absolute; inset: 0; z-index: -1;
+          border: 1px solid var(--gray-300); background: var(--paper-deep);
+        }
+        .sb-carbon::before { transform: translate(9px, 9px); }
+        .sb-carbon::after { transform: translate(18px, 18px); opacity: .55; }
+
+        /* ---- Field wire (marquee) ------------------------------------- */
+        @keyframes sb-wire-scroll { from { transform: translateX(0); } to { transform: translateX(-100%); } }
+        .sb-wire-track { animation: sb-wire-scroll 48s linear infinite; }
+        .sb-wire:hover .sb-wire-track { animation-play-state: paused; }
+        @keyframes sb-wire-pulse { 0%, 100% { opacity: 1; } 50% { opacity: .35; } }
+        .sb-wire-dot { animation: sb-wire-pulse 2.4s ease-in-out infinite; }
+        @media (prefers-reduced-motion: reduce) {
+          .sb-wire-track, .sb-wire-dot { animation: none !important; }
+        }
 
         /* ---- Selection ------------------------------------------------ */
         .sb-root ::selection { background: var(--flag-fill); color: var(--text-strong); }
@@ -1157,6 +1598,8 @@ export default function ScopeBolt() {
 
       <main id="main" tabIndex={-1}>
         <Hero />
+        <TrustStrip />
+        <FieldWire />
         <ImpactStats />
         <Workflow />
         <Capabilities />
