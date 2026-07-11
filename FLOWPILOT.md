@@ -14,9 +14,9 @@ a client-ready site in an afternoon.
 
 ## ✨ What's included
 
-- 16 conversion-focused sections (hero, trust bar, problem, platform overview,
-  features, interactive product showcase, use cases, how-it-works, results,
-  testimonials, integrations, pricing, FAQ, final CTA, footer)
+- 13 conversion-focused sections (hero, problem, platform overview,
+  features, interactive product showcase, use cases, how-it-works,
+  integrations, pricing, FAQ, final CTA, footer)
 - Interactive **product showcase** with 4 tabbed dashboard views
 - **Monthly / yearly** pricing toggle
 - Accessible **FAQ accordion** (native `<details>`)
@@ -82,8 +82,8 @@ Google Fonts `@import` at the top of the same block and the three font variables
 
 ### 3. Copy / text
 All page copy lives in the `CONTENT` constants near the top of `FlowPilot.jsx`:
-`HERO`, `PROBLEMS`, `SOLUTION`, `FEATURES`, `USE_CASES`, `HOW_STEPS`, `RESULTS`,
-`TESTIMONIALS`, `INTEGRATIONS`, `PRICING`, `FAQ_ITEMS`, `FINAL_CTA`, `FOOTER_COLS`.
+`HERO`, `PROBLEMS`, `SOLUTION`, `FEATURES`, `USE_CASES`, `HOW_STEPS`,
+`INTEGRATIONS`, `PRICING`, `FAQ_ITEMS`, `FINAL_CTA`, `FOOTER_COLS`.
 
 ### 4. CTA links
 Edit these constants at the top:
@@ -98,10 +98,12 @@ Point them at your signup flow, Calendly, or any URL.
 Edit the `PRICING.tiers` array — name, `monthly` / `yearly` price, `blurb`,
 `features`, `cta`, `ctaHref`, and `popular: true` for the highlighted plan.
 
-### 6. Testimonials & logos
-- Replace `TESTIMONIALS.cards` (quote, name, role, company, initials, avatar tint).
-- Replace `TRUST_LOGOS` and the `INTEGRATIONS.items` placeholder marks with real
-  `<img>` logos (look for the `Placeholder ... mark` comments).
+### 6. Logos
+- Replace the `INTEGRATIONS.items` placeholder marks with real `<img>` logos
+  (look for the `Placeholder ... mark` comments). The template ships without
+  testimonial, customer-logo, or results/metrics sections — add your own only
+  with real, permissioned quotes and logos, and stat sections only with your
+  own verified numbers.
 
 ### 7. Screenshots / dashboard mockups
 The hero and product-showcase dashboards are **pure CSS/SVG mockups** (no image
@@ -171,7 +173,7 @@ client projects; an extended/agency license covers reselling end products at sca
 (Adjust to match the license you actually sell.)
 
 **What is included in the template?**
-The full React + Vite + Tailwind source, this guide, all 16 sections, the
+The full React + Vite + Tailwind source, this guide, all 13 sections, the
 interactive product showcase, pricing toggle, FAQ accordion, mobile menu, and the
 CSS-token theming system. No paid dependencies.
 
@@ -184,5 +186,5 @@ React 18 · Vite · Tailwind CSS · zero runtime UI libraries. Total JS payload 
 
 ---
 
-*Demo content (company names, testimonials, and all metrics) is illustrative
-placeholder content. Replace it with your own before going live.*
+*Demo content (company names and all figures) is illustrative placeholder
+content. Replace it with your own before going live.*

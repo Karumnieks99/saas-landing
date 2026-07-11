@@ -34,7 +34,7 @@ const NAV_LINKS = [
   { label: "How it works", href: "#how" },
   { label: "Product", href: "#product" },
   { label: "Use cases", href: "#use-cases" },
-  { label: "Results", href: "#results" },
+  { label: "Platform", href: "#platform" },
   { label: "Pricing", href: "#pricing" },
   { label: "FAQ", href: "#faq" },
 ];
@@ -47,15 +47,9 @@ const TRIAL_CTA_HREF = `${import.meta.env.BASE_URL}signup`;
 const DEMO_LABEL = "Book a demo";
 const TRIAL_LABEL = "Start free trial";
 
-// Trust strip under the hero: subs running ScopeBolt, set as type-only
-// wordmarks. The first three echo the case studies further down the page.
-const TRUST_COMPANIES = [
-  "Delgado Electric",
-  "Veit Mechanical",
-  "Koss Concrete",
-  "Torres Electric",
-  "Ironline Concrete",
-];
+// Sync strip under the hero: the office systems ScopeBolt syncs with, set as
+// type-only wordmarks. Mirrors INTEGRATION_LINE in the capabilities section.
+const SYNC_SYSTEMS = ["Procore", "Buildertrend", "QuickBooks", "Sage", "Viewpoint"];
 
 const LEGAL_LINKS = ["Privacy Policy", "Terms of Service", "Status"];
 
@@ -67,32 +61,15 @@ const LOG_ROWS = [
   { t: "10:14", desc: "CO-118 signed by Riverfront GC", base: "Approved", kind: "signed", amount: "+$1,240" },
 ];
 
-// The field wire: a rolling feed of change-order events across live jobs.
-// The 09:43/10:14 Riverfront entries retell the hero LOG_ROWS story (CO-118,
-// +$1,240) — if that narrative changes, update it here and in ChangeOrderDoc.
+// The demo wire: the hero LOG_ROWS morning retold as a ticker — sample data
+// from the one demo job (Riverfront Medical, Job 4417), matching ChangeOrderDoc.
+// If that narrative changes, update it here and there too.
 const TICKER_ITEMS = [
-  { t: "09:43", figure: "+$1,240", body: "flagged · Riverfront Medical, Chicago" },
-  { t: "10:14", body: "CO-118 signed in 31 min · Riverfront GC" },
-  { t: "11:02", body: "T&M ticket #204 documented · Gateway Logistics, Dallas" },
-  { t: "12:26", figure: "+$3,860", body: "approved · Harbor Point Garage, Denver" },
-  { t: "13:41", body: "punch-item CO sent · Mercy West Tower, Phoenix" },
-  { t: "15:08", figure: "$21,600", body: "dispute won · Koss Concrete, Denver" },
-  { t: "16:22", figure: "+$940", body: "flagged · Lakeside K-8 Addition, Milwaukee" },
-];
-
-// Aggregate results: one headline figure plus three ruled ledger rows.
-const HEADLINE_STAT = {
-  prefix: "$",
-  num: 2.7,
-  suffix: "M",
-  label: "recovered for subs",
-  sub: "Out-of-scope work billed, signed, and paid across ScopeBolt accounts.",
-};
-
-const LEDGER_STATS = [
-  { num: 1900, label: "Crews logging daily", sub: "Foremen and PMs on live jobs" },
-  { num: 91, suffix: "%", label: "Subs who stay after the trial", sub: "Trial cohorts, trailing 12 months" },
-  { num: 1, suffix: " day", label: "Median CO turnaround", sub: "Field note to GC signature" },
+  { t: "09:42", body: '40 LF of 2" conduit logged · in contract' },
+  { t: "09:43", figure: "+$1,240", body: "feeder reroute flagged · not in baseline" },
+  { t: "10:01", body: "CO-118 drafted and sent for signature" },
+  { t: "10:14", body: "CO-118 signed by the GC · 31 min after the flag" },
+  { t: "10:15", figure: "+$1,240", body: "posted to the schedule of values" },
 ];
 
 const WORKFLOW = [
@@ -170,60 +147,44 @@ const CAPABILITIES = [
 ];
 
 const INTEGRATION_LINE =
-  "Two-way sync with Procore, Buildertrend, QuickBooks, Sage, and Viewpoint. No double entry. SOC 2.";
+  "Two-way sync with Procore, Buildertrend, QuickBooks, Sage, and Viewpoint. No double entry.";
 
 const TRADES = [
   {
     trade: "Electrical",
     body: "The GC asks for one more circuit? That's a T&M ticket before lunch.",
-    figure: "$5,100",
-    sub: "avg recovered per job",
   },
   {
     trade: "Mechanical",
     body: "Equipment swaps and access delays, captured with photo and timestamp proof.",
-    figure: "Same day",
-    sub: "CO sign-off, down from 2 days",
   },
   {
     trade: "Concrete",
     body: "Weather standby documented down to the minute. Pour changes priced the same day.",
-    figure: "$0",
-    sub: "written off in disputes",
   },
 ];
 
-const FEATURED_CASE = {
-  quote:
-    "We were bleeding $6-8k a project on scope drift and didn't even know it. ScopeBolt paid for itself on the first job.",
-  name: "Marcus Delgado",
-  role: "Owner, Delgado Electric",
-  specs: [
-    { k: "Company", v: "Delgado Electric" },
-    { k: "Trade", v: "Electrical" },
-    { k: "Crew", v: "18 electricians" },
-    { k: "Market", v: "Chicago, IL" },
-  ],
-  recovered: "$11,400 in 90 days",
-  imgAlt: "Marcus Delgado in a hard hat and hi-vis vest working on a commercial rooftop job",
-};
-
-const SUPPORTING_CASES = [
+// The platform spec sheet: what ships in the product, written the way a
+// submittal lists it. Product capabilities only — no customer, usage, or
+// outcome claims belong in this section.
+const PLATFORM_SPECS = [
   {
-    quote:
-      "Change orders used to take two days of back-and-forth. Now my PM sends one from the truck and the GC signs it the same day.",
-    name: "Sandra Veit",
-    role: "Project manager, Veit Mechanical",
-    spec: "Mechanical / 32 crew / Dallas, TX",
-    recovered: "$7,800 recovered in month one",
+    heading: "Field app",
+    rows: [
+      { k: "Capture", v: "Photo · Voice · Text" },
+      { k: "Offline mode", v: "Logs locally, syncs on signal" },
+      { k: "Devices", v: "iOS · Android · Web" },
+      { k: "Baseline check", v: "Automatic, per entry" },
+    ],
   },
   {
-    quote:
-      "I pulled the scope log up mid-dispute and won $22k that would have been a complete write-off. That log is gold.",
-    name: "Aaron Koss",
-    role: "Owner, Koss Concrete",
-    spec: "Concrete / 9 crew / Denver, CO",
-    recovered: "$21,600 won in one dispute",
+    heading: "Office console",
+    rows: [
+      { k: "Change orders", v: "Branded PDF, e-sign link" },
+      { k: "Job costing", v: "Posts to SOV cost codes" },
+      { k: "Integrations", v: "Procore · QuickBooks · Sage" },
+      { k: "Archive", v: "Every entry, photo, signature" },
+    ],
   },
 ];
 
@@ -272,7 +233,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "Is my contract and job data secure?",
-    a: "Job data is encrypted in transit and at rest, hosted on SOC 2 infrastructure, with a 5-year retention archive. Your data is yours and exportable at any time.",
+    a: "Job data is encrypted in transit and at rest, with a 5-year retention archive. Your data is yours and exportable at any time.",
   },
 ];
 
@@ -651,13 +612,13 @@ function Hero() {
       <Wrap className="relative grid items-center gap-10 pt-10 pb-14 sm:pt-14 lg:grid-cols-12 lg:gap-12 lg:pb-20">
         <div className="lg:col-span-6">
           <h1>
-            <span data-hero-stat className="sb-stat-hero block text-[color:var(--brand)]">$4,200</span>
+            <span data-hero-stat className="sb-stat-hero block text-[color:var(--brand)]">+$1,240</span>
             <span data-hero-display className="sb-display mt-3 block max-w-[16ch] text-[length:var(--fs-display-1)] text-[color:var(--text-strong)]">
-              lost on every job to unbilled scope creep.
+              flagged in the field, GC-signed 31 minutes later.
             </span>
           </h1>
           <p data-hero-seq className="sb-mono mt-4 max-w-md text-[11.5px] leading-relaxed text-[color:var(--text-muted)]">
-            Average unbilled extras per commercial job. 2025 data, 410 subs on ScopeBolt.
+            From the sample scope log: one out-of-scope change, flagged 09:43, signed 10:14.
           </p>
           <p data-hero-seq className="mt-6 max-w-lg text-[15.5px] leading-relaxed text-[color:var(--text-body)] sm:text-[length:var(--fs-lead)]">
             ScopeBolt logs every field change against the signed contract and turns out-of-scope work into a GC-signed
@@ -685,16 +646,16 @@ function Hero() {
 }
 
 /* ============================================================================
-   TRUST STRIP  —  one hairline-ruled row of customer wordmarks, type only
+   SYNC STRIP  —  one hairline-ruled row of integration wordmarks, type only
    ========================================================================== */
 
-function TrustStrip() {
+function SyncStrip() {
   return (
-    <section aria-label="Subcontractors running ScopeBolt" className="border-t border-[color:var(--border)] bg-[var(--surface-page)]">
+    <section aria-label="Systems ScopeBolt syncs with" className="border-t border-[color:var(--border)] bg-[var(--surface-page)]">
       <Wrap>
         <div data-reveal className="flex flex-wrap items-baseline gap-x-7 gap-y-2.5 py-5 sm:gap-x-9 sm:py-6">
-          <span className="sb-label text-[color:var(--text-faint)]">Subs running ScopeBolt</span>
-          {TRUST_COMPANIES.map((name) => (
+          <span className="sb-label text-[color:var(--text-faint)]">Two-way sync with</span>
+          {SYNC_SYSTEMS.map((name) => (
             <span key={name} className="sb-mono text-[12px] uppercase tracking-[0.08em] text-[color:var(--text-muted)]">
               {name}
             </span>
@@ -731,11 +692,11 @@ function WireTrack({ hidden }) {
 
 function FieldWire() {
   return (
-    <div className="sb-wire bg-[var(--surface-dark)]" aria-label="Recent activity across ScopeBolt jobs">
+    <div className="sb-wire bg-[var(--surface-dark)]" aria-label="Sample change-order activity from the demo job, Riverfront Medical">
       <div className="flex h-11 w-full items-stretch">
         <div className="flex flex-shrink-0 items-center gap-2 border-r border-[color:var(--border-dark)] px-4 sm:px-5">
           <span aria-hidden="true" className="sb-wire-dot h-1.5 w-1.5 bg-[var(--accent-on-dark)]" />
-          <span className="sb-label text-[color:var(--text-dim-dark)]">Field wire</span>
+          <span className="sb-label text-[color:var(--text-dim-dark)]">Demo wire</span>
         </div>
         {/* Marquee is decorative for AT: the label above carries the meaning. */}
         <div aria-hidden="true" className="sb-wire-viewport flex min-w-0 flex-1 items-center overflow-hidden pl-6">
@@ -744,66 +705,6 @@ function FieldWire() {
         </div>
       </div>
     </div>
-  );
-}
-
-/* ============================================================================
-   IMPACT STATS  —  the quantified-ROI band
-   ========================================================================== */
-
-// Invoice-style row: label, dotted leader, counted figure on one baseline.
-function LeaderRow({ prefix = "", num, suffix = "", label, sub }) {
-  const [ref, display] = useCountedStat(num, { dur: 1100 });
-
-  return (
-    <div ref={ref} className="py-4 sm:py-5">
-      <div className="flex items-baseline gap-3 sm:gap-4">
-        <span className="text-[15px] font-semibold text-[color:var(--text-strong)]" style={{ fontWeight: "var(--fw-semibold)" }}>
-          {label}
-        </span>
-        <span aria-hidden="true" className="sb-leader min-w-8 flex-1" />
-        <span className="sb-mono flex-shrink-0 text-[26px] font-medium tabular-nums leading-none text-[color:var(--text-strong)] sm:text-[30px]">
-          {prefix}
-          {display}
-          {suffix}
-        </span>
-      </div>
-      <div className="mt-1 max-w-[34ch] text-[12.5px] leading-snug text-[color:var(--text-muted)]">{sub}</div>
-    </div>
-  );
-}
-
-// Leaf component so the count-up only re-renders the figure, not the section.
-function HeadlineFigure() {
-  const [ref, display] = useCountedStat(HEADLINE_STAT.num);
-  return (
-    <div ref={ref} className="sb-stat-xl text-[color:var(--text-strong)]">
-      {HEADLINE_STAT.prefix}
-      {display}
-      {HEADLINE_STAT.suffix}
-    </div>
-  );
-}
-
-function ImpactStats() {
-  return (
-    <section aria-label="Results across ScopeBolt subs" className="border-b border-[color:var(--border)] bg-[var(--surface-card)]">
-      <Wrap className="grid gap-8 py-12 sm:py-16 lg:grid-cols-12 lg:gap-14">
-        <div data-reveal className="lg:col-span-5">
-          <HeadlineFigure />
-          <div className="sb-display mt-2 text-[22px] text-[color:var(--text-strong)]">{HEADLINE_STAT.label}</div>
-          <p className="mt-3 max-w-[36ch] text-[13.5px] leading-relaxed text-[color:var(--text-muted)]">{HEADLINE_STAT.sub}</p>
-        </div>
-        <div data-reveal-group className="self-center lg:col-span-7">
-          {LEDGER_STATS.map((s) => (
-            <LeaderRow key={s.label} {...s} />
-          ))}
-          <p className="sb-mono mt-2 text-right text-[10.5px] text-[color:var(--text-faint)]">
-            Aggregate across ScopeBolt accounts, January 2024 to date.
-          </p>
-        </div>
-      </Wrap>
-    </section>
   );
 }
 
@@ -866,7 +767,7 @@ function ChangeOrderDoc() {
       ),
     },
     { label: "To", value: "Riverfront GC, LLC" },
-    { label: "From", value: "Delgado Electric" },
+    { label: "From", value: "Acme Electric Co." },
     { label: "Date", value: <span className="sb-mono">Mar 14, 2026</span> },
     {
       label: "Contract ref",
@@ -963,7 +864,7 @@ function ChangeOrderDoc() {
         {[
           {
             role: "Submitted",
-            name: "M. Delgado · 10:01",
+            name: "J. Doe, Acme Electric · 10:01",
             pad: "pr-4",
             d: "M6 19c5-11 8-13 9-8 1 4-2 9 1 8 4-1 6-12 10-11 3 1-1 10 3 9 5-2 8-11 13-9 3 1 0 8 4 7 6-2 12-8 20-6 7 1 15-3 25-4 8-1 15 2 23 7",
           },
@@ -1037,7 +938,7 @@ function Capabilities() {
 }
 
 /* ============================================================================
-   TRADES  —  per-trade rows with the figure that matters
+   TRADES  —  per-trade scenario rows
    ========================================================================== */
 
 function Trades() {
@@ -1051,16 +952,10 @@ function Trades() {
           {TRADES.map((t) => (
             <div
               key={t.trade}
-              className="grid gap-x-8 gap-y-2.5 border-b border-[color:var(--border)] py-6 sm:py-7 lg:grid-cols-[200px_1fr_auto] lg:items-center"
+              className="grid gap-x-8 gap-y-2.5 border-b border-[color:var(--border)] py-6 sm:py-7 lg:grid-cols-[200px_1fr] lg:items-center"
             >
               <h3 className="sb-display text-[24px] text-[color:var(--text-strong)] sm:text-[28px]">{t.trade}</h3>
               <p className="max-w-lg text-[length:var(--fs-sm)] leading-relaxed text-[color:var(--text-muted)]">{t.body}</p>
-              <div className="lg:text-right">
-                <div className="sb-mono text-[24px] font-medium tabular-nums leading-none text-[color:var(--accent-strong)] sm:text-[26px]">
-                  {t.figure}
-                </div>
-                <div className="mt-1 text-[12px] text-[color:var(--text-muted)]">{t.sub}</div>
-              </div>
             </div>
           ))}
         </div>
@@ -1070,7 +965,7 @@ function Trades() {
 }
 
 /* ============================================================================
-   CASE STUDIES  —  enterprise-style proof
+   PLATFORM  —  the product spec sheet, field and office
    ========================================================================== */
 
 // Spec-sheet row on the ink band: dark hairlines, light values.
@@ -1085,59 +980,29 @@ function SpecRow({ k, v, accent = false }) {
   );
 }
 
-function CaseStudies() {
+function Platform() {
   return (
-    <section id="results" className="bg-[var(--surface-dark)]">
+    <section id="platform" className="bg-[var(--surface-dark)]">
       <Wrap className="py-14 sm:py-20 lg:py-24">
         <div data-reveal>
-          <SectionHeading tone="dark" className="max-w-xl">Case studies from live jobs.</SectionHeading>
+          <SectionHeading tone="dark" className="max-w-xl">The whole platform, on one spec sheet.</SectionHeading>
+          <p className="mt-4 max-w-md text-[length:var(--fs-sm)] leading-relaxed text-[color:var(--text-dim-dark)]">
+            One plan, and this is all of it. What the field logs is what the office bills from.
+          </p>
         </div>
 
-        {/* Featured study: photo, pull quote, spec sheet — proof on the ink band */}
-        <div data-reveal className="mt-9 grid border border-[color:var(--border-dark)] border-t-2 border-t-[color:var(--border-dark-strong)] bg-[var(--surface-panel)] sm:mt-12 lg:grid-cols-12">
-          <figure data-case-photo className="relative lg:col-span-5">
-            <img
-              src={`${import.meta.env.BASE_URL}img/field-worker.jpg`}
-              alt={FEATURED_CASE.imgAlt}
-              loading="lazy"
-              className="h-64 w-full object-cover object-[62%_20%] sm:h-80 lg:h-full"
-              style={{ filter: "grayscale(1) contrast(1.12) brightness(0.88)" }}
-            />
-          </figure>
-          <div className="flex flex-col p-5 sm:p-8 lg:col-span-7 lg:p-10">
-            <blockquote className="text-[18px] font-medium leading-normal text-[color:var(--text-on-dark)] sm:text-[21px]" style={{ fontWeight: "var(--fw-medium)" }}>
-              &ldquo;{FEATURED_CASE.quote}&rdquo;
-            </blockquote>
-            <p className="mt-4 text-[13.5px] text-[color:var(--text-dim-dark)]">
-              <span className="font-semibold text-[color:var(--text-on-dark)]" style={{ fontWeight: "var(--fw-semibold)" }}>
-                {FEATURED_CASE.name}
-              </span>
-              , {FEATURED_CASE.role}
-            </p>
-            <dl className="mt-7 border-t-2 border-[color:var(--border-dark-strong)]">
-              {FEATURED_CASE.specs.map((s) => (
-                <SpecRow key={s.k} k={s.k} v={s.v} />
-              ))}
-              <SpecRow k="Recovered" v={FEATURED_CASE.recovered} accent />
-            </dl>
-          </div>
-        </div>
-
-        {/* Supporting studies: same spec-line format, no photo */}
-        <div data-reveal-group className="mt-px grid divide-y divide-[color:var(--border-dark)] border border-t-0 border-[color:var(--border-dark)] sm:grid-cols-2 sm:divide-x sm:divide-y-0">
-          {SUPPORTING_CASES.map((c) => (
-            <div key={c.name} className="flex flex-col bg-[var(--surface-panel)] p-5 sm:p-7">
-              <blockquote className="flex-1 text-[14.5px] leading-relaxed text-[color:var(--text-dim-dark)]">&ldquo;{c.quote}&rdquo;</blockquote>
-              <p className="mt-4 text-[13px] text-[color:var(--text-dim-dark)]">
-                <span className="font-semibold text-[color:var(--text-on-dark)]" style={{ fontWeight: "var(--fw-semibold)" }}>
-                  {c.name}
-                </span>
-                , {c.role}
-              </p>
-              <div className="mt-4 flex flex-wrap items-baseline justify-between gap-2 border-t border-[color:var(--border-dark)] pt-3">
-                <span className="sb-mono text-[10.5px] uppercase tracking-[0.08em] text-[color:var(--text-dim-dark)]">{c.spec}</span>
-                <span className="sb-mono text-[13px] font-medium tabular-nums text-[color:var(--accent-on-dark)]">{c.recovered}</span>
+        {/* Two spec panels on the ink band: field and office, same ruled format */}
+        <div data-reveal-group className="mt-9 grid divide-y divide-[color:var(--border-dark)] border border-[color:var(--border-dark)] border-t-2 border-t-[color:var(--border-dark-strong)] sm:mt-12 sm:grid-cols-2 sm:divide-x sm:divide-y-0">
+          {PLATFORM_SPECS.map((group) => (
+            <div key={group.heading} className="bg-[var(--surface-panel)] p-5 sm:p-7">
+              <div className="sb-label border-b-2 border-[color:var(--border-dark-strong)] pb-2.5 text-[color:var(--text-on-dark)]">
+                {group.heading}
               </div>
+              <dl>
+                {group.rows.map((r) => (
+                  <SpecRow key={r.k} k={r.k} v={r.v} />
+                ))}
+              </dl>
             </div>
           ))}
         </div>
@@ -1167,11 +1032,11 @@ function Pricing() {
             </div>
             <div className="border-b border-[color:var(--border)] py-4 pl-4">
               <div className="sb-mono text-[26px] font-medium tabular-nums leading-none text-[color:var(--accent-strong)]">$1,240</div>
-              <div className="mt-1.5 text-[12px] leading-snug text-[color:var(--text-muted)]">Average first change order it recovers</div>
+              <div className="mt-1.5 text-[12px] leading-snug text-[color:var(--text-muted)]">CO-118, the sample change order on this page</div>
             </div>
           </div>
           <p className="mt-4 max-w-md text-[13px] leading-relaxed text-[color:var(--text-muted)]">
-            One signed CO pays for that PM&rsquo;s whole year. Everything after it is margin back in your pocket.
+            One CO the size of the sample covers that PM&rsquo;s whole year. Everything after it is margin back in your pocket.
           </p>
         </div>
 
@@ -1240,7 +1105,7 @@ function Faq() {
     <section id="faq" className="bg-[var(--surface-page)]">
       <Wrap className="max-w-3xl py-14 sm:py-20 lg:py-24">
         <div data-reveal>
-          <SectionHeading>Questions subs actually ask.</SectionHeading>
+          <SectionHeading>Common questions, straight answers.</SectionHeading>
         </div>
         <div data-reveal className="mt-9 border-t-2 border-[color:var(--border-heavy)] sm:mt-10">
           {FAQ_ITEMS.map((item) => (
@@ -1268,7 +1133,7 @@ function FinalCta() {
       <Wrap className="grid items-center gap-8 py-16 sm:py-20 lg:grid-cols-12">
         <div className="lg:col-span-7">
           <SectionHeading tone="dark" className="max-w-xl">
-            Every job you run without it costs about $4,200.
+            Stop doing out-of-scope work for free.
           </SectionHeading>
           <p className="mt-4 max-w-md text-[length:var(--fs-sm)] leading-relaxed text-[color:var(--text-dim-dark)]">
             Start logging scope changes before the next one eats your margin. Setup takes one afternoon.
@@ -1333,7 +1198,6 @@ function Footer() {
         <div>
           <div className="sb-label text-[color:var(--text-dim-dark)]">Security</div>
           <ul className="mt-3.5 space-y-2 text-[13px] leading-relaxed text-[color:var(--text-dim-dark)]">
-            <li>SOC 2 infrastructure</li>
             <li>Encrypted in transit and at rest</li>
             <li>5-year retention archive</li>
           </ul>
@@ -1376,8 +1240,8 @@ export default function ScopeBolt() {
       const mm = gsap.matchMedia();
 
       mm.add("(prefers-reduced-motion: no-preference)", () => {
-        // Hero entrance: the $4,200 rises character by character, the display
-        // line follows line by line, then copy, CTAs, and the ledger settle in.
+        // Hero entrance: the headline stat rises character by character, the
+        // display line follows line by line, then copy, CTAs, and the ledger settle in.
         // onSplit + autoSplit keep the tweens correct if the webfont re-flows.
         const statSplit = SplitText.create("[data-hero-stat]", {
           type: "chars",
@@ -1457,21 +1321,6 @@ export default function ScopeBolt() {
           });
         }
 
-        // Case-study photo: clip wipe, left to right.
-        const photo = rootRef.current.querySelector("[data-case-photo]");
-        if (photo) {
-          gsap.fromTo(
-            photo,
-            { clipPath: "inset(0 100% 0 0)" },
-            {
-              clipPath: "inset(0 0% 0 0)",
-              duration: 0.9,
-              ease: "power4.inOut",
-              scrollTrigger: { trigger: photo, start: "top 75%", once: true },
-            }
-          );
-        }
-
         return () => {
           statSplit.revert();
           displaySplit.revert();
@@ -1495,8 +1344,6 @@ export default function ScopeBolt() {
         /* ---- Type --------------------------------------------------- */
         .sb-display { font-weight: var(--fw-display); font-stretch: var(--stretch-display); letter-spacing: var(--tracking-display); line-height: var(--lh-display); text-wrap: balance; }
         .sb-stat-hero { font-weight: var(--fw-black); font-stretch: var(--stretch-stat); font-size: var(--fs-stat-hero); line-height: 0.9; letter-spacing: -0.025em; font-variant-numeric: tabular-nums; }
-        .sb-stat-xl { font-weight: var(--fw-black); font-stretch: var(--stretch-stat); font-size: var(--fs-stat-xl); line-height: 0.92; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
-        .sb-leader { border-bottom: 2px dotted var(--gray-300); transform: translateY(-3px); }
 
         /* ---- Nav progress rule ----------------------------------------- */
         .sb-nav-progress {
@@ -1598,13 +1445,12 @@ export default function ScopeBolt() {
 
       <main id="main" tabIndex={-1}>
         <Hero />
-        <TrustStrip />
+        <SyncStrip />
         <FieldWire />
-        <ImpactStats />
         <Workflow />
         <Capabilities />
         <Trades />
-        <CaseStudies />
+        <Platform />
         <Pricing />
         <Faq />
         <FinalCta />

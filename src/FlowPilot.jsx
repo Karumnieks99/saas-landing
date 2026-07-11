@@ -45,9 +45,6 @@ const HERO = {
   microcopy: ["No credit card required", "Setup in minutes", "Cancel anytime"],
 };
 
-// Fictional placeholder companies for the trust bar — replace with real logos.
-const TRUST_LOGOS = ["Northwind", "Quanta", "Lumen Labs", "Vertex", "Hatch", "Outpace"];
-
 const PROBLEMS = {
   eyebrow: "The problem",
   title: "Growth shouldn't mean more chaos",
@@ -94,7 +91,7 @@ const FEATURES = {
     { icon: "spark", title: "AI summaries", body: "Turn scattered updates and threads into a clear list of next actions, automatically." },
     { icon: "bolt", title: "Smart task prioritization", body: "Your team always works the highest-impact item next, ranked by real business signal." },
     { icon: "pipeline", title: "Unified pipeline", body: "Every customer, deal, and ticket in one view that updates itself in real time." },
-    { icon: "shield", title: "Enterprise-grade security", body: "SOC 2, SSO, granular roles, and audit logs your IT team will happily sign off on." },
+    { icon: "shield", title: "Enterprise-grade security", body: "SSO, granular roles, and audit logs your IT team will happily sign off on." },
   ],
 };
 
@@ -114,21 +111,21 @@ const USE_CASES = {
       trade: "Sales teams",
       pain: "Reps lose deals to slow follow-up and messy handoffs between SDRs and AEs.",
       solution: "FlowPilot auto-routes leads and drafts the next step the moment a stage changes.",
-      outcome: "3.2× faster handoffs",
+      outcome: "Instant lead handoffs",
     },
     {
       icon: "users",
       trade: "Customer support",
       pain: "Tickets pile up and SLAs quietly slip before anyone on the team notices.",
       solution: "Priority routing and AI summaries surface the tickets that actually matter first.",
-      outcome: "42% faster resolution",
+      outcome: "Urgent tickets surface first",
     },
     {
       icon: "route",
       trade: "Operations teams",
       pain: "Manual processes break silently and no one is sure who owns the fix.",
       solution: "Automated workflows run the process end-to-end and flag exceptions in real time.",
-      outcome: "27 hrs saved / month",
+      outcome: "Busywork runs itself",
     },
   ],
 };
@@ -141,50 +138,6 @@ const HOW_STEPS = {
     { n: "02", icon: "route", title: "Build workflows", body: "Drag triggers and actions together to automate any process — visually." },
     { n: "03", icon: "bolt", title: "Automate the busywork", body: "FlowPilot runs handoffs, updates, and follow-ups so your team doesn't have to." },
     { n: "04", icon: "chart", title: "Track results", body: "Watch live dashboards turn raw activity into decisions you can act on." },
-  ],
-};
-
-// NOTE: All metrics below are ILLUSTRATIVE placeholder content for the template
-// demo. Replace them with your own verified numbers before going live.
-const RESULTS = {
-  eyebrow: "Results",
-  title: "What teams see in the first 90 days",
-  note: "Illustrative figures for template demonstration only. Replace with your own verified metrics.",
-  stats: [
-    { value: "42%", label: "less manual admin" },
-    { value: "3.2x", label: "faster team handoffs" },
-    { value: "27", label: "hours saved / team / month" },
-  ],
-};
-
-const TESTIMONIALS = {
-  eyebrow: "Testimonials",
-  title: "Teams don't go back",
-  cards: [
-    {
-      quote:
-        "We cut lead response time from hours to minutes. FlowPilot routes and drafts the follow-up before a rep even opens their inbox.",
-      name: "Dana Whitfield",
-      role: "Head of Operations",
-      company: "Northwind",
-      initials: "DW",
-    },
-    {
-      quote:
-        "I finally have one dashboard that shows where revenue is stuck. We caught two stalled deals last week that would have slipped.",
-      name: "Marcus Lee",
-      role: "Revenue Lead",
-      company: "Vertex",
-      initials: "ML",
-    },
-    {
-      quote:
-        "CSAT is up because nothing falls through the cracks anymore. The AI summaries alone save my team an hour every single morning.",
-      name: "Priya Nair",
-      role: "Customer Success Manager",
-      company: "Lumen Labs",
-      initials: "PN",
-    },
   ],
 };
 
@@ -251,7 +204,7 @@ const PRICING = {
 const FAQ_ITEMS = [
   { q: "How long does setup take?", a: "Most teams connect their tools and ship their first workflow in an afternoon. There's nothing to install and no engineering work required." },
   { q: "Do I have to replace my current tools?", a: "No. FlowPilot sits on top of your CRM, helpdesk, and apps and syncs both ways, connecting what you already use instead of replacing it." },
-  { q: "Is my data secure?", a: "Yes. FlowPilot is SOC 2 Type II, encrypts data in transit and at rest, and supports SSO/SAML, granular role-based access, and full audit logs." },
+  { q: "Is my data secure?", a: "Yes. FlowPilot encrypts data in transit and at rest, and supports SSO/SAML, granular role-based access, and full audit logs." },
   { q: "Can I build workflows without code?", a: "Every workflow is built in a visual drag-and-drop editor. Technical teams can go further with our REST API and webhooks." },
   { q: "What happens if I outgrow my plan?", a: "Nothing breaks. We'll simply prompt you to upgrade. You can change or cancel your plan at any time, no contract required." },
   { q: "Do you offer onboarding help?", a: "Growth includes guided onboarding and priority support. Scale adds a dedicated customer success manager to get your team live." },
@@ -863,31 +816,6 @@ function Hero() {
 }
 
 /* ============================================================================
-   TRUST BAR                       [ section marker: TRUST ]
-   ========================================================================== */
-
-function TrustBar() {
-  return (
-    <section className="border-y border-[color:var(--fp-line)] py-9">
-      <Container>
-        <p className="text-center fp-mono text-[11px] uppercase tracking-[0.16em] text-[color:var(--fp-muted)]">
-          Trusted by fast-growing teams worldwide
-        </p>
-        <div className="mt-6 grid grid-cols-2 items-center gap-x-6 gap-y-5 sm:grid-cols-3 lg:grid-cols-6">
-          {TRUST_LOGOS.map((name) => (
-            <div key={name} className="flex items-center justify-center gap-2 opacity-60 transition-opacity hover:opacity-100">
-              {/* Placeholder logo mark — replace with a real <img> or SVG */}
-              <span className="h-5 w-5 rounded-[4px] bg-[color:var(--fp-muted)]" />
-              <span className="fp-display text-[15px] font-semibold tracking-tight text-[color:var(--fp-ink)]">{name}</span>
-            </div>
-          ))}
-        </div>
-      </Container>
-    </section>
-  );
-}
-
-/* ============================================================================
    PROBLEM                         [ section marker: PROBLEM ]
    ========================================================================== */
 
@@ -1302,91 +1230,6 @@ function HowItWorks() {
 }
 
 /* ============================================================================
-   RESULTS / METRICS               [ section marker: METRICS ]
-   ========================================================================== */
-
-function ResultStat({ value, label, go }) {
-  const prefix = value.startsWith("$") ? "$" : "";
-  const suffix = value.endsWith("x") ? "x" : value.endsWith("%") ? "%" : "";
-  const n = useCounter(value, 1500, go);
-  const display = prefersReducedMotion()
-    ? value
-    : `${prefix}${(go ? n : 0).toFixed(value.includes(".") ? 1 : 0)}${suffix}`;
-  return (
-    <div className="px-4 py-8 text-center sm:py-12">
-      <div className="fp-mono text-[clamp(34px,6vw,52px)] font-semibold leading-none tracking-tight text-[color:var(--fp-ink)]">{display}</div>
-      <div className="mt-3 text-[13px] font-medium uppercase tracking-[0.12em] text-[color:var(--fp-muted)]">{label}</div>
-    </div>
-  );
-}
-
-function Results() {
-  const [ref, vis] = useInView(0.3);
-  return (
-    <section id="results" className="py-20 sm:py-28">
-      <Container>
-        <div ref={ref} style={revealStyle(vis)}>
-          <SectionHead eyebrow={RESULTS.eyebrow} title={RESULTS.title} />
-          <div className="mt-12 overflow-hidden rounded-[var(--fp-radius-lg)] border border-[color:var(--fp-line)] bg-[color:var(--fp-surface)]">
-            <div className="grid grid-cols-1 divide-y divide-[color:var(--fp-line)] sm:grid-cols-3 sm:divide-x sm:divide-y-0">
-              {RESULTS.stats.map((s) => (
-                <ResultStat key={s.label} value={s.value} label={s.label} go={vis} />
-              ))}
-            </div>
-          </div>
-          {/* Disclaimer — replace placeholder numbers with verified data */}
-          <p className="mt-4 text-center fp-mono text-[10.5px] uppercase tracking-[0.12em] text-[color:var(--fp-muted)]">{RESULTS.note}</p>
-        </div>
-      </Container>
-    </section>
-  );
-}
-
-/* ============================================================================
-   TESTIMONIALS                    [ section marker: TESTIMONIALS ]
-   ========================================================================== */
-
-function Stars() {
-  return (
-    <div className="flex gap-0.5 text-[color:var(--fp-ink)]">
-      {[...Array(5)].map((_, i) => (
-        <svg key={i} className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <path d={ICONS.star} />
-        </svg>
-      ))}
-    </div>
-  );
-}
-
-function Testimonials() {
-  const [ref, vis] = useInView();
-  return (
-    <section id="testimonials" className="border-y border-[color:var(--fp-line)] py-20 sm:py-28">
-      <Container>
-        <div ref={ref} style={revealStyle(vis)}>
-          <SectionHead eyebrow={TESTIMONIALS.eyebrow} title={TESTIMONIALS.title} />
-          <div className="mt-12 grid grid-cols-1 gap-4 md:grid-cols-3">
-            {TESTIMONIALS.cards.map((t, i) => (
-              <figure key={t.name} className="fp-card fp-card-hover flex flex-col p-6" style={revealStyle(vis, i * 90)}>
-                <Stars />
-                <blockquote className="mt-4 flex-1 text-[16px] leading-relaxed text-[color:var(--fp-ink)]">“{t.quote}”</blockquote>
-                <figcaption className="mt-6 flex items-center gap-3 border-t border-[color:var(--fp-line-2)] pt-4">
-                  <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border border-[color:var(--fp-line)] bg-[color:var(--fp-surface-2)] text-[12px] font-semibold text-[color:var(--fp-ink)]">{t.initials}</span>
-                  <div>
-                    <div className="text-[14px] font-semibold text-[color:var(--fp-ink)]">{t.name}</div>
-                    <div className="text-[12px] text-[color:var(--fp-muted)]">{t.role} · {t.company}</div>
-                  </div>
-                </figcaption>
-              </figure>
-            ))}
-          </div>
-        </div>
-      </Container>
-    </section>
-  );
-}
-
-/* ============================================================================
    INTEGRATIONS                    [ section marker: INTEGRATIONS ]
    ========================================================================== */
 
@@ -1659,15 +1502,12 @@ export default function FlowPilot() {
 
       <main id="main">
         <Hero />
-        <TrustBar />
         <ProblemSection />
         <SolutionSection />
         <Features />
         <ProductShowcase />
         <UseCases />
         <HowItWorks />
-        <Results />
-        <Testimonials />
         <Integrations />
         <Pricing />
         <Faq />

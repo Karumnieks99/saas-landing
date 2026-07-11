@@ -3,6 +3,13 @@
 Date: 2026-07-03
 Status: approved via /goal directive (autonomous session)
 
+> **Note (2026-07-11):** the proof elements this spec describes — the $4,200 headline
+> stat, aggregate ROI band, named customers/testimonials, and SOC 2 claims — were
+> invented for the demo and have since been removed from the shipped page. ScopeBolt
+> is a fictional portfolio piece; every figure on the page now traces to the one
+> labeled sample job (Riverfront Medical, CO-118, +$1,240). This spec is kept as a
+> historical record of the layout and visual direction only.
+
 ## Goal
 
 Rebuild the ScopeBolt landing page (live at karumnieks99.github.io/saas-landing/) in the
